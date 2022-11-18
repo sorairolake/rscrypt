@@ -1,0 +1,109 @@
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
+// Copyright (C) 2022 Shun Sakai
+//
+
+= rscrypt-enc(1)
+// Specify in UTC.
+:docdate: 2022-11-18
+:doctype: manpage
+ifdef::revnumber[:mansource: rscrypt {revnumber}]
+:manmanual: General Commands Manual
+:includedir: ../include
+
+== NAME
+
+rscrypt-enc - encrypt files
+
+== SYNOPSIS
+
+*rscrypt enc* [_OPTION_]... _INFILE_ [_OUTFILE_]
+
+== DESCRIPTION
+
+This command encrypt files.
+
+== POSITIONAL ARGUMENTS
+
+_INFILE_::
+
+  Input file.
+  If "-" is specified, data will be read from stdin.
+
+_OUTFILE_::
+
+  Output file.
+  If it is not specified, the result will be write to stdout.
+
+== OPTIONS
+
+*--log-n* _VALUE_::
+
+  Set the work parameter N.
+  _VALUE_ should be between *10* and *40*.
+  Default is 15.
+
+*-r* _VALUE_::
+
+  Set the work parameter r.
+  _VALUE_ should be between *1* and *32*.
+  Default is 8.
+
+*-p* _VALUE_::
+
+  Set the work parameter p.
+  _VALUE_ should be between *1* and *32*.
+  Default is 4.
+
+*--passphrase-from-tty*::
+
+  Read the passphrase from /dev/tty.
+  This is the default behavior.
+
+*--passphrase-from-stdin*::
+
+  Read the passphrase from stdin.
+
+*--passphrase-from-tty-once*::
+
+  Read the passphrase from /dev/tty only once.
+
+*--passphrase-from-env* _VAR_::
+
+  Read the passphrase from the environment variable.
+  Note that storing a passphrase in an environment variable can be a security
+  risk.
+
+*--passphrase-from-file* _FILE_::
+
+  Read the passphrase from the file.
+  Note that storing a passphrase in a file can be a security risk.
+
+*-v*, *--verbose*::
+
+  Print encryption parameters and resource limits.
+
+*-h*, *--help*::
+
+  Print help information.
+
+*-V*, *--version*::
+
+  Print version information.
+
+include::{includedir}/section-exit-status.adoc[]
+
+== EXAMPLES
+
+Encrypt a file:{blank}::
+
+  $ *rscrypt enc file file.enc*
+
+include::{includedir}/section-reporting-bugs.adoc[]
+
+include::{includedir}/section-copyright.adoc[]
+
+== SEE ALSO
+
+*rscrypt*(1), *rscrypt-dec*(1), *rscrypt-info*(1)

@@ -1,0 +1,11 @@
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
+// Copyright (C) 2022 Shun Sakai
+//
+
+== REPORTING BUGS
+
+Bugs can be reported on GitHub at:{blank}::
+
+  https://github.com/sorairolake/rscrypt/issues
