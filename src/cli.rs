@@ -86,6 +86,8 @@ pub struct Encrypt {
     pub p: u32,
 
     /// Read the passphrase from /dev/tty.
+    ///
+    /// This is the default behavior.
     #[arg(long)]
     pub passphrase_from_tty: bool,
 
@@ -140,6 +142,8 @@ pub struct Encrypt {
 )]
 pub struct Decrypt {
     /// Read the passphrase from /dev/tty.
+    ///
+    /// This is the default behavior.
     #[arg(long)]
     pub passphrase_from_tty: bool,
 

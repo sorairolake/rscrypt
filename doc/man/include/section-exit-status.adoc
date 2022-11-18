@@ -1,0 +1,43 @@
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
+// Copyright (C) 2022 Shun Sakai
+//
+
+== EXIT STATUS
+
+*0*::
+
+  Successful program execution.
+
+*1*::
+
+  An error occurred.
+
+*2*::
+
+  An error occurred while parsing command-line arguments.
+
+*7*::
+
+  Data was not a valid scrypt-encrypted block.
+
+*8*::
+
+  The version was the unrecognized scrypt version number.
+
+*11*::
+
+  Password is incorrect.
+
+*14*::
+
+  The scrypt parameters were invalid.
+
+*66*::
+
+  An input file did not exist or was not readable.
+
+*77*::
+
+  You did not have sufficient permission to perform the operation.

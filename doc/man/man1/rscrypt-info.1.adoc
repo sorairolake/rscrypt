@@ -1,0 +1,52 @@
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
+// Copyright (C) 2022 Shun Sakai
+//
+
+= rscrypt-info(1)
+// Specify in UTC.
+:docdate: 2022-11-18
+:doctype: manpage
+ifdef::revnumber[:mansource: rscrypt {revnumber}]
+:manmanual: General Commands Manual
+:includedir: ../include
+
+== NAME
+
+rscrypt-info - provides information about the encryption parameters
+
+== SYNOPSIS
+
+*rscrypt info* [_OPTION_]... _FILE_
+
+== DESCRIPTION
+
+This command provides information about the encryption parameters.
+
+== POSITIONAL ARGUMENTS
+
+_FILE_::
+
+  Input file.
+  If "-" is specified, data will be read from stdin.
+
+== OPTIONS
+
+*-h*, *--help*::
+
+  Print help information.
+
+*-V*, *--version*::
+
+  Print version information.
+
+include::{includedir}/section-exit-status.adoc[]
+
+include::{includedir}/section-reporting-bugs.adoc[]
+
+include::{includedir}/section-copyright.adoc[]
+
+== SEE ALSO
+
+*rscrypt*(1), *rscrypt-enc*(1), *rscrypt-dec*(1)
