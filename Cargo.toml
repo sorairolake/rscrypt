@@ -1,6 +1,6 @@
 [package]
 name = "scryptenc-cli"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Shun Sakai <sorairolake@protonmail.ch>"]
 edition = "2021"
 rust-version = "1.61.0"
@@ -24,7 +24,7 @@ clap = { version = "4.0.26", features = ["derive", "wrap_help"] }
 clap_complete = "4.0.5"
 dialoguer = { version = "0.10.2", default-features = false, features = ["password"] }
 scryptenc = "0.4.1"
-sysexits = "0.3.3"
+sysexits = "0.3.4"
 
 [dev-dependencies]
 assert_cmd = "2.0.6"
