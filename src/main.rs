@@ -14,6 +14,10 @@
 
 mod cli;
 mod core;
+mod input;
+mod output;
+mod params;
+mod password;
 
 use std::{
     io,

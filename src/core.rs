@@ -4,19 +4,14 @@
 // Copyright (C) 2022 Shun Sakai
 //
 
-use std::{
-    env, fs,
-    io::{self, Read, Write},
-    path::Path,
-};
-
 use anyhow::Context;
-use byte_unit::Byte;
 use clap::Parser;
-use dialoguer::{theme::ColorfulTheme, Password};
 use scryptenc::{scrypt, Decryptor, Encryptor, Error as ScryptencError};
 
-use crate::cli::{Command, Opt};
+use crate::{
+    cli::{Command, Opt},
+    input, output, params, password,
+};
 
 /// Runs the program and returns the result.
 #[allow(clippy::too_many_lines)]
@@ -31,17 +26,7 @@ pub fn run() -> anyhow::Result<()> {
     if let Some(command) = opt.command {
         match command {
             Command::Encrypt(arg) => {
-                let input = if arg.input == Path::new("-") {
-                    let mut buf = Vec::new();
-                    io::stdin()
-                        .read_to_end(&mut buf)
-                        .context("could not read data from stdin")?;
-                    buf
-                } else {
-                    fs::read(&arg.input).with_context(|| {
-                        format!("could not read data from {}", arg.input.display())
-                    })?
-                };
+                let input = input::read(&arg.input)?;
 
                 let password = match (
                     arg.passphrase_from_tty,
@@ -50,38 +35,16 @@ pub fn run() -> anyhow::Result<()> {
                     arg.passphrase_from_env,
                     arg.passphrase_from_file,
                 ) {
-                    (_, true, ..) => {
-                        let mut buf = String::new();
-                        io::stdin()
-                            .read_to_string(&mut buf)
-                            .context("could not read password from stdin")?;
-                        buf
-                    }
-                    (_, _, true, ..) => Password::with_theme(&ColorfulTheme::default())
-                        .with_prompt("Enter password")
-                        .interact()
-                        .context("could not read password")?,
-                    (.., Some(env), _) => env::var(env)
-                        .context("could not read password from environment variable")?,
-                    (.., Some(file)) => fs::read_to_string(&file).with_context(|| {
-                        format!("could not read password from {}", file.display())
-                    })?,
-                    _ => Password::with_theme(&ColorfulTheme::default())
-                        .with_prompt("Enter password")
-                        .with_confirmation("Confirm password", "Passwords mismatch, try again")
-                        .interact()
-                        .context("could not read password")?,
+                    (_, true, ..) => password::read_passphrase_from_stdin()?,
+                    (_, _, true, ..) => password::read_passphrase_from_tty_once()?,
+                    (.., Some(env), _) => password::read_passphrase_from_env(&env)?,
+                    (.., Some(file)) => password::read_passphrase_from_file(&file)?,
+                    _ => password::read_passphrase_from_tty()?,
                 };
 
                 if arg.verbose {
                     let n: u64 = 1 << arg.log_n;
-                    let mem_usage = Byte::from_bytes(128 * u128::from(n) * u128::from(arg.r))
-                        .get_appropriate_unit(true);
-                    eprintln!("Parameters used: N = {}; r = {}; p = {};", n, arg.r, arg.p);
-                    eprintln!(
-                        "Decrypting this file requires at least {} of memory",
-                        mem_usage.format(1)
-                    );
+                    params::print(n, arg.r, arg.p);
                 }
 
                 let params = scrypt::Params::new(arg.log_n, arg.r, arg.p)
@@ -90,26 +53,13 @@ pub fn run() -> anyhow::Result<()> {
                 let encrypted = cipher.encrypt_to_vec();
 
                 if let Some(file) = arg.output {
-                    fs::write(&file, encrypted)
-                        .with_context(|| format!("could not write data to {}", file.display()))?;
+                    output::write_to_file(&file, &encrypted)?;
                 } else {
-                    io::stdout()
-                        .write_all(&encrypted)
-                        .context("could not write data to stdout")?;
+                    output::write_to_stdout(&encrypted)?;
                 }
             }
             Command::Decrypt(arg) => {
-                let input = if arg.input == Path::new("-") {
-                    let mut buf = Vec::new();
-                    io::stdin()
-                        .read_to_end(&mut buf)
-                        .context("could not read data from stdin")?;
-                    buf
-                } else {
-                    fs::read(&arg.input).with_context(|| {
-                        format!("could not read data from {}", arg.input.display())
-                    })?
-                };
+                let input = input::read(&arg.input)?;
 
                 let password = match (
                     arg.passphrase_from_tty,
@@ -117,44 +67,15 @@ pub fn run() -> anyhow::Result<()> {
                     arg.passphrase_from_env,
                     arg.passphrase_from_file,
                 ) {
-                    (_, true, ..) => {
-                        let mut buf = String::new();
-                        io::stdin()
-                            .read_to_string(&mut buf)
-                            .context("could not read password from stdin")?;
-                        buf
-                    }
-                    (.., Some(env), _) => env::var(env)
-                        .context("could not read password from environment variable")?,
-                    (.., Some(file)) => fs::read_to_string(&file).with_context(|| {
-                        format!("could not read password from {}", file.display())
-                    })?,
-                    _ => Password::with_theme(&ColorfulTheme::default())
-                        .with_prompt("Enter password")
-                        .interact()
-                        .context("could not read password")?,
+                    (_, true, ..) => password::read_passphrase_from_stdin()?,
+                    (.., Some(env), _) => password::read_passphrase_from_env(&env)?,
+                    (.., Some(file)) => password::read_passphrase_from_file(&file)?,
+                    _ => password::read_passphrase_from_tty_once()?,
                 };
 
                 if arg.verbose {
-                    let params = scryptenc::Params::new(&input).with_context(|| {
-                        format!(
-                            "{} is not a valid scrypt encrypted file",
-                            arg.input.display()
-                        )
-                    })?;
-                    let mem_usage =
-                        Byte::from_bytes(128 * u128::from(params.n()) * u128::from(params.r()))
-                            .get_appropriate_unit(true);
-                    eprintln!(
-                        "Parameters used: N = {}; r = {}; p = {};",
-                        params.n(),
-                        params.r(),
-                        params.p()
-                    );
-                    eprintln!(
-                        "Decrypting this file requires at least {} of memory",
-                        mem_usage.format(1)
-                    );
+                    let params = params::get(&input, &arg.input)?;
+                    params::print(params.n(), params.r(), params.p());
                 }
 
                 let cipher = match Decryptor::new(input, password) {
@@ -170,46 +91,16 @@ pub fn run() -> anyhow::Result<()> {
                     .with_context(|| format!("{} is corrupted", arg.input.display()))?;
 
                 if let Some(file) = arg.output {
-                    fs::write(&file, decrypted)
-                        .with_context(|| format!("could not write data to {}", file.display()))?;
+                    output::write_to_file(&file, &decrypted)?;
                 } else {
-                    io::stdout()
-                        .write_all(&decrypted)
-                        .context("could not write data to stdout")?;
+                    output::write_to_stdout(&decrypted)?;
                 }
             }
             Command::Information(arg) => {
-                let input = if arg.input == Path::new("-") {
-                    let mut buf = Vec::new();
-                    io::stdin()
-                        .read_to_end(&mut buf)
-                        .context("could not read data from stdin")?;
-                    buf
-                } else {
-                    fs::read(&arg.input).with_context(|| {
-                        format!("could not read data from {}", arg.input.display())
-                    })?
-                };
+                let input = input::read(&arg.input)?;
 
-                let params = scryptenc::Params::new(input).with_context(|| {
-                    format!(
-                        "{} is not a valid scrypt encrypted file",
-                        arg.input.display()
-                    )
-                })?;
-                let mem_usage =
-                    Byte::from_bytes(128 * u128::from(params.n()) * u128::from(params.r()))
-                        .get_appropriate_unit(true);
-                eprintln!(
-                    "Parameters used: N = {}; r = {}; p = {};",
-                    params.n(),
-                    params.r(),
-                    params.p()
-                );
-                eprintln!(
-                    "Decrypting this file requires at least {} of memory",
-                    mem_usage.format(1)
-                );
+                let params = params::get(&input, &arg.input)?;
+                params::print(params.n(), params.r(), params.p());
             }
         }
     } else {

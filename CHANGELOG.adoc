@@ -12,6 +12,12 @@ project adheres to https://semver.org/[Semantic Versioning].
 
 toc::[]
 
+== {compare-url}/v0.1.0\...HEAD[Unreleased]
+
+=== Changed
+
+* Move common code into functions
+
 == {project-url}/releases/tag/v0.1.0[0.1.0] - 2022-11-18
 
 === Added
