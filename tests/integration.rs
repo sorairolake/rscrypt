@@ -153,6 +153,22 @@ fn validate_work_parameter_ranges_for_encrypt_command() {
 }
 
 #[test]
+fn validate_conflicts_if_reading_from_stdin_for_encrypt_command() {
+    command()
+        .arg("enc")
+        .arg("--log-n")
+        .arg("10")
+        .arg("--passphrase-from-stdin")
+        .arg("-")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .stderr(predicate::str::ends_with(
+            "cannot read both passphrase and input data from stdin\n",
+        ));
+}
+
+#[test]
 fn basic_decrypt() {
     command()
         .arg("dec")
@@ -177,6 +193,20 @@ fn decrypt_verbose() {
         .stdout(predicate::eq("Hello, world!\n"))
         .stderr(predicate::str::starts_with(
             "Parameters used: N = 1024; r = 8; p = 1;",
+        ));
+}
+
+#[test]
+fn validate_conflicts_if_reading_from_stdin_for_decrypt_command() {
+    command()
+        .arg("dec")
+        .arg("--passphrase-from-stdin")
+        .arg("-")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .stderr(predicate::str::ends_with(
+            "cannot read both passphrase and input data from stdin\n",
         ));
 }
 

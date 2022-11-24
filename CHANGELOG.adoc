@@ -18,6 +18,10 @@ toc::[]
 
 * Move common code into functions
 
+=== Fixed
+
+* Change to not read both passphrase and input data from stdin at the same time
+
 == {project-url}/releases/tag/v0.1.0[0.1.0] - 2022-11-18
 
 === Added

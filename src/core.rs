@@ -4,7 +4,9 @@
 // Copyright (C) 2022 Shun Sakai
 //
 
-use anyhow::Context;
+use std::path::Path;
+
+use anyhow::{bail, Context};
 use clap::Parser;
 use scryptenc::{scrypt, Decryptor, Encryptor, Error as ScryptencError};
 
@@ -12,6 +14,14 @@ use crate::{
     cli::{Command, Opt},
     input, output, params, password,
 };
+
+/// Ensures that there are no conflicts if reading the passphrase from stdin.
+fn ensure_stdin_does_not_conflict(path: &Path) -> anyhow::Result<()> {
+    if path == Path::new("-") {
+        bail!("cannot read both passphrase and input data from stdin");
+    }
+    Ok(())
+}
 
 /// Runs the program and returns the result.
 #[allow(clippy::too_many_lines)]
@@ -35,12 +45,15 @@ pub fn run() -> anyhow::Result<()> {
                     arg.passphrase_from_env,
                     arg.passphrase_from_file,
                 ) {
-                    (_, true, ..) => password::read_passphrase_from_stdin()?,
-                    (_, _, true, ..) => password::read_passphrase_from_tty_once()?,
-                    (.., Some(env), _) => password::read_passphrase_from_env(&env)?,
-                    (.., Some(file)) => password::read_passphrase_from_file(&file)?,
-                    _ => password::read_passphrase_from_tty()?,
-                };
+                    (_, true, ..) => {
+                        ensure_stdin_does_not_conflict(&arg.input)?;
+                        password::read_passphrase_from_stdin()
+                    }
+                    (_, _, true, ..) => password::read_passphrase_from_tty_once(),
+                    (.., Some(env), _) => password::read_passphrase_from_env(&env),
+                    (.., Some(file)) => password::read_passphrase_from_file(&file),
+                    _ => password::read_passphrase_from_tty(),
+                }?;
 
                 if arg.verbose {
                     let n: u64 = 1 << arg.log_n;
@@ -67,11 +80,14 @@ pub fn run() -> anyhow::Result<()> {
                     arg.passphrase_from_env,
                     arg.passphrase_from_file,
                 ) {
-                    (_, true, ..) => password::read_passphrase_from_stdin()?,
-                    (.., Some(env), _) => password::read_passphrase_from_env(&env)?,
-                    (.., Some(file)) => password::read_passphrase_from_file(&file)?,
-                    _ => password::read_passphrase_from_tty_once()?,
-                };
+                    (_, true, ..) => {
+                        ensure_stdin_does_not_conflict(&arg.input)?;
+                        password::read_passphrase_from_stdin()
+                    }
+                    (.., Some(env), _) => password::read_passphrase_from_env(&env),
+                    (.., Some(file)) => password::read_passphrase_from_file(&file),
+                    _ => password::read_passphrase_from_tty_once(),
+                }?;
 
                 if arg.verbose {
                     let params = params::get(&input, &arg.input)?;
