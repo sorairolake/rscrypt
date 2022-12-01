@@ -12,6 +12,12 @@ project adheres to https://semver.org/[Semantic Versioning].
 
 toc::[]
 
+== {compare-url}/v0.1.1\...HEAD[Unreleased]
+
+=== Added
+
+* Add options related to resources
+
 == {compare-url}/v0.1.0\...v0.1.1[0.1.1] - 2022-11-24
 
 === Changed

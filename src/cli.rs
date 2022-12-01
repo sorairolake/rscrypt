@@ -4,10 +4,12 @@
 // Copyright (C) 2022 Shun Sakai
 //
 
-use std::{ffi::OsString, io, path::PathBuf};
+use std::{ffi::OsString, io, path::PathBuf, str::FromStr, time::Duration};
 
+use anyhow::anyhow;
 use clap::{value_parser, ArgGroup, Args, CommandFactory, Parser, Subcommand, ValueHint};
 use clap_complete::{Generator, Shell};
+use fraction::{Fraction, Zero};
 
 #[derive(Debug, Parser)]
 #[command(
@@ -48,68 +50,110 @@ pub enum Command {
 #[allow(clippy::struct_excessive_bools)]
 #[derive(Args, Debug)]
 #[command(
+    group(ArgGroup::new("passphrase")),
     group(
-        ArgGroup::new("passphrase")
-            .arg("passphrase_from_tty")
-            .arg("passphrase_from_stdin")
-            .arg("passphrase_from_tty_once")
-            .arg("passphrase_from_env")
-            .arg("passphrase_from_file")
-    )
+        ArgGroup::new("resources")
+            .multiple(true)
+            .conflicts_with("force")
+            .conflicts_with("parameters")
+    ),
+    group(ArgGroup::new("parameters").multiple(true))
 )]
 pub struct Encrypt {
+    /// Force the encryption to proceed even if it requires an excessive amount
+    /// of resources.
+    #[arg(short, long, requires("parameters"))]
+    pub force: bool,
+
+    /// Use at most the specified bytes of RAM to compute the derived key.
+    #[arg(short('M'), long, value_name("BYTES"), group("resources"))]
+    pub max_memory: Option<Byte>,
+
+    /// Use at most the specified fraction of the available RAM to compute the
+    /// derived key.
+    #[arg(
+        short,
+        long,
+        default_value("0.125"),
+        value_name("RATE"),
+        group("resources")
+    )]
+    pub max_memory_fraction: Rate,
+
+    /// Use at most the specified seconds of CPU time to compute the derived
+    /// key.
+    #[arg(
+        short('t'),
+        long,
+        default_value("5"),
+        value_name("SECONDS"),
+        group("resources")
+    )]
+    pub max_time: Time,
+
     /// Set the work parameter N.
     #[arg(
         value_parser(value_parser!(u8).range(10..=40)),
         long,
-        default_value("15"),
-        value_name("VALUE")
+        requires("r"),
+        requires("p"),
+        value_name("VALUE"),
+        group("parameters")
     )]
-    pub log_n: u8,
+    pub log_n: Option<u8>,
 
     /// Set the work parameter r.
     #[arg(
         value_parser(value_parser!(u32).range(1..=32)),
         short,
-        default_value("8"),
-        value_name("VALUE")
+        requires("log_n"),
+        requires("p"),
+        value_name("VALUE"),
+        group("parameters")
     )]
-    pub r: u32,
+    pub r: Option<u32>,
 
     /// Set the work parameter p.
     #[arg(
         value_parser(value_parser!(u32).range(1..=32)),
         short,
-        default_value("1"),
-        value_name("VALUE")
+        requires("log_n"),
+        requires("r"),
+        value_name("VALUE"),
+        group("parameters")
     )]
-    pub p: u32,
+    pub p: Option<u32>,
 
     /// Read the passphrase from /dev/tty.
     ///
     /// This is the default behavior.
-    #[arg(long)]
+    #[arg(long, group("passphrase"))]
     pub passphrase_from_tty: bool,
 
     /// Read the passphrase from stdin.
-    #[arg(long)]
+    #[arg(long, group("passphrase"))]
     pub passphrase_from_stdin: bool,
 
     /// Read the passphrase from /dev/tty only once.
-    #[arg(long)]
+    #[arg(long, group("passphrase"))]
     pub passphrase_from_tty_once: bool,
 
     /// Read the passphrase from the environment variable.
     ///
     /// Note that storing a passphrase in an environment variable can be a
     /// security risk.
-    #[arg(long, value_name("VAR"))]
+    #[arg(long, value_name("VAR"), group("passphrase"))]
     pub passphrase_from_env: Option<OsString>,
 
     /// Read the passphrase from the file.
     ///
     /// Note that storing a passphrase in a file can be a security risk.
-    #[arg(long, value_name("FILE"), value_hint(ValueHint::FilePath))]
+    #[arg(
+        long,
+        value_name("FILE"),
+        value_hint(ValueHint::FilePath),
+        group("passphrase")
+    )]
     pub passphrase_from_file: Option<PathBuf>,
 
     /// Print encryption parameters and resource limits.
@@ -132,36 +176,67 @@ pub struct Encrypt {
 #[allow(clippy::struct_excessive_bools)]
 #[derive(Args, Debug)]
 #[command(
-    group(
-        ArgGroup::new("passphrase")
-            .arg("passphrase_from_tty")
-            .arg("passphrase_from_stdin")
-            .arg("passphrase_from_env")
-            .arg("passphrase_from_file")
-    )
+    group(ArgGroup::new("passphrase")),
+    group(ArgGroup::new("resources").multiple(true).conflicts_with("force"))
 )]
 pub struct Decrypt {
+    /// Force the decryption to proceed even if it requires an excessive amount
+    /// of resources.
+    #[arg(short, long)]
+    pub force: bool,
+
+    /// Use at most the specified bytes of RAM to compute the derived key.
+    #[arg(short('M'), long, value_name("BYTES"), group("resources"))]
+    pub max_memory: Option<Byte>,
+
+    /// Use at most the specified fraction of the available RAM to compute the
+    /// derived key.
+    #[arg(
+        short,
+        long,
+        default_value("0.5"),
+        value_name("RATE"),
+        group("resources")
+    )]
+    pub max_memory_fraction: Rate,
+
+    /// Use at most the specified seconds of CPU time to compute the derived
+    /// key.
+    #[arg(
+        short('t'),
+        long,
+        default_value("300"),
+        value_name("SECONDS"),
+        group("resources")
+    )]
+    pub max_time: Time,
+
     /// Read the passphrase from /dev/tty.
     ///
     /// This is the default behavior.
-    #[arg(long)]
+    #[arg(long, group("passphrase"))]
     pub passphrase_from_tty: bool,
 
     /// Read the passphrase from stdin.
-    #[arg(long)]
+    #[arg(long, group("passphrase"))]
     pub passphrase_from_stdin: bool,
 
     /// Read the passphrase from the environment variable.
     ///
     /// Note that storing a passphrase in an environment variable can be a
     /// security risk.
-    #[arg(long, value_name("VAR"))]
+    #[arg(long, value_name("VAR"), group("passphrase"))]
     pub passphrase_from_env: Option<OsString>,
 
     /// Read the passphrase from the file.
     ///
     /// Note that storing a passphrase in a file can be a security risk.
-    #[arg(long, value_name("FILE"), value_hint(ValueHint::FilePath))]
+    #[arg(
+        long,
+        value_name("FILE"),
+        value_hint(ValueHint::FilePath),
+        group("passphrase")
+    )]
     pub passphrase_from_file: Option<PathBuf>,
 
     /// Print encryption parameters and resource limits.
@@ -199,6 +274,86 @@ impl Opt {
             Self::command().get_name(),
             &mut io::stdout(),
         );
+    }
+}
+
+/// Amount of RAM.
+#[derive(Clone, Copy, Debug)]
+pub struct Byte(byte_unit::Byte);
+
+impl Byte {
+    /// Returns `byte_unit::Byte`.
+    pub const fn as_byte(&self) -> byte_unit::Byte {
+        self.0
+    }
+}
+
+impl FromStr for Byte {
+    type Err = anyhow::Error;
+
+    fn from_str(bytes: &str) -> anyhow::Result<Self> {
+        let bytes = byte_unit::Byte::from_str(bytes)?;
+        if bytes.get_bytes() > u128::from(u64::MAX) {
+            Err(anyhow!("maximum amount of RAM should be 16 EiB or less"))
+        } else {
+            Ok(Self(bytes))
+        }
+    }
+}
+
+/// Fraction of the available RAM.
+#[derive(Clone, Copy, Debug)]
+pub struct Rate(Fraction);
+
+impl Rate {
+    /// Returns `Fraction`.
+    pub const fn as_fraction(&self) -> Fraction {
+        self.0
+    }
+}
+
+impl FromStr for Rate {
+    type Err = anyhow::Error;
+
+    fn from_str(rate: &str) -> anyhow::Result<Self> {
+        let rate = Fraction::from_str(rate)?;
+        match rate {
+            r if (Fraction::new(1_u64, u64::MAX)..=Fraction::new(1_u64, 2_u64)).contains(&r) => {
+                Ok(Self(r))
+            }
+            r if r == Fraction::zero() => Err(anyhow!(
+                "fraction of the available RAM should be greater than 0.0"
+            )),
+            r => Err(anyhow!("{r} is not in 0.0..=0.5")),
+        }
+    }
+}
+
+/// CPU time.
+#[derive(Clone, Copy, Debug)]
+pub struct Time(Duration);
+
+impl Time {
+    /// Returns `Duration`.
+    pub const fn as_duration(&self) -> Duration {
+        self.0
+    }
+}
+
+impl FromStr for Time {
+    type Err = anyhow::Error;
+
+    fn from_str(seconds: &str) -> anyhow::Result<Self> {
+        let secs = f64::from_str(seconds)?;
+        if secs.is_sign_negative() {
+            Err(anyhow!("time is negative"))
+        } else if secs >= Duration::MAX.as_secs_f64() {
+            Err(anyhow!("time is too big"))
+        } else if !secs.is_finite() {
+            Err(anyhow!("time is not finite"))
+        } else {
+            Ok(Self(Duration::from_secs_f64(secs)))
+        }
     }
 }
 

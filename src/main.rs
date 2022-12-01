@@ -41,11 +41,20 @@ enum ExitCode {
     /// The version was the unrecognized scrypt version number.
     UnknownVersion,
 
+    /// Decrypting files takes too much memory.
+    Big,
+
+    /// Decrypting files takes too much CPU time.
+    Slow,
+
     /// Password is incorrect.
     InvalidPassword,
 
     /// The scrypt parameters were invalid.
     InvalidParams,
+
+    /// Decrypting files takes too much resources.
+    BigSlow,
 
     /// Error defined by `<sysexits.h>`.
     Other(sysexits::ExitCode),
@@ -64,8 +73,11 @@ impl Termination for ExitCode {
             Self::Failure => process::ExitCode::FAILURE,
             Self::InvalidFormat => process::ExitCode::from(7),
             Self::UnknownVersion => process::ExitCode::from(8),
+            Self::Big => process::ExitCode::from(9),
+            Self::Slow => process::ExitCode::from(10),
             Self::InvalidPassword => process::ExitCode::from(11),
             Self::InvalidParams => process::ExitCode::from(14),
+            Self::BigSlow => process::ExitCode::from(15),
             Self::Other(code) => process::ExitCode::from(code),
         }
     }
@@ -91,6 +103,12 @@ fn main() -> ExitCode {
                     ScryptencError::UnknownVersion(_) => ExitCode::UnknownVersion,
                     ScryptencError::InvalidParams(_) => ExitCode::InvalidParams,
                     ScryptencError::InvalidSignature(_) => ExitCode::InvalidPassword,
+                }
+            } else if let Some(e) = err.downcast_ref::<params::Error>() {
+                match e {
+                    params::Error::Big => ExitCode::Big,
+                    params::Error::Slow => ExitCode::Slow,
+                    params::Error::BigSlow => ExitCode::BigSlow,
                 }
             } else {
                 ExitCode::Failure

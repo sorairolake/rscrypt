@@ -6,7 +6,7 @@
 
 = rscrypt-enc(1)
 // Specify in UTC.
-:docdate: 2022-11-18
+:docdate: 2022-12-01
 :doctype: manpage
 ifdef::revnumber[:mansource: rscrypt {revnumber}]
 :manmanual: General Commands Manual
@@ -37,6 +37,28 @@ _OUTFILE_::
   If it is not specified, the result will be write to stdout.
 
 == OPTIONS
+
+*-f*, *--force*::
+
+  Force the decryption to proceed even if it requires an excessive amount of
+  resources.
+
+*-M*, *--max-memory* _BYTES_::
+
+  Use at most the specified bytes of RAM to compute the derived key.
+  _BYTES_ should be 16 EiB or less.
+
+*-m*, *--max-memory-fraction* _RATE_::
+
+  Use at most the specified fraction of the available RAM to compute the
+  derived key.
+  _RATE_ should be greater than 0.0 and less than or equal to *0.5*.
+  Default is 0.125.
+
+*-t*, *--max-time* _SECONDS_::
+
+  Use at most the specified seconds of CPU time to compute the derived key.
+  Default is 5.
 
 *--log-n* _VALUE_::
 

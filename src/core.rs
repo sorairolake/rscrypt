@@ -55,13 +55,39 @@ pub fn run() -> anyhow::Result<()> {
                     _ => password::read_passphrase_from_tty(),
                 }?;
 
+                let params = if let (Some(log_n), Some(r), Some(p)) = (arg.log_n, arg.r, arg.p) {
+                    let params = scrypt::Params::new(log_n, r, p)
+                        .expect("encryption parameters should be valid");
+                    if !arg.force {
+                        params::check(
+                            &arg.max_memory,
+                            &arg.max_memory_fraction,
+                            &arg.max_time,
+                            params.log_n(),
+                            params.r(),
+                            params.p(),
+                        )?;
+                    }
+                    params
+                } else {
+                    params::new(&arg.max_memory, &arg.max_memory_fraction, &arg.max_time)
+                };
+
                 if arg.verbose {
-                    let n: u64 = 1 << arg.log_n;
-                    params::print(n, arg.r, arg.p);
+                    if arg.force {
+                        params::displayln_without_resources(params.log_n(), params.r(), params.p());
+                    } else {
+                        params::displayln_with_resources(
+                            params.log_n(),
+                            params.r(),
+                            params.p(),
+                            &arg.max_memory,
+                            &arg.max_memory_fraction,
+                            &arg.max_time,
+                        );
+                    }
                 }
 
-                let params = scrypt::Params::new(arg.log_n, arg.r, arg.p)
-                    .expect("encryption parameters should be valid");
                 let cipher = Encryptor::with_params(input, password, params);
                 let encrypted = cipher.encrypt_to_vec();
 
@@ -89,9 +115,31 @@ pub fn run() -> anyhow::Result<()> {
                     _ => password::read_passphrase_from_tty_once(),
                 }?;
 
+                let params = params::get(&input, &arg.input)?;
                 if arg.verbose {
-                    let params = params::get(&input, &arg.input)?;
-                    params::print(params.n(), params.r(), params.p());
+                    if arg.force {
+                        params::displayln_without_resources(params.log_n(), params.r(), params.p());
+                    } else {
+                        params::displayln_with_resources(
+                            params.log_n(),
+                            params.r(),
+                            params.p(),
+                            &arg.max_memory,
+                            &arg.max_memory_fraction,
+                            &arg.max_time,
+                        );
+                    }
+                }
+
+                if !arg.force {
+                    params::check(
+                        &arg.max_memory,
+                        &arg.max_memory_fraction,
+                        &arg.max_time,
+                        params.log_n(),
+                        params.r(),
+                        params.p(),
+                    )?;
                 }
 
                 let cipher = match Decryptor::new(input, password) {
@@ -116,7 +164,7 @@ pub fn run() -> anyhow::Result<()> {
                 let input = input::read(&arg.input)?;
 
                 let params = params::get(&input, &arg.input)?;
-                params::print(params.n(), params.r(), params.p());
+                params::displayln_without_resources(params.log_n(), params.r(), params.p());
             }
         }
     } else {
