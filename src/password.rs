@@ -25,6 +25,7 @@ pub fn read_password_from_tty() -> anyhow::Result<String> {
     Password::with_theme(&ColorfulTheme::default())
         .with_prompt("Enter password")
         .with_confirmation("Confirm password", "Passwords mismatch, try again")
+        .allow_empty_password(true)
         .interact()
         .context("could not read password")
 }
@@ -43,6 +44,7 @@ pub fn read_password_from_stdin() -> anyhow::Result<String> {
 pub fn read_password_from_tty_once() -> anyhow::Result<String> {
     Password::with_theme(&ColorfulTheme::default())
         .with_prompt("Enter password")
+        .allow_empty_password(true)
         .interact()
         .context("could not read password")
 }

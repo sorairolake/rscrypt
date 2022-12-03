@@ -18,6 +18,10 @@ toc::[]
 
 * Add options related to resources
 
+=== Changed
+
+* Change to allow empty password
+
 === Fixed
 
 * Fix to remove trailing newline from password
