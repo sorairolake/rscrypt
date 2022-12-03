@@ -15,10 +15,10 @@ use crate::{
     input, output, params, password,
 };
 
-/// Ensures that there are no conflicts if reading the passphrase from stdin.
+/// Ensures that there are no conflicts if reading the password from stdin.
 fn ensure_stdin_does_not_conflict(path: &Path) -> anyhow::Result<()> {
     if path == Path::new("-") {
-        bail!("cannot read both passphrase and input data from stdin");
+        bail!("cannot read both password and input data from stdin");
     }
     Ok(())
 }
@@ -47,12 +47,12 @@ pub fn run() -> anyhow::Result<()> {
                 ) {
                     (_, true, ..) => {
                         ensure_stdin_does_not_conflict(&arg.input)?;
-                        password::read_passphrase_from_stdin()
+                        password::read_password_from_stdin()
                     }
-                    (_, _, true, ..) => password::read_passphrase_from_tty_once(),
-                    (.., Some(env), _) => password::read_passphrase_from_env(&env),
-                    (.., Some(file)) => password::read_passphrase_from_file(&file),
-                    _ => password::read_passphrase_from_tty(),
+                    (_, _, true, ..) => password::read_password_from_tty_once(),
+                    (.., Some(env), _) => password::read_password_from_env(&env),
+                    (.., Some(file)) => password::read_password_from_file(&file),
+                    _ => password::read_password_from_tty(),
                 }?;
 
                 let params = if let (Some(log_n), Some(r), Some(p)) = (arg.log_n, arg.r, arg.p) {
@@ -108,11 +108,11 @@ pub fn run() -> anyhow::Result<()> {
                 ) {
                     (_, true, ..) => {
                         ensure_stdin_does_not_conflict(&arg.input)?;
-                        password::read_passphrase_from_stdin()
+                        password::read_password_from_stdin()
                     }
-                    (.., Some(env), _) => password::read_passphrase_from_env(&env),
-                    (.., Some(file)) => password::read_passphrase_from_file(&file),
-                    _ => password::read_passphrase_from_tty_once(),
+                    (.., Some(env), _) => password::read_password_from_env(&env),
+                    (.., Some(file)) => password::read_password_from_file(&file),
+                    _ => password::read_password_from_tty_once(),
                 }?;
 
                 let params = params::get(&input, &arg.input)?;

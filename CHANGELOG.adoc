@@ -18,6 +18,10 @@ toc::[]
 
 * Add options related to resources
 
+=== Fixed
+
+* Fix to remove trailing newline from password
+
 == {compare-url}/v0.1.0\...v0.1.1[0.1.1] - 2022-11-24
 
 === Changed
