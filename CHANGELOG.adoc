@@ -17,6 +17,7 @@ toc::[]
 === Added
 
 * Add options related to resources
+* Add option to output the encryption parameters as data exchange formats
 
 === Changed
 

@@ -18,6 +18,7 @@ mod input;
 mod output;
 mod params;
 mod password;
+mod utils;
 
 use std::{
     io,

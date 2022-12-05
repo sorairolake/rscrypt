@@ -257,3 +257,60 @@ fn basic_information() {
             "Parameters used: N = 1024; r = 8; p = 1;",
         ));
 }
+
+#[cfg(feature = "cbor")]
+#[test]
+fn information_as_cbor() {
+    command()
+        .arg("info")
+        .arg("-f")
+        .arg("cbor")
+        .arg("data/data.txt.enc")
+        .assert()
+        .success()
+        .stdout(predicate::eq(
+            [
+                0xa3, 0x61, 0x4e, 0x19, 0x04, 0x00, 0x61, 0x72, 0x08, 0x61, 0x70, 0x01,
+            ]
+            .as_slice(),
+        ));
+}
+
+#[cfg(feature = "json")]
+#[test]
+fn information_as_json() {
+    command()
+        .arg("info")
+        .arg("-f")
+        .arg("json")
+        .arg("data/data.txt.enc")
+        .assert()
+        .success()
+        .stdout(predicate::eq(concat!(r#"{"N":1024,"r":8,"p":1}"#, '\n')));
+}
+
+#[cfg(feature = "toml")]
+#[test]
+fn information_as_toml() {
+    command()
+        .arg("info")
+        .arg("-f")
+        .arg("toml")
+        .arg("data/data.txt.enc")
+        .assert()
+        .success()
+        .stdout(predicate::eq("N = 1024\nr = 8\np = 1\n"));
+}
+
+#[cfg(feature = "yaml")]
+#[test]
+fn information_as_yaml() {
+    command()
+        .arg("info")
+        .arg("-f")
+        .arg("yaml")
+        .arg("data/data.txt.enc")
+        .assert()
+        .success()
+        .stdout(predicate::eq("N: 1024\nr: 8\np: 1\n"));
+}

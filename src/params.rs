@@ -236,3 +236,54 @@ pub fn check(
         _ => Ok(()),
     }
 }
+
+/// The scrypt parameters used for the encrypted data.
+#[cfg(any(feature = "cbor", feature = "json", feature = "toml", feature = "yaml"))]
+#[derive(Clone, Copy, Debug, serde::Serialize)]
+pub struct Params {
+    #[serde(rename = "N")]
+    n: u64,
+    r: u32,
+    p: u32,
+}
+
+#[cfg(any(feature = "cbor", feature = "json", feature = "toml", feature = "yaml"))]
+impl Params {
+    /// Creates a new `Params`.
+    pub fn new(params: &scryptenc::Params) -> Self {
+        Self {
+            n: params.n(),
+            r: params.r(),
+            p: params.p(),
+        }
+    }
+
+    /// Serializes the given data structure.
+    pub fn to_vec(self, format: crate::cli::Format) -> anyhow::Result<Vec<u8>> {
+        match format {
+            #[cfg(feature = "cbor")]
+            crate::cli::Format::Cbor => {
+                let mut buf = Vec::new();
+                ciborium::ser::into_writer(&self, &mut buf)
+                    .context("could not serialize as CBOR")?;
+                Ok(buf)
+            }
+            #[cfg(feature = "json")]
+            crate::cli::Format::Json => {
+                serde_json::to_vec(&self).context("could not serialize as JSON")
+            }
+            #[cfg(feature = "toml")]
+            crate::cli::Format::Toml => {
+                let toml = toml::to_string(&self).context("could not serialize as TOML")?;
+                let toml = crate::utils::remove_newline(&toml).into_bytes();
+                Ok(toml)
+            }
+            #[cfg(feature = "yaml")]
+            crate::cli::Format::Yaml => {
+                let yaml = serde_yaml::to_string(&self).context("could not serialize as YAML")?;
+                let yaml = crate::utils::remove_newline(&yaml).into_bytes();
+                Ok(yaml)
+            }
+        }
+    }
+}

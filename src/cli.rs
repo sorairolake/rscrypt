@@ -258,6 +258,11 @@ pub struct Decrypt {
 
 #[derive(Args, Debug)]
 pub struct Information {
+    /// Output format.
+    #[cfg(any(feature = "cbor", feature = "json", feature = "toml", feature = "yaml"))]
+    #[arg(short, long, value_enum, value_name("FORMAT"), ignore_case(true))]
+    pub format: Option<Format>,
+
     /// Input file.
     ///
     /// If "-" is specified, data will be read from stdin.
@@ -355,6 +360,26 @@ impl FromStr for Time {
             Ok(Self(Duration::from_secs_f64(secs)))
         }
     }
+}
+
+#[cfg(any(feature = "cbor", feature = "json", feature = "toml", feature = "yaml"))]
+#[derive(Clone, Copy, Debug, clap::ValueEnum)]
+pub enum Format {
+    /// CBOR.
+    #[cfg(feature = "cbor")]
+    Cbor,
+
+    /// JSON.
+    #[cfg(feature = "json")]
+    Json,
+
+    /// TOML.
+    #[cfg(feature = "toml")]
+    Toml,
+
+    /// YAML.
+    #[cfg(feature = "yaml")]
+    Yaml,
 }
 
 #[cfg(test)]

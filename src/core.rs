@@ -164,6 +164,26 @@ pub fn run() -> anyhow::Result<()> {
                 let input = input::read(&arg.input)?;
 
                 let params = params::get(&input, &arg.input)?;
+                #[cfg(any(feature = "cbor", feature = "json", feature = "toml", feature = "yaml"))]
+                if let Some(format) = arg.format {
+                    let params = params::Params::new(&params);
+                    let output = params
+                        .to_vec(format)
+                        .context("could not output the encryption parameters")?;
+                    if let Ok(string) = std::str::from_utf8(&output) {
+                        println!("{string}");
+                    } else {
+                        output::write_to_stdout(&output)?;
+                    }
+                } else {
+                    params::displayln_without_resources(params.log_n(), params.r(), params.p());
+                }
+                #[cfg(not(any(
+                    feature = "cbor",
+                    feature = "json",
+                    feature = "toml",
+                    feature = "yaml"
+                )))]
                 params::displayln_without_resources(params.log_n(), params.r(), params.p());
             }
         }
