@@ -85,6 +85,55 @@ fn encrypt_verbose() {
 }
 
 #[test]
+fn validate_parameters_group_for_encrypt_command() {
+    command()
+        .arg("enc")
+        .arg("--log-n")
+        .arg("10")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains(
+            "The following required arguments were not provided",
+        ))
+        .stderr(predicate::str::contains("-r <VALUE>"))
+        .stderr(predicate::str::contains("-p <VALUE>"));
+    command()
+        .arg("enc")
+        .arg("-r")
+        .arg("8")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains(
+            "The following required arguments were not provided",
+        ))
+        .stderr(predicate::str::contains("--log-n <VALUE>"))
+        .stderr(predicate::str::contains("-p <VALUE>"));
+    command()
+        .arg("enc")
+        .arg("-p")
+        .arg("1")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains(
+            "The following required arguments were not provided",
+        ))
+        .stderr(predicate::str::contains("--log-n <VALUE>"))
+        .stderr(predicate::str::contains("-r <VALUE>"));
+}
+
+#[test]
 fn validate_work_parameter_ranges_for_encrypt_command() {
     command()
         .arg("enc")
