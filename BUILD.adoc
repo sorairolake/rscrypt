@@ -22,3 +22,25 @@ cd rscrypt
 ----
 just build
 ----
+
+== Crate features
+
+`cbor`::
+
+  Enable outputting the encryption parameters as CBOR.
+  This is enabled by default.
+
+`json`::
+
+  Enable outputting the encryption parameters as JSON.
+  This is enabled by default.
+
+`toml`::
+
+  Enable outputting the encryption parameters as TOML.
+  This is enabled by default.
+
+`yaml`::
+
+  Enable outputting the encryption parameters as YAML.
+  This is enabled by default.

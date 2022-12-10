@@ -52,6 +52,10 @@ fn basic_encrypt() {
         .arg("enc")
         .arg("--log-n")
         .arg("10")
+        .arg("-r")
+        .arg("8")
+        .arg("-p")
+        .arg("1")
         .arg("--passphrase-from-stdin")
         .arg("data/data.txt")
         .write_stdin("password")
@@ -65,6 +69,10 @@ fn encrypt_verbose() {
         .arg("enc")
         .arg("--log-n")
         .arg("10")
+        .arg("-r")
+        .arg("8")
+        .arg("-p")
+        .arg("1")
         .arg("--passphrase-from-stdin")
         .arg("-v")
         .arg("data/data.txt")
@@ -77,11 +85,64 @@ fn encrypt_verbose() {
 }
 
 #[test]
+fn validate_parameters_group_for_encrypt_command() {
+    command()
+        .arg("enc")
+        .arg("--log-n")
+        .arg("10")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains(
+            "The following required arguments were not provided",
+        ))
+        .stderr(predicate::str::contains("-r <VALUE>"))
+        .stderr(predicate::str::contains("-p <VALUE>"));
+    command()
+        .arg("enc")
+        .arg("-r")
+        .arg("8")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains(
+            "The following required arguments were not provided",
+        ))
+        .stderr(predicate::str::contains("--log-n <VALUE>"))
+        .stderr(predicate::str::contains("-p <VALUE>"));
+    command()
+        .arg("enc")
+        .arg("-p")
+        .arg("1")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains(
+            "The following required arguments were not provided",
+        ))
+        .stderr(predicate::str::contains("--log-n <VALUE>"))
+        .stderr(predicate::str::contains("-r <VALUE>"));
+}
+
+#[test]
 fn validate_work_parameter_ranges_for_encrypt_command() {
     command()
         .arg("enc")
         .arg("--log-n")
         .arg("9")
+        .arg("-r")
+        .arg("8")
+        .arg("-p")
+        .arg("1")
         .arg("--passphrase-from-stdin")
         .arg("data/data.txt")
         .write_stdin("password")
@@ -94,6 +155,10 @@ fn validate_work_parameter_ranges_for_encrypt_command() {
         .arg("enc")
         .arg("--log-n")
         .arg("41")
+        .arg("-r")
+        .arg("8")
+        .arg("-p")
+        .arg("1")
         .arg("--passphrase-from-stdin")
         .arg("data/data.txt")
         .write_stdin("password")
@@ -104,8 +169,12 @@ fn validate_work_parameter_ranges_for_encrypt_command() {
         ));
     command()
         .arg("enc")
+        .arg("--log-n")
+        .arg("10")
         .arg("-r")
         .arg("0")
+        .arg("-p")
+        .arg("1")
         .arg("--passphrase-from-stdin")
         .arg("data/data.txt")
         .write_stdin("password")
@@ -116,8 +185,12 @@ fn validate_work_parameter_ranges_for_encrypt_command() {
         ));
     command()
         .arg("enc")
+        .arg("--log-n")
+        .arg("10")
         .arg("-r")
         .arg("33")
+        .arg("-p")
+        .arg("1")
         .arg("--passphrase-from-stdin")
         .arg("data/data.txt")
         .write_stdin("password")
@@ -128,6 +201,10 @@ fn validate_work_parameter_ranges_for_encrypt_command() {
         ));
     command()
         .arg("enc")
+        .arg("--log-n")
+        .arg("10")
+        .arg("-r")
+        .arg("8")
         .arg("-p")
         .arg("0")
         .arg("--passphrase-from-stdin")
@@ -140,6 +217,10 @@ fn validate_work_parameter_ranges_for_encrypt_command() {
         ));
     command()
         .arg("enc")
+        .arg("--log-n")
+        .arg("10")
+        .arg("-r")
+        .arg("8")
         .arg("-p")
         .arg("33")
         .arg("--passphrase-from-stdin")
@@ -158,13 +239,17 @@ fn validate_conflicts_if_reading_from_stdin_for_encrypt_command() {
         .arg("enc")
         .arg("--log-n")
         .arg("10")
+        .arg("-r")
+        .arg("8")
+        .arg("-p")
+        .arg("1")
         .arg("--passphrase-from-stdin")
         .arg("-")
         .write_stdin("password")
         .assert()
         .failure()
         .stderr(predicate::str::ends_with(
-            "cannot read both passphrase and input data from stdin\n",
+            "cannot read both password and input data from stdin\n",
         ));
 }
 
@@ -206,7 +291,7 @@ fn validate_conflicts_if_reading_from_stdin_for_decrypt_command() {
         .assert()
         .failure()
         .stderr(predicate::str::ends_with(
-            "cannot read both passphrase and input data from stdin\n",
+            "cannot read both password and input data from stdin\n",
         ));
 }
 
@@ -220,4 +305,74 @@ fn basic_information() {
         .stderr(predicate::str::starts_with(
             "Parameters used: N = 1024; r = 8; p = 1;",
         ));
+}
+
+#[cfg(not(any(feature = "cbor", feature = "json", feature = "toml", feature = "yaml")))]
+#[test]
+fn info_command_without_default_feature() {
+    command()
+        .arg("info")
+        .arg("-f")
+        .arg("cbor")
+        .arg("data/data.txt.enc")
+        .assert()
+        .failure()
+        .code(2);
+}
+
+#[cfg(feature = "cbor")]
+#[test]
+fn information_as_cbor() {
+    command()
+        .arg("info")
+        .arg("-f")
+        .arg("cbor")
+        .arg("data/data.txt.enc")
+        .assert()
+        .success()
+        .stdout(predicate::eq(
+            [
+                0xa3, 0x61, 0x4e, 0x19, 0x04, 0x00, 0x61, 0x72, 0x08, 0x61, 0x70, 0x01,
+            ]
+            .as_slice(),
+        ));
+}
+
+#[cfg(feature = "json")]
+#[test]
+fn information_as_json() {
+    command()
+        .arg("info")
+        .arg("-f")
+        .arg("json")
+        .arg("data/data.txt.enc")
+        .assert()
+        .success()
+        .stdout(predicate::eq(concat!(r#"{"N":1024,"r":8,"p":1}"#, '\n')));
+}
+
+#[cfg(feature = "toml")]
+#[test]
+fn information_as_toml() {
+    command()
+        .arg("info")
+        .arg("-f")
+        .arg("toml")
+        .arg("data/data.txt.enc")
+        .assert()
+        .success()
+        .stdout(predicate::eq("N = 1024\nr = 8\np = 1\n"));
+}
+
+#[cfg(feature = "yaml")]
+#[test]
+fn information_as_yaml() {
+    command()
+        .arg("info")
+        .arg("-f")
+        .arg("yaml")
+        .arg("data/data.txt.enc")
+        .assert()
+        .success()
+        .stdout(predicate::eq("N: 1024\nr: 8\np: 1\n"));
 }

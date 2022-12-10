@@ -7,47 +7,59 @@
 use std::{
     env,
     ffi::OsStr,
-    fs,
-    io::{self, Read},
+    fs::File,
+    io::{self, BufRead, BufReader},
     path::Path,
 };
 
 use anyhow::Context;
 use dialoguer::{theme::ColorfulTheme, Password};
 
-/// Reads the passphrase from /dev/tty.
-pub fn read_passphrase_from_tty() -> anyhow::Result<String> {
+use crate::utils;
+
+/// Reads the password from /dev/tty.
+pub fn read_password_from_tty() -> anyhow::Result<String> {
     Password::with_theme(&ColorfulTheme::default())
         .with_prompt("Enter password")
         .with_confirmation("Confirm password", "Passwords mismatch, try again")
+        .allow_empty_password(true)
         .interact()
         .context("could not read password")
 }
 
-/// Reads the passphrase from stdin.
-pub fn read_passphrase_from_stdin() -> anyhow::Result<String> {
+/// Reads the password from stdin.
+pub fn read_password_from_stdin() -> anyhow::Result<String> {
     let mut buf = String::new();
     io::stdin()
-        .read_to_string(&mut buf)
+        .read_line(&mut buf)
         .context("could not read password from stdin")?;
-    Ok(buf)
+    let password = utils::remove_newline(&buf);
+    Ok(password)
 }
 
-/// Reads the passphrase from /dev/tty only once.
-pub fn read_passphrase_from_tty_once() -> anyhow::Result<String> {
+/// Reads the password from /dev/tty only once.
+pub fn read_password_from_tty_once() -> anyhow::Result<String> {
     Password::with_theme(&ColorfulTheme::default())
         .with_prompt("Enter password")
+        .allow_empty_password(true)
         .interact()
         .context("could not read password")
 }
 
-/// Reads the passphrase from the environment variable.
-pub fn read_passphrase_from_env(key: &OsStr) -> anyhow::Result<String> {
+/// Reads the password from the environment variable.
+pub fn read_password_from_env(key: &OsStr) -> anyhow::Result<String> {
     env::var(key).context("could not read password from environment variable")
 }
 
-/// Reads the passphrase from the file.
-pub fn read_passphrase_from_file(path: &Path) -> anyhow::Result<String> {
-    fs::read_to_string(path)
-        .with_context(|| format!("could not read password from {}", path.display()))
+/// Reads the password from the file.
+pub fn read_password_from_file(path: &Path) -> anyhow::Result<String> {
+    let file = File::open(path).with_context(|| format!("could not open {}", path.display()))?;
+    let mut reader = BufReader::new(file);
+
+    let mut buf = String::new();
+    reader
+        .read_line(&mut buf)
+        .with_context(|| format!("could not read password from {}", path.display()))?;
+    let password = utils::remove_newline(&buf);
+    Ok(password)
 }

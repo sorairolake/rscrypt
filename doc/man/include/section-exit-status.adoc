@@ -26,6 +26,14 @@
 
   The version was the unrecognized scrypt version number.
 
+*9*::
+
+  Decrypting files takes too much memory.
+
+*10*::
+
+  Decrypting files takes too much CPU time.
+
 *11*::
 
   Password is incorrect.
@@ -33,6 +41,10 @@
 *14*::
 
   The scrypt parameters were invalid.
+
+*15*::
+
+  Decrypting files takes too much resources.
 
 *66*::
 
