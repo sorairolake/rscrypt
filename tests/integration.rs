@@ -258,6 +258,19 @@ fn basic_information() {
         ));
 }
 
+#[cfg(not(any(feature = "cbor", feature = "json", feature = "toml", feature = "yaml")))]
+#[test]
+fn info_command_without_default_feature() {
+    command()
+        .arg("info")
+        .arg("-f")
+        .arg("cbor")
+        .arg("data/data.txt.enc")
+        .assert()
+        .failure()
+        .code(2);
+}
+
 #[cfg(feature = "cbor")]
 #[test]
 fn information_as_cbor() {
