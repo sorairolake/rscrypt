@@ -297,11 +297,10 @@ impl FromStr for Byte {
     type Err = anyhow::Error;
 
     fn from_str(bytes: &str) -> anyhow::Result<Self> {
-        let bytes = byte_unit::Byte::from_str(bytes)?;
-        if bytes.get_bytes() > u128::from(u64::MAX) {
-            Err(anyhow!("maximum amount of RAM should be 16 EiB or less"))
-        } else {
-            Ok(Self(bytes))
+        match byte_unit::Byte::from_str(bytes) {
+            Ok(b) if b.get_bytes() <= u128::from(u64::MAX) => Ok(Self(b)),
+            Err(err) => Err(anyhow!("amount of RAM is not a valid value: {err}")),
+            _ => Err(anyhow!("amount of RAM is more than 16 EiB")),
         }
     }
 }
@@ -321,15 +320,11 @@ impl FromStr for Rate {
     type Err = anyhow::Error;
 
     fn from_str(rate: &str) -> anyhow::Result<Self> {
-        let rate = Fraction::from_str(rate)?;
-        match rate {
-            r if (Fraction::new(1_u64, u64::MAX)..=Fraction::new(1_u64, 2_u64)).contains(&r) => {
-                Ok(Self(r))
-            }
-            r if r == Fraction::zero() => Err(anyhow!(
-                "fraction of the available RAM should be greater than 0.0"
-            )),
-            r => Err(anyhow!("{r} is not in 0.0..=0.5")),
+        match Fraction::from_str(rate) {
+            Ok(r) if r == Fraction::zero() => Err(anyhow!("fraction is 0")),
+            Ok(r) if r > Fraction::from(0.5) => Err(anyhow!("fraction is more than 0.5")),
+            Err(err) => Err(anyhow!("fraction is not a valid number: {err}")),
+            Ok(r) => Ok(Self(r)),
         }
     }
 }
@@ -349,15 +344,13 @@ impl FromStr for Time {
     type Err = anyhow::Error;
 
     fn from_str(seconds: &str) -> anyhow::Result<Self> {
-        let secs = f64::from_str(seconds)?;
-        if secs.is_sign_negative() {
-            Err(anyhow!("time is negative"))
-        } else if secs >= Duration::MAX.as_secs_f64() {
-            Err(anyhow!("time is too big"))
-        } else if !secs.is_finite() {
-            Err(anyhow!("time is not finite"))
-        } else {
-            Ok(Self(Duration::from_secs_f64(secs)))
+        match f64::from_str(seconds) {
+            Ok(s) if s.is_nan() => Err(anyhow!("time is NaN")),
+            Ok(s) if s.is_sign_negative() => Err(anyhow!("time is negative")),
+            Ok(s) if s.is_infinite() => Err(anyhow!("time is infinite")),
+            Ok(s) if s >= Duration::MAX.as_secs_f64() => Err(anyhow!("time is too big")),
+            Err(err) => Err(anyhow!("time is not a valid number: {err}")),
+            Ok(s) => Ok(Self(Duration::from_secs_f64(s))),
         }
     }
 }

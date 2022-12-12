@@ -64,7 +64,7 @@ fn basic_encrypt() {
 }
 
 #[test]
-fn encrypt_verbose() {
+fn invalid_amount_of_ram_for_encrypt_command() {
     command()
         .arg("enc")
         .arg("--log-n")
@@ -73,15 +73,163 @@ fn encrypt_verbose() {
         .arg("8")
         .arg("-p")
         .arg("1")
+        .arg("-M")
+        .arg("BYTES")
         .arg("--passphrase-from-stdin")
-        .arg("-v")
         .arg("data/data.txt")
         .write_stdin("password")
         .assert()
-        .success()
-        .stderr(predicate::str::starts_with(
-            "Parameters used: N = 1024; r = 8; p = 1;",
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains(
+            "amount of RAM is not a valid value",
         ));
+    command()
+        .arg("enc")
+        .arg("--log-n")
+        .arg("10")
+        .arg("-r")
+        .arg("8")
+        .arg("-p")
+        .arg("1")
+        .arg("-M")
+        .arg("18446744073709551616")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains(
+            "amount of RAM is more than 16 EiB",
+        ));
+}
+
+#[test]
+fn invalid_fraction_of_the_available_ram_for_encrypt_command() {
+    command()
+        .arg("enc")
+        .arg("--log-n")
+        .arg("10")
+        .arg("-r")
+        .arg("8")
+        .arg("-p")
+        .arg("1")
+        .arg("-m")
+        .arg("0")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains("fraction is 0"));
+    command()
+        .arg("enc")
+        .arg("--log-n")
+        .arg("10")
+        .arg("-r")
+        .arg("8")
+        .arg("-p")
+        .arg("1")
+        .arg("-m")
+        .arg("0.51")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains("fraction is more than 0.5"));
+    command()
+        .arg("enc")
+        .arg("--log-n")
+        .arg("10")
+        .arg("-r")
+        .arg("8")
+        .arg("-p")
+        .arg("1")
+        .arg("-m")
+        .arg("RATE")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains("fraction is not a valid number"));
+}
+
+#[test]
+fn invalid_time_for_encrypt_command() {
+    command()
+        .arg("enc")
+        .arg("--log-n")
+        .arg("10")
+        .arg("-r")
+        .arg("8")
+        .arg("-p")
+        .arg("1")
+        .arg("-t")
+        .arg("NaN")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains("time is NaN"));
+    command()
+        .arg("enc")
+        .arg("--log-n")
+        .arg("10")
+        .arg("-r")
+        .arg("8")
+        .arg("-p")
+        .arg("1")
+        .arg("-t")
+        .arg("inf")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains("time is infinite"));
+    command()
+        .arg("enc")
+        .arg("--log-n")
+        .arg("10")
+        .arg("-r")
+        .arg("8")
+        .arg("-p")
+        .arg("1")
+        .arg("-t")
+        .arg("18446744073709552000")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains("time is too big"));
+    command()
+        .arg("enc")
+        .arg("--log-n")
+        .arg("10")
+        .arg("-r")
+        .arg("8")
+        .arg("-p")
+        .arg("1")
+        .arg("-t")
+        .arg("SECONDS")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains("time is not a valid number"));
 }
 
 #[test]
@@ -254,6 +402,27 @@ fn validate_conflicts_if_reading_from_stdin_for_encrypt_command() {
 }
 
 #[test]
+fn encrypt_verbose() {
+    command()
+        .arg("enc")
+        .arg("--log-n")
+        .arg("10")
+        .arg("-r")
+        .arg("8")
+        .arg("-p")
+        .arg("1")
+        .arg("--passphrase-from-stdin")
+        .arg("-v")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .success()
+        .stderr(predicate::str::starts_with(
+            "Parameters used: N = 1024; r = 8; p = 1;",
+        ));
+}
+
+#[test]
 fn basic_decrypt() {
     command()
         .arg("dec")
@@ -263,6 +432,136 @@ fn basic_decrypt() {
         .assert()
         .success()
         .stdout(predicate::eq("Hello, world!\n"));
+}
+
+#[test]
+fn invalid_amount_of_ram_for_decrypt_command() {
+    command()
+        .arg("dec")
+        .arg("-M")
+        .arg("BYTES")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains(
+            "amount of RAM is not a valid value",
+        ));
+    command()
+        .arg("dec")
+        .arg("-M")
+        .arg("18446744073709551616")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains(
+            "amount of RAM is more than 16 EiB",
+        ));
+}
+
+#[test]
+fn invalid_fraction_of_the_available_ram_for_decrypt_command() {
+    command()
+        .arg("dec")
+        .arg("-m")
+        .arg("0")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains("fraction is 0"));
+    command()
+        .arg("dec")
+        .arg("-m")
+        .arg("0.51")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains("fraction is more than 0.5"));
+    command()
+        .arg("dec")
+        .arg("-m")
+        .arg("RATE")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains("fraction is not a valid number"));
+}
+
+#[test]
+fn invalid_time_for_decrypt_command() {
+    command()
+        .arg("dec")
+        .arg("-t")
+        .arg("NaN")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains("time is NaN"));
+    command()
+        .arg("dec")
+        .arg("-t")
+        .arg("inf")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains("time is infinite"));
+    command()
+        .arg("dec")
+        .arg("1")
+        .arg("-t")
+        .arg("18446744073709552000")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains("time is too big"));
+    command()
+        .arg("dec")
+        .arg("-t")
+        .arg("SECONDS")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains("time is not a valid number"));
+}
+
+#[test]
+fn validate_conflicts_if_reading_from_stdin_for_decrypt_command() {
+    command()
+        .arg("dec")
+        .arg("--passphrase-from-stdin")
+        .arg("-")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .stderr(predicate::str::ends_with(
+            "cannot read both password and input data from stdin\n",
+        ));
 }
 
 #[test]
@@ -278,20 +577,6 @@ fn decrypt_verbose() {
         .stdout(predicate::eq("Hello, world!\n"))
         .stderr(predicate::str::starts_with(
             "Parameters used: N = 1024; r = 8; p = 1;",
-        ));
-}
-
-#[test]
-fn validate_conflicts_if_reading_from_stdin_for_decrypt_command() {
-    command()
-        .arg("dec")
-        .arg("--passphrase-from-stdin")
-        .arg("-")
-        .write_stdin("password")
-        .assert()
-        .failure()
-        .stderr(predicate::str::ends_with(
-            "cannot read both password and input data from stdin\n",
         ));
 }
 
