@@ -6,7 +6,7 @@
 
 = rscrypt-dec(1)
 // Specify in UTC.
-:docdate: 2022-12-01
+:docdate: 2022-12-15
 :doctype: manpage
 ifdef::revnumber[:mansource: rscrypt {revnumber}]
 :manmanual: General Commands Manual
@@ -46,13 +46,16 @@ _OUTFILE_::
 *-M*, *--max-memory* _BYTES_::
 
   Use at most the specified bytes of RAM to compute the derived key.
-  _BYTES_ should be 16 EiB or less.
+  _BYTES_ can also be provided as bytes with the unit symbol (such as MiB and
+  GB).
+  It should be between 1 MiB and 16 EiB.
 
 *-m*, *--max-memory-fraction* _RATE_::
 
   Use at most the specified fraction of the available RAM to compute the
   derived key.
-  _RATE_ should be greater than 0.0 and less than or equal to *0.5*.
+  _RATE_ can be provided as a decimal or a fraction.
+  It should be greater than 0 and less than or equal to *0.5*.
   Default is 0.5.
 
 *-t*, *--max-time* _SECONDS_::
