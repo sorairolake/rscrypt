@@ -560,7 +560,13 @@ fn basic_information() {
         ));
 }
 
-#[cfg(not(any(feature = "cbor", feature = "json", feature = "toml", feature = "yaml")))]
+#[cfg(not(any(
+    feature = "cbor",
+    feature = "json",
+    feature = "msgpack",
+    feature = "toml",
+    feature = "yaml"
+)))]
 #[test]
 fn info_command_without_default_feature() {
     command()
@@ -602,6 +608,24 @@ fn information_as_json() {
         .assert()
         .success()
         .stdout(predicate::eq(concat!(r#"{"N":1024,"r":8,"p":1}"#, '\n')));
+}
+
+#[cfg(feature = "msgpack")]
+#[test]
+fn information_as_msgpack() {
+    command()
+        .arg("info")
+        .arg("-f")
+        .arg("msgpack")
+        .arg("data/data.txt.enc")
+        .assert()
+        .success()
+        .stdout(predicate::eq(
+            [
+                0x83, 0xa1, 0x4e, 0xcd, 0x04, 0x00, 0xa1, 0x72, 0x08, 0xa1, 0x70, 0x01,
+            ]
+            .as_slice(),
+        ));
 }
 
 #[cfg(feature = "toml")]

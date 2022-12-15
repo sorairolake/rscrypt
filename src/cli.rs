@@ -260,7 +260,13 @@ pub struct Decrypt {
 #[derive(Args, Debug)]
 pub struct Information {
     /// Output format.
-    #[cfg(any(feature = "cbor", feature = "json", feature = "toml", feature = "yaml"))]
+    #[cfg(any(
+        feature = "cbor",
+        feature = "json",
+        feature = "msgpack",
+        feature = "toml",
+        feature = "yaml"
+    ))]
     #[arg(short, long, value_enum, value_name("FORMAT"), ignore_case(true))]
     pub format: Option<Format>,
 
@@ -361,7 +367,13 @@ impl FromStr for Time {
     }
 }
 
-#[cfg(any(feature = "cbor", feature = "json", feature = "toml", feature = "yaml"))]
+#[cfg(any(
+    feature = "cbor",
+    feature = "json",
+    feature = "msgpack",
+    feature = "toml",
+    feature = "yaml"
+))]
 #[derive(Clone, Copy, Debug, clap::ValueEnum)]
 pub enum Format {
     /// CBOR.
@@ -371,6 +383,11 @@ pub enum Format {
     /// JSON.
     #[cfg(feature = "json")]
     Json,
+
+    /// MessagePack.
+    #[cfg(feature = "msgpack")]
+    #[value(name("msgpack"))]
+    MessagePack,
 
     /// TOML.
     #[cfg(feature = "toml")]

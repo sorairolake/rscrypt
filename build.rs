@@ -27,6 +27,8 @@ fn generate_man_page(out_dir: impl AsRef<Path>) -> io::Result<ExitStatus> {
     command.args(["-a", "cbor"]);
     #[cfg(feature = "json")]
     command.args(["-a", "json"]);
+    #[cfg(feature = "msgpack")]
+    command.args(["-a", "msgpack"]);
     #[cfg(feature = "toml")]
     command.args(["-a", "toml"]);
     #[cfg(feature = "yaml")]

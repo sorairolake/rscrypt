@@ -164,7 +164,13 @@ pub fn run() -> anyhow::Result<()> {
                 let input = input::read(&arg.input)?;
 
                 let params = params::get(&input, &arg.input)?;
-                #[cfg(any(feature = "cbor", feature = "json", feature = "toml", feature = "yaml"))]
+                #[cfg(any(
+                    feature = "cbor",
+                    feature = "json",
+                    feature = "msgpack",
+                    feature = "toml",
+                    feature = "yaml"
+                ))]
                 if let Some(format) = arg.format {
                     let params = params::Params::new(&params);
                     let output = params
@@ -181,6 +187,7 @@ pub fn run() -> anyhow::Result<()> {
                 #[cfg(not(any(
                     feature = "cbor",
                     feature = "json",
+                    feature = "msgpack",
                     feature = "toml",
                     feature = "yaml"
                 )))]

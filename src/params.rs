@@ -238,7 +238,13 @@ pub fn check(
 }
 
 /// The scrypt parameters used for the encrypted data.
-#[cfg(any(feature = "cbor", feature = "json", feature = "toml", feature = "yaml"))]
+#[cfg(any(
+    feature = "cbor",
+    feature = "json",
+    feature = "msgpack",
+    feature = "toml",
+    feature = "yaml"
+))]
 #[derive(Clone, Copy, Debug, serde::Serialize)]
 pub struct Params {
     #[serde(rename = "N")]
@@ -247,7 +253,13 @@ pub struct Params {
     p: u32,
 }
 
-#[cfg(any(feature = "cbor", feature = "json", feature = "toml", feature = "yaml"))]
+#[cfg(any(
+    feature = "cbor",
+    feature = "json",
+    feature = "msgpack",
+    feature = "toml",
+    feature = "yaml"
+))]
 impl Params {
     /// Creates a new `Params`.
     pub fn new(params: &scryptenc::Params) -> Self {
@@ -271,6 +283,10 @@ impl Params {
             #[cfg(feature = "json")]
             crate::cli::Format::Json => {
                 serde_json::to_vec(&self).context("could not serialize as JSON")
+            }
+            #[cfg(feature = "msgpack")]
+            crate::cli::Format::MessagePack => {
+                rmp_serde::to_vec_named(&self).context("could not serialize as MessagePack")
             }
             #[cfg(feature = "toml")]
             crate::cli::Format::Toml => {
