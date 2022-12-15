@@ -7,6 +7,7 @@
 use std::{ffi::OsString, io, path::PathBuf, str::FromStr, time::Duration};
 
 use anyhow::anyhow;
+use byte_unit::{n_eib_bytes, n_mib_bytes};
 use clap::{value_parser, ArgGroup, Args, CommandFactory, Parser, Subcommand, ValueHint};
 use clap_complete::{Generator, Shell};
 use fraction::{Fraction, Zero};
@@ -298,9 +299,14 @@ impl FromStr for Byte {
 
     fn from_str(bytes: &str) -> anyhow::Result<Self> {
         match byte_unit::Byte::from_str(bytes) {
-            Ok(b) if b.get_bytes() <= u128::from(u64::MAX) => Ok(Self(b)),
+            Ok(b) if b.get_bytes() < n_mib_bytes!(1) => {
+                Err(anyhow!("amount of RAM is less than 1 MiB"))
+            }
+            Ok(b) if b.get_bytes() > n_eib_bytes!(16) => {
+                Err(anyhow!("amount of RAM is more than 16 EiB"))
+            }
             Err(err) => Err(anyhow!("amount of RAM is not a valid value: {err}")),
-            _ => Err(anyhow!("amount of RAM is more than 16 EiB")),
+            Ok(b) => Ok(Self(b)),
         }
     }
 }
