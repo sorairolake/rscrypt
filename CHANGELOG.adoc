@@ -21,6 +21,7 @@ toc::[]
 === Changed
 
 * Change the minimum value of `--max-memory` to 1 MiB
+* Change value of `--max-time` to be human-friendly
 
 === Fixed
 

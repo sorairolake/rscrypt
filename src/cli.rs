@@ -81,13 +81,13 @@ pub struct Encrypt {
     )]
     pub max_memory_fraction: Rate,
 
-    /// Use at most the specified seconds of CPU time to compute the derived
+    /// Use at most the specified duration of CPU time to compute the derived
     /// key.
     #[arg(
         short('t'),
         long,
-        default_value("5"),
-        value_name("SECONDS"),
+        default_value("5s"),
+        value_name("DURATION"),
         group("resources")
     )]
     pub max_time: Time,
@@ -201,13 +201,13 @@ pub struct Decrypt {
     )]
     pub max_memory_fraction: Rate,
 
-    /// Use at most the specified seconds of CPU time to compute the derived
+    /// Use at most the specified duration of CPU time to compute the derived
     /// key.
     #[arg(
         short('t'),
         long,
-        default_value("300"),
-        value_name("SECONDS"),
+        default_value("300s"),
+        value_name("DURATION"),
         group("resources")
     )]
     pub max_time: Time,
@@ -355,14 +355,10 @@ impl Time {
 impl FromStr for Time {
     type Err = anyhow::Error;
 
-    fn from_str(seconds: &str) -> anyhow::Result<Self> {
-        match f64::from_str(seconds) {
-            Ok(s) if s.is_nan() => Err(anyhow!("time is NaN")),
-            Ok(s) if s.is_sign_negative() => Err(anyhow!("time is negative")),
-            Ok(s) if s.is_infinite() => Err(anyhow!("time is infinite")),
-            Ok(s) if s >= Duration::MAX.as_secs_f64() => Err(anyhow!("time is too big")),
-            Err(err) => Err(anyhow!("time is not a valid number: {err}")),
-            Ok(s) => Ok(Self(Duration::from_secs_f64(s))),
+    fn from_str(duration: &str) -> anyhow::Result<Self> {
+        match humantime::Duration::from_str(duration) {
+            Ok(d) => Ok(Self(*d)),
+            Err(err) => Err(anyhow!("time is not a valid value: {err}")),
         }
     }
 }

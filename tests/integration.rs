@@ -64,11 +64,28 @@ fn basic_encrypt() {
 }
 
 #[test]
+fn encrypt_with_max_memory() {
+    command()
+        .arg("enc")
+        .arg("-M")
+        .arg("64MiB")
+        .arg("-t")
+        .arg("1s")
+        .arg("--passphrase-from-stdin")
+        .arg("-v")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .success()
+        .stderr(predicate::str::contains("available 64.00 MiB"));
+}
+
+#[test]
 fn invalid_amount_of_ram_for_encrypt_command() {
     command()
         .arg("enc")
         .arg("-M")
-        .arg("1023.99 KiB")
+        .arg("1023.99KiB")
         .arg("--passphrase-from-stdin")
         .arg("data/data.txt")
         .write_stdin("password")
@@ -79,7 +96,7 @@ fn invalid_amount_of_ram_for_encrypt_command() {
     command()
         .arg("enc")
         .arg("-M")
-        .arg("16.01 EiB")
+        .arg("16.01EiB")
         .arg("--passphrase-from-stdin")
         .arg("data/data.txt")
         .write_stdin("password")
@@ -142,6 +159,21 @@ fn invalid_fraction_of_the_available_ram_for_encrypt_command() {
 }
 
 #[test]
+fn encrypt_with_max_time() {
+    command()
+        .arg("enc")
+        .arg("-t")
+        .arg("1s")
+        .arg("--passphrase-from-stdin")
+        .arg("-v")
+        .arg("data/data.txt")
+        .write_stdin("password")
+        .assert()
+        .success()
+        .stderr(predicate::str::contains("limit: 1.00s"));
+}
+
+#[test]
 fn invalid_time_for_encrypt_command() {
     command()
         .arg("enc")
@@ -153,40 +185,48 @@ fn invalid_time_for_encrypt_command() {
         .assert()
         .failure()
         .code(2)
-        .stderr(predicate::str::contains("time is NaN"));
+        .stderr(predicate::str::contains(
+            "time is not a valid value: expected number at 0",
+        ));
     command()
         .arg("enc")
         .arg("-t")
-        .arg("inf")
+        .arg("1")
         .arg("--passphrase-from-stdin")
         .arg("data/data.txt")
         .write_stdin("password")
         .assert()
         .failure()
         .code(2)
-        .stderr(predicate::str::contains("time is infinite"));
+        .stderr(predicate::str::contains(
+            "time is not a valid value: time unit needed",
+        ));
     command()
         .arg("enc")
         .arg("-t")
-        .arg("18446744073709552000")
+        .arg("1a")
         .arg("--passphrase-from-stdin")
         .arg("data/data.txt")
         .write_stdin("password")
         .assert()
         .failure()
         .code(2)
-        .stderr(predicate::str::contains("time is too big"));
+        .stderr(predicate::str::contains(
+            r#"time is not a valid value: unknown time unit "a""#,
+        ));
     command()
         .arg("enc")
         .arg("-t")
-        .arg("SECONDS")
+        .arg("10000000000000y")
         .arg("--passphrase-from-stdin")
         .arg("data/data.txt")
         .write_stdin("password")
         .assert()
         .failure()
         .code(2)
-        .stderr(predicate::str::contains("time is not a valid number"));
+        .stderr(predicate::str::contains(
+            "time is not a valid value: number is too large",
+        ));
 }
 
 #[test]
@@ -392,11 +432,26 @@ fn basic_decrypt() {
 }
 
 #[test]
+fn decrypt_with_max_memory() {
+    command()
+        .arg("dec")
+        .arg("-M")
+        .arg("64MiB")
+        .arg("--passphrase-from-stdin")
+        .arg("-v")
+        .arg("data/data.txt.enc")
+        .write_stdin("password")
+        .assert()
+        .success()
+        .stderr(predicate::str::contains("available 64.00 MiB"));
+}
+
+#[test]
 fn invalid_amount_of_ram_for_decrypt_command() {
     command()
         .arg("dec")
         .arg("-M")
-        .arg("1023.99 KiB")
+        .arg("1023.99KiB")
         .arg("--passphrase-from-stdin")
         .arg("data/data.txt.enc")
         .write_stdin("password")
@@ -407,7 +462,7 @@ fn invalid_amount_of_ram_for_decrypt_command() {
     command()
         .arg("dec")
         .arg("-M")
-        .arg("16.01 EiB")
+        .arg("16.01EiB")
         .arg("--passphrase-from-stdin")
         .arg("data/data.txt.enc")
         .write_stdin("password")
@@ -470,6 +525,21 @@ fn invalid_fraction_of_the_available_ram_for_decrypt_command() {
 }
 
 #[test]
+fn decrypt_with_max_time() {
+    command()
+        .arg("dec")
+        .arg("-t")
+        .arg("3600s")
+        .arg("--passphrase-from-stdin")
+        .arg("-v")
+        .arg("data/data.txt.enc")
+        .write_stdin("password")
+        .assert()
+        .success()
+        .stderr(predicate::str::contains("limit: 3600.00s"));
+}
+
+#[test]
 fn invalid_time_for_decrypt_command() {
     command()
         .arg("dec")
@@ -481,41 +551,48 @@ fn invalid_time_for_decrypt_command() {
         .assert()
         .failure()
         .code(2)
-        .stderr(predicate::str::contains("time is NaN"));
+        .stderr(predicate::str::contains(
+            "time is not a valid value: expected number at 0",
+        ));
     command()
         .arg("dec")
         .arg("-t")
-        .arg("inf")
-        .arg("--passphrase-from-stdin")
-        .arg("data/data.txt.enc")
-        .write_stdin("password")
-        .assert()
-        .failure()
-        .code(2)
-        .stderr(predicate::str::contains("time is infinite"));
-    command()
-        .arg("dec")
         .arg("1")
-        .arg("-t")
-        .arg("18446744073709552000")
         .arg("--passphrase-from-stdin")
         .arg("data/data.txt.enc")
         .write_stdin("password")
         .assert()
         .failure()
         .code(2)
-        .stderr(predicate::str::contains("time is too big"));
+        .stderr(predicate::str::contains(
+            "time is not a valid value: time unit needed",
+        ));
     command()
         .arg("dec")
         .arg("-t")
-        .arg("SECONDS")
+        .arg("1a")
         .arg("--passphrase-from-stdin")
         .arg("data/data.txt.enc")
         .write_stdin("password")
         .assert()
         .failure()
         .code(2)
-        .stderr(predicate::str::contains("time is not a valid number"));
+        .stderr(predicate::str::contains(
+            r#"time is not a valid value: unknown time unit "a""#,
+        ));
+    command()
+        .arg("dec")
+        .arg("-t")
+        .arg("10000000000000y")
+        .arg("--passphrase-from-stdin")
+        .arg("data/data.txt.enc")
+        .write_stdin("password")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains(
+            "time is not a valid value: number is too large",
+        ));
 }
 
 #[test]

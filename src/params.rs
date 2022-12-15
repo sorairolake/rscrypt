@@ -32,15 +32,15 @@ static OPERATIONS_PER_SECOND: Lazy<u64> = Lazy::new(get_scrypt_performance);
 pub enum Error {
     /// Decrypting files takes too much memory.
     #[error("decrypting files takes too much memory")]
-    Big,
+    Memory,
 
     /// Decrypting files takes too much CPU time.
     #[error("decrypting files takes too much CPU time")]
-    Slow,
+    CpuTime,
 
     /// Decrypting files takes too much resources.
     #[error("decrypting files takes too much resources")]
-    BigSlow,
+    Resources,
 }
 
 /// Gets the encryption parameters.
@@ -230,9 +230,9 @@ pub fn check(
         (mem_limit / n) / u64::from(r) < 128,
         ((ops_limit / u128::from(n)) / u128::from(r)) / u128::from(p) < 4,
     ) {
-        (true, true) => Err(Error::BigSlow),
-        (true, false) => Err(Error::Big),
-        (false, true) => Err(Error::Slow),
+        (true, true) => Err(Error::Resources),
+        (true, false) => Err(Error::Memory),
+        (false, true) => Err(Error::CpuTime),
         _ => Ok(()),
     }
 }
