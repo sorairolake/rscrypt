@@ -4,9 +4,10 @@
 // Copyright (C) 2022 Shun Sakai
 //
 
-use std::{ffi::OsString, io, path::PathBuf, str::FromStr, time::Duration};
+use std::{ffi::OsString, fmt, io, ops::Deref, path::PathBuf, str::FromStr, time::Duration};
 
 use anyhow::anyhow;
+use byte_unit::{n_eib_bytes, n_mib_bytes};
 use clap::{value_parser, ArgGroup, Args, CommandFactory, Parser, Subcommand, ValueHint};
 use clap_complete::{Generator, Shell};
 use fraction::{Fraction, Zero};
@@ -80,13 +81,13 @@ pub struct Encrypt {
     )]
     pub max_memory_fraction: Rate,
 
-    /// Use at most the specified seconds of CPU time to compute the derived
+    /// Use at most the specified duration of CPU time to compute the derived
     /// key.
     #[arg(
         short('t'),
         long,
-        default_value("5"),
-        value_name("SECONDS"),
+        default_value("5s"),
+        value_name("DURATION"),
         group("resources")
     )]
     pub max_time: Time,
@@ -200,13 +201,13 @@ pub struct Decrypt {
     )]
     pub max_memory_fraction: Rate,
 
-    /// Use at most the specified seconds of CPU time to compute the derived
+    /// Use at most the specified duration of CPU time to compute the derived
     /// key.
     #[arg(
         short('t'),
         long,
-        default_value("300"),
-        value_name("SECONDS"),
+        default_value("300s"),
+        value_name("DURATION"),
         group("resources")
     )]
     pub max_time: Time,
@@ -259,7 +260,13 @@ pub struct Decrypt {
 #[derive(Args, Debug)]
 pub struct Information {
     /// Output format.
-    #[cfg(any(feature = "cbor", feature = "json", feature = "toml", feature = "yaml"))]
+    #[cfg(any(
+        feature = "cbor",
+        feature = "json",
+        feature = "msgpack",
+        feature = "toml",
+        feature = "yaml"
+    ))]
     #[arg(short, long, value_enum, value_name("FORMAT"), ignore_case(true))]
     pub format: Option<Format>,
 
@@ -286,10 +293,11 @@ impl Opt {
 #[derive(Clone, Copy, Debug)]
 pub struct Byte(byte_unit::Byte);
 
-impl Byte {
-    /// Returns `byte_unit::Byte`.
-    pub const fn as_byte(&self) -> byte_unit::Byte {
-        self.0
+impl Deref for Byte {
+    type Target = byte_unit::Byte;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
     }
 }
 
@@ -297,11 +305,15 @@ impl FromStr for Byte {
     type Err = anyhow::Error;
 
     fn from_str(bytes: &str) -> anyhow::Result<Self> {
-        let bytes = byte_unit::Byte::from_str(bytes)?;
-        if bytes.get_bytes() > u128::from(u64::MAX) {
-            Err(anyhow!("maximum amount of RAM should be 16 EiB or less"))
-        } else {
-            Ok(Self(bytes))
+        match byte_unit::Byte::from_str(bytes) {
+            Ok(b) if b.get_bytes() < n_mib_bytes!(1) => {
+                Err(anyhow!("amount of RAM is less than 1 MiB"))
+            }
+            Ok(b) if b.get_bytes() > n_eib_bytes!(16) => {
+                Err(anyhow!("amount of RAM is more than 16 EiB"))
+            }
+            Err(err) => Err(anyhow!("amount of RAM is not a valid value: {err}")),
+            Ok(b) => Ok(Self(b)),
         }
     }
 }
@@ -310,10 +322,11 @@ impl FromStr for Byte {
 #[derive(Clone, Copy, Debug)]
 pub struct Rate(Fraction);
 
-impl Rate {
-    /// Returns `Fraction`.
-    pub const fn as_fraction(&self) -> Fraction {
-        self.0
+impl Deref for Rate {
+    type Target = Fraction;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
     }
 }
 
@@ -321,48 +334,51 @@ impl FromStr for Rate {
     type Err = anyhow::Error;
 
     fn from_str(rate: &str) -> anyhow::Result<Self> {
-        let rate = Fraction::from_str(rate)?;
-        match rate {
-            r if (Fraction::new(1_u64, u64::MAX)..=Fraction::new(1_u64, 2_u64)).contains(&r) => {
-                Ok(Self(r))
-            }
-            r if r == Fraction::zero() => Err(anyhow!(
-                "fraction of the available RAM should be greater than 0.0"
-            )),
-            r => Err(anyhow!("{r} is not in 0.0..=0.5")),
+        match Fraction::from_str(rate) {
+            Ok(r) if r == Fraction::zero() => Err(anyhow!("fraction is 0")),
+            Ok(r) if r > Fraction::from(0.5) => Err(anyhow!("fraction is more than 0.5")),
+            Err(err) => Err(anyhow!("fraction is not a valid number: {err}")),
+            Ok(r) => Ok(Self(r)),
         }
     }
 }
 
 /// CPU time.
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy)]
 pub struct Time(Duration);
 
-impl Time {
-    /// Returns `Duration`.
-    pub const fn as_duration(&self) -> Duration {
-        self.0
+impl fmt::Debug for Time {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        self.0.fmt(f)
+    }
+}
+
+impl Deref for Time {
+    type Target = Duration;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
     }
 }
 
 impl FromStr for Time {
     type Err = anyhow::Error;
 
-    fn from_str(seconds: &str) -> anyhow::Result<Self> {
-        let secs = f64::from_str(seconds)?;
-        if secs.is_sign_negative() {
-            Err(anyhow!("time is negative"))
-        } else if secs >= Duration::MAX.as_secs_f64() {
-            Err(anyhow!("time is too big"))
-        } else if !secs.is_finite() {
-            Err(anyhow!("time is not finite"))
-        } else {
-            Ok(Self(Duration::from_secs_f64(secs)))
+    fn from_str(duration: &str) -> anyhow::Result<Self> {
+        match humantime::Duration::from_str(duration) {
+            Ok(d) => Ok(Self(*d)),
+            Err(err) => Err(anyhow!("time is not a valid value: {err}")),
         }
     }
 }
 
-#[cfg(any(feature = "cbor", feature = "json", feature = "toml", feature = "yaml"))]
+#[cfg(any(
+    feature = "cbor",
+    feature = "json",
+    feature = "msgpack",
+    feature = "toml",
+    feature = "yaml"
+))]
 #[derive(Clone, Copy, Debug, clap::ValueEnum)]
 pub enum Format {
     /// CBOR.
@@ -372,6 +388,11 @@ pub enum Format {
     /// JSON.
     #[cfg(feature = "json")]
     Json,
+
+    /// MessagePack.
+    #[cfg(feature = "msgpack")]
+    #[value(name("msgpack"))]
+    MessagePack,
 
     /// TOML.
     #[cfg(feature = "toml")]

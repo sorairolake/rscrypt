@@ -62,7 +62,7 @@ jobs:
       if: matrix.os != 'windows-2022'
       run: |
         mkdir -p build
-        asciidoctor -b manpage -a "revnumber=${{ steps.get_version.outputs.version-without-v }}" -a cbor -a json -a toml -a yaml -D build doc/man/man1/*.adoc
+        asciidoctor -b manpage -a "revnumber=${{ steps.get_version.outputs.version-without-v }}" -a cbor -a json -a msgpack -a toml -a yaml -D build doc/man/man1/*.adoc
     - name: Create a package
       shell: bash
       run: |
@@ -73,10 +73,11 @@ jobs:
         fi
         package="rscrypt-${{ steps.get_version.outputs.version }}-${{ matrix.target }}"
 
-        mkdir -p "${package}"/{doc,man}
+        mkdir -p "${package}"/doc
         cp README.md COPYING "${bin}" "${package}"
         cp {AUTHORS,BUILD,CHANGELOG,CONTRIBUTING}.adoc "${package}"/doc
         if [ "${{ matrix.os }}" != "windows-2022" ] ; then
+          mkdir -p "${package}"/man
           cp build/* "${package}"/man
         fi
 

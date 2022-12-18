@@ -43,10 +43,10 @@ enum ExitCode {
     UnknownVersion,
 
     /// Decrypting files takes too much memory.
-    Big,
+    LackOfMemory,
 
     /// Decrypting files takes too much CPU time.
-    Slow,
+    LackOfCpuTime,
 
     /// Password is incorrect.
     InvalidPassword,
@@ -55,7 +55,7 @@ enum ExitCode {
     InvalidParams,
 
     /// Decrypting files takes too much resources.
-    BigSlow,
+    LackOfResources,
 
     /// Error defined by `<sysexits.h>`.
     Other(sysexits::ExitCode),
@@ -74,11 +74,11 @@ impl Termination for ExitCode {
             Self::Failure => process::ExitCode::FAILURE,
             Self::InvalidFormat => process::ExitCode::from(7),
             Self::UnknownVersion => process::ExitCode::from(8),
-            Self::Big => process::ExitCode::from(9),
-            Self::Slow => process::ExitCode::from(10),
+            Self::LackOfMemory => process::ExitCode::from(9),
+            Self::LackOfCpuTime => process::ExitCode::from(10),
             Self::InvalidPassword => process::ExitCode::from(11),
             Self::InvalidParams => process::ExitCode::from(14),
-            Self::BigSlow => process::ExitCode::from(15),
+            Self::LackOfResources => process::ExitCode::from(15),
             Self::Other(code) => process::ExitCode::from(code),
         }
     }
@@ -107,9 +107,9 @@ fn main() -> ExitCode {
                 }
             } else if let Some(e) = err.downcast_ref::<params::Error>() {
                 match e {
-                    params::Error::Big => ExitCode::Big,
-                    params::Error::Slow => ExitCode::Slow,
-                    params::Error::BigSlow => ExitCode::BigSlow,
+                    params::Error::Memory => ExitCode::LackOfMemory,
+                    params::Error::CpuTime => ExitCode::LackOfCpuTime,
+                    params::Error::Resources => ExitCode::LackOfResources,
                 }
             } else {
                 ExitCode::Failure

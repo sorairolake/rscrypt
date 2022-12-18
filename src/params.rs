@@ -32,15 +32,15 @@ static OPERATIONS_PER_SECOND: Lazy<u64> = Lazy::new(get_scrypt_performance);
 pub enum Error {
     /// Decrypting files takes too much memory.
     #[error("decrypting files takes too much memory")]
-    Big,
+    Memory,
 
     /// Decrypting files takes too much CPU time.
     #[error("decrypting files takes too much CPU time")]
-    Slow,
+    CpuTime,
 
     /// Decrypting files takes too much resources.
     #[error("decrypting files takes too much resources")]
-    BigSlow,
+    Resources,
 }
 
 /// Gets the encryption parameters.
@@ -74,9 +74,9 @@ fn display_with_resources(
     log_n: u8,
     r: u32,
     p: u32,
-    max_memory: &Option<Byte>,
-    max_memory_fraction: &Rate,
-    max_time: &Time,
+    max_memory: Option<Byte>,
+    max_memory_fraction: Rate,
+    max_time: Time,
 ) {
     let n = 1 << log_n;
     let mem_limit = byte_unit::Byte::from_bytes(u128::from(get_memory_to_use(
@@ -94,8 +94,7 @@ fn display_with_resources(
     eprintln!(" (available {mem_limit})");
     eprint!(
         "Takes about {:.2?} (limit: {:.2?})",
-        expected_secs,
-        max_time.as_duration()
+        expected_secs, max_time
     );
 }
 
@@ -104,24 +103,24 @@ pub fn displayln_with_resources(
     log_n: u8,
     r: u32,
     p: u32,
-    max_memory: &Option<Byte>,
-    max_memory_fraction: &Rate,
-    max_time: &Time,
+    max_memory: Option<Byte>,
+    max_memory_fraction: Rate,
+    max_time: Time,
 ) {
     display_with_resources(log_n, r, p, max_memory, max_memory_fraction, max_time);
     eprintln!();
 }
 
 /// Returns available memory.
-fn get_memory_to_use(max_memory: &Option<Byte>, max_memory_fraction: &Rate) -> u64 {
+fn get_memory_to_use(max_memory: Option<Byte>, max_memory_fraction: Rate) -> u64 {
     let available_mem = SYSTEM.available_memory();
     let mut mem_limit = (U128Fraction::from(available_mem)
-        * U128Fraction::from_fraction(max_memory_fraction.as_fraction()))
+        * U128Fraction::from_fraction(*max_memory_fraction))
     .floor()
     .to_u128()
     .expect("available memory should be an integer");
 
-    if let Some(max_mem) = max_memory.map(|mem| mem.as_byte().get_bytes()) {
+    if let Some(max_mem) = max_memory.map(|mem| mem.get_bytes()) {
         if max_mem < mem_limit {
             mem_limit = max_mem;
         }
@@ -159,14 +158,10 @@ fn get_scrypt_performance() -> u64 {
 }
 
 /// Creates the encryption parameters from resources.
-pub fn new(
-    max_memory: &Option<Byte>,
-    max_memory_fraction: &Rate,
-    max_time: &Time,
-) -> scrypt::Params {
+pub fn new(max_memory: Option<Byte>, max_memory_fraction: Rate, max_time: Time) -> scrypt::Params {
     let mem_limit = get_memory_to_use(max_memory, max_memory_fraction);
     let ops_limit = match (U128Fraction::from(*OPERATIONS_PER_SECOND)
-        * U128Fraction::from_fraction(Fraction::from(max_time.as_duration().as_secs_f64())))
+        * U128Fraction::from_fraction(Fraction::from(max_time.as_secs_f64())))
     .floor()
     .to_u128()
     {
@@ -211,16 +206,16 @@ pub fn new(
 
 /// Checks the encryption parameters.
 pub fn check(
-    max_memory: &Option<Byte>,
-    max_memory_fraction: &Rate,
-    max_time: &Time,
+    max_memory: Option<Byte>,
+    max_memory_fraction: Rate,
+    max_time: Time,
     log_n: u8,
     r: u32,
     p: u32,
 ) -> Result<(), Error> {
     let mem_limit = get_memory_to_use(max_memory, max_memory_fraction);
     let ops_limit = (U128Fraction::from(*OPERATIONS_PER_SECOND)
-        * U128Fraction::from_fraction(Fraction::from(max_time.as_duration().as_secs_f64())))
+        * U128Fraction::from_fraction(Fraction::from(max_time.as_secs_f64())))
     .floor()
     .to_u128()
     .expect("operation limits should be an integer");
@@ -230,15 +225,21 @@ pub fn check(
         (mem_limit / n) / u64::from(r) < 128,
         ((ops_limit / u128::from(n)) / u128::from(r)) / u128::from(p) < 4,
     ) {
-        (true, true) => Err(Error::BigSlow),
-        (true, false) => Err(Error::Big),
-        (false, true) => Err(Error::Slow),
+        (true, true) => Err(Error::Resources),
+        (true, false) => Err(Error::Memory),
+        (false, true) => Err(Error::CpuTime),
         _ => Ok(()),
     }
 }
 
 /// The scrypt parameters used for the encrypted data.
-#[cfg(any(feature = "cbor", feature = "json", feature = "toml", feature = "yaml"))]
+#[cfg(any(
+    feature = "cbor",
+    feature = "json",
+    feature = "msgpack",
+    feature = "toml",
+    feature = "yaml"
+))]
 #[derive(Clone, Copy, Debug, serde::Serialize)]
 pub struct Params {
     #[serde(rename = "N")]
@@ -247,10 +248,16 @@ pub struct Params {
     p: u32,
 }
 
-#[cfg(any(feature = "cbor", feature = "json", feature = "toml", feature = "yaml"))]
+#[cfg(any(
+    feature = "cbor",
+    feature = "json",
+    feature = "msgpack",
+    feature = "toml",
+    feature = "yaml"
+))]
 impl Params {
     /// Creates a new `Params`.
-    pub fn new(params: &scryptenc::Params) -> Self {
+    pub fn new(params: scryptenc::Params) -> Self {
         Self {
             n: params.n(),
             r: params.r(),
@@ -260,6 +267,9 @@ impl Params {
 
     /// Serializes the given data structure.
     pub fn to_vec(self, format: crate::cli::Format) -> anyhow::Result<Vec<u8>> {
+        #[cfg(any(feature = "toml", feature = "yaml"))]
+        use crate::utils::StringExt;
+
         match format {
             #[cfg(feature = "cbor")]
             crate::cli::Format::Cbor => {
@@ -272,16 +282,23 @@ impl Params {
             crate::cli::Format::Json => {
                 serde_json::to_vec(&self).context("could not serialize as JSON")
             }
+            #[cfg(feature = "msgpack")]
+            crate::cli::Format::MessagePack => {
+                rmp_serde::to_vec_named(&self).context("could not serialize as MessagePack")
+            }
             #[cfg(feature = "toml")]
             crate::cli::Format::Toml => {
-                let toml = toml::to_string(&self).context("could not serialize as TOML")?;
-                let toml = crate::utils::remove_newline(&toml).into_bytes();
+                let mut toml = toml::to_string(&self).context("could not serialize as TOML")?;
+                toml.remove_newline();
+                let toml = toml.into_bytes();
                 Ok(toml)
             }
             #[cfg(feature = "yaml")]
             crate::cli::Format::Yaml => {
-                let yaml = serde_yaml::to_string(&self).context("could not serialize as YAML")?;
-                let yaml = crate::utils::remove_newline(&yaml).into_bytes();
+                let mut yaml =
+                    serde_yaml::to_string(&self).context("could not serialize as YAML")?;
+                yaml.remove_newline();
+                let yaml = yaml.into_bytes();
                 Ok(yaml)
             }
         }

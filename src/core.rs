@@ -56,21 +56,9 @@ pub fn run() -> anyhow::Result<()> {
                 }?;
 
                 let params = if let (Some(log_n), Some(r), Some(p)) = (arg.log_n, arg.r, arg.p) {
-                    let params = scrypt::Params::new(log_n, r, p)
-                        .expect("encryption parameters should be valid");
-                    if !arg.force {
-                        params::check(
-                            &arg.max_memory,
-                            &arg.max_memory_fraction,
-                            &arg.max_time,
-                            params.log_n(),
-                            params.r(),
-                            params.p(),
-                        )?;
-                    }
-                    params
+                    scrypt::Params::new(log_n, r, p).expect("encryption parameters should be valid")
                 } else {
-                    params::new(&arg.max_memory, &arg.max_memory_fraction, &arg.max_time)
+                    params::new(arg.max_memory, arg.max_memory_fraction, arg.max_time)
                 };
 
                 if arg.verbose {
@@ -81,11 +69,22 @@ pub fn run() -> anyhow::Result<()> {
                             params.log_n(),
                             params.r(),
                             params.p(),
-                            &arg.max_memory,
-                            &arg.max_memory_fraction,
-                            &arg.max_time,
+                            arg.max_memory,
+                            arg.max_memory_fraction,
+                            arg.max_time,
                         );
                     }
+                }
+
+                if !arg.force {
+                    params::check(
+                        arg.max_memory,
+                        arg.max_memory_fraction,
+                        arg.max_time,
+                        params.log_n(),
+                        params.r(),
+                        params.p(),
+                    )?;
                 }
 
                 let cipher = Encryptor::with_params(input, password, params);
@@ -124,18 +123,18 @@ pub fn run() -> anyhow::Result<()> {
                             params.log_n(),
                             params.r(),
                             params.p(),
-                            &arg.max_memory,
-                            &arg.max_memory_fraction,
-                            &arg.max_time,
+                            arg.max_memory,
+                            arg.max_memory_fraction,
+                            arg.max_time,
                         );
                     }
                 }
 
                 if !arg.force {
                     params::check(
-                        &arg.max_memory,
-                        &arg.max_memory_fraction,
-                        &arg.max_time,
+                        arg.max_memory,
+                        arg.max_memory_fraction,
+                        arg.max_time,
                         params.log_n(),
                         params.r(),
                         params.p(),
@@ -164,9 +163,15 @@ pub fn run() -> anyhow::Result<()> {
                 let input = input::read(&arg.input)?;
 
                 let params = params::get(&input, &arg.input)?;
-                #[cfg(any(feature = "cbor", feature = "json", feature = "toml", feature = "yaml"))]
+                #[cfg(any(
+                    feature = "cbor",
+                    feature = "json",
+                    feature = "msgpack",
+                    feature = "toml",
+                    feature = "yaml"
+                ))]
                 if let Some(format) = arg.format {
-                    let params = params::Params::new(&params);
+                    let params = params::Params::new(params);
                     let output = params
                         .to_vec(format)
                         .context("could not output the encryption parameters")?;
@@ -181,6 +186,7 @@ pub fn run() -> anyhow::Result<()> {
                 #[cfg(not(any(
                     feature = "cbor",
                     feature = "json",
+                    feature = "msgpack",
                     feature = "toml",
                     feature = "yaml"
                 )))]

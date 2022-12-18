@@ -12,6 +12,21 @@ project adheres to https://semver.org/[Semantic Versioning].
 
 toc::[]
 
+== {compare-url}/v0.2.0\...v0.3.0[0.3.0] - 2022-12-18
+
+=== Added
+
+* Add MessagePack to output format
+
+=== Changed
+
+* Change the minimum value of `--max-memory` to 1 MiB
+* Change value of `--max-time` to be human-friendly
+
+=== Fixed
+
+* Fix create a package for Windows in CD
+
 == {compare-url}/v0.1.1\...v0.2.0[0.2.0] - 2022-12-10
 
 === Added

@@ -15,7 +15,7 @@ use std::{
 use anyhow::Context;
 use dialoguer::{theme::ColorfulTheme, Password};
 
-use crate::utils;
+use crate::utils::StringExt;
 
 /// Reads the password from /dev/tty.
 pub fn read_password_from_tty() -> anyhow::Result<String> {
@@ -33,8 +33,8 @@ pub fn read_password_from_stdin() -> anyhow::Result<String> {
     io::stdin()
         .read_line(&mut buf)
         .context("could not read password from stdin")?;
-    let password = utils::remove_newline(&buf);
-    Ok(password)
+    buf.remove_newline();
+    Ok(buf)
 }
 
 /// Reads the password from /dev/tty only once.
@@ -60,6 +60,6 @@ pub fn read_password_from_file(path: &Path) -> anyhow::Result<String> {
     reader
         .read_line(&mut buf)
         .with_context(|| format!("could not read password from {}", path.display()))?;
-    let password = utils::remove_newline(&buf);
-    Ok(password)
+    buf.remove_newline();
+    Ok(buf)
 }
