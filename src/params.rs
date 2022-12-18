@@ -267,6 +267,9 @@ impl Params {
 
     /// Serializes the given data structure.
     pub fn to_vec(self, format: crate::cli::Format) -> anyhow::Result<Vec<u8>> {
+        #[cfg(any(feature = "toml", feature = "yaml"))]
+        use crate::utils::StringExt;
+
         match format {
             #[cfg(feature = "cbor")]
             crate::cli::Format::Cbor => {
@@ -285,14 +288,17 @@ impl Params {
             }
             #[cfg(feature = "toml")]
             crate::cli::Format::Toml => {
-                let toml = toml::to_string(&self).context("could not serialize as TOML")?;
-                let toml = crate::utils::remove_newline(&toml).into_bytes();
+                let mut toml = toml::to_string(&self).context("could not serialize as TOML")?;
+                toml.remove_newline();
+                let toml = toml.into_bytes();
                 Ok(toml)
             }
             #[cfg(feature = "yaml")]
             crate::cli::Format::Yaml => {
-                let yaml = serde_yaml::to_string(&self).context("could not serialize as YAML")?;
-                let yaml = crate::utils::remove_newline(&yaml).into_bytes();
+                let mut yaml =
+                    serde_yaml::to_string(&self).context("could not serialize as YAML")?;
+                yaml.remove_newline();
+                let yaml = yaml.into_bytes();
                 Ok(yaml)
             }
         }
