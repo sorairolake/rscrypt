@@ -56,19 +56,7 @@ pub fn run() -> anyhow::Result<()> {
                 }?;
 
                 let params = if let (Some(log_n), Some(r), Some(p)) = (arg.log_n, arg.r, arg.p) {
-                    let params = scrypt::Params::new(log_n, r, p)
-                        .expect("encryption parameters should be valid");
-                    if !arg.force {
-                        params::check(
-                            arg.max_memory,
-                            arg.max_memory_fraction,
-                            arg.max_time,
-                            params.log_n(),
-                            params.r(),
-                            params.p(),
-                        )?;
-                    }
-                    params
+                    scrypt::Params::new(log_n, r, p).expect("encryption parameters should be valid")
                 } else {
                     params::new(arg.max_memory, arg.max_memory_fraction, arg.max_time)
                 };
@@ -86,6 +74,17 @@ pub fn run() -> anyhow::Result<()> {
                             arg.max_time,
                         );
                     }
+                }
+
+                if !arg.force {
+                    params::check(
+                        arg.max_memory,
+                        arg.max_memory_fraction,
+                        arg.max_time,
+                        params.log_n(),
+                        params.r(),
+                        params.p(),
+                    )?;
                 }
 
                 let cipher = Encryptor::with_params(input, password, params);
