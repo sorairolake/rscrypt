@@ -4,7 +4,7 @@
 // Copyright (C) 2022 Shun Sakai
 //
 
-use std::{ffi::OsString, io, path::PathBuf, str::FromStr, time::Duration};
+use std::{ffi::OsString, fmt, io, ops::Deref, path::PathBuf, str::FromStr, time::Duration};
 
 use anyhow::anyhow;
 use byte_unit::{n_eib_bytes, n_mib_bytes};
@@ -293,10 +293,11 @@ impl Opt {
 #[derive(Clone, Copy, Debug)]
 pub struct Byte(byte_unit::Byte);
 
-impl Byte {
-    /// Returns `byte_unit::Byte`.
-    pub const fn as_byte(&self) -> byte_unit::Byte {
-        self.0
+impl Deref for Byte {
+    type Target = byte_unit::Byte;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
     }
 }
 
@@ -321,10 +322,11 @@ impl FromStr for Byte {
 #[derive(Clone, Copy, Debug)]
 pub struct Rate(Fraction);
 
-impl Rate {
-    /// Returns `Fraction`.
-    pub const fn as_fraction(&self) -> Fraction {
-        self.0
+impl Deref for Rate {
+    type Target = Fraction;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
     }
 }
 
@@ -342,13 +344,20 @@ impl FromStr for Rate {
 }
 
 /// CPU time.
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy)]
 pub struct Time(Duration);
 
-impl Time {
-    /// Returns `Duration`.
-    pub const fn as_duration(&self) -> Duration {
-        self.0
+impl fmt::Debug for Time {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        self.0.fmt(f)
+    }
+}
+
+impl Deref for Time {
+    type Target = Duration;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
     }
 }
 

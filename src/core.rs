@@ -60,9 +60,9 @@ pub fn run() -> anyhow::Result<()> {
                         .expect("encryption parameters should be valid");
                     if !arg.force {
                         params::check(
-                            &arg.max_memory,
-                            &arg.max_memory_fraction,
-                            &arg.max_time,
+                            arg.max_memory,
+                            arg.max_memory_fraction,
+                            arg.max_time,
                             params.log_n(),
                             params.r(),
                             params.p(),
@@ -70,7 +70,7 @@ pub fn run() -> anyhow::Result<()> {
                     }
                     params
                 } else {
-                    params::new(&arg.max_memory, &arg.max_memory_fraction, &arg.max_time)
+                    params::new(arg.max_memory, arg.max_memory_fraction, arg.max_time)
                 };
 
                 if arg.verbose {
@@ -81,9 +81,9 @@ pub fn run() -> anyhow::Result<()> {
                             params.log_n(),
                             params.r(),
                             params.p(),
-                            &arg.max_memory,
-                            &arg.max_memory_fraction,
-                            &arg.max_time,
+                            arg.max_memory,
+                            arg.max_memory_fraction,
+                            arg.max_time,
                         );
                     }
                 }
@@ -124,18 +124,18 @@ pub fn run() -> anyhow::Result<()> {
                             params.log_n(),
                             params.r(),
                             params.p(),
-                            &arg.max_memory,
-                            &arg.max_memory_fraction,
-                            &arg.max_time,
+                            arg.max_memory,
+                            arg.max_memory_fraction,
+                            arg.max_time,
                         );
                     }
                 }
 
                 if !arg.force {
                     params::check(
-                        &arg.max_memory,
-                        &arg.max_memory_fraction,
-                        &arg.max_time,
+                        arg.max_memory,
+                        arg.max_memory_fraction,
+                        arg.max_time,
                         params.log_n(),
                         params.r(),
                         params.p(),
@@ -172,7 +172,7 @@ pub fn run() -> anyhow::Result<()> {
                     feature = "yaml"
                 ))]
                 if let Some(format) = arg.format {
-                    let params = params::Params::new(&params);
+                    let params = params::Params::new(params);
                     let output = params
                         .to_vec(format)
                         .context("could not output the encryption parameters")?;

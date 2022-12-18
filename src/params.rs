@@ -74,9 +74,9 @@ fn display_with_resources(
     log_n: u8,
     r: u32,
     p: u32,
-    max_memory: &Option<Byte>,
-    max_memory_fraction: &Rate,
-    max_time: &Time,
+    max_memory: Option<Byte>,
+    max_memory_fraction: Rate,
+    max_time: Time,
 ) {
     let n = 1 << log_n;
     let mem_limit = byte_unit::Byte::from_bytes(u128::from(get_memory_to_use(
@@ -94,8 +94,7 @@ fn display_with_resources(
     eprintln!(" (available {mem_limit})");
     eprint!(
         "Takes about {:.2?} (limit: {:.2?})",
-        expected_secs,
-        max_time.as_duration()
+        expected_secs, max_time
     );
 }
 
@@ -104,24 +103,24 @@ pub fn displayln_with_resources(
     log_n: u8,
     r: u32,
     p: u32,
-    max_memory: &Option<Byte>,
-    max_memory_fraction: &Rate,
-    max_time: &Time,
+    max_memory: Option<Byte>,
+    max_memory_fraction: Rate,
+    max_time: Time,
 ) {
     display_with_resources(log_n, r, p, max_memory, max_memory_fraction, max_time);
     eprintln!();
 }
 
 /// Returns available memory.
-fn get_memory_to_use(max_memory: &Option<Byte>, max_memory_fraction: &Rate) -> u64 {
+fn get_memory_to_use(max_memory: Option<Byte>, max_memory_fraction: Rate) -> u64 {
     let available_mem = SYSTEM.available_memory();
     let mut mem_limit = (U128Fraction::from(available_mem)
-        * U128Fraction::from_fraction(max_memory_fraction.as_fraction()))
+        * U128Fraction::from_fraction(*max_memory_fraction))
     .floor()
     .to_u128()
     .expect("available memory should be an integer");
 
-    if let Some(max_mem) = max_memory.map(|mem| mem.as_byte().get_bytes()) {
+    if let Some(max_mem) = max_memory.map(|mem| mem.get_bytes()) {
         if max_mem < mem_limit {
             mem_limit = max_mem;
         }
@@ -159,14 +158,10 @@ fn get_scrypt_performance() -> u64 {
 }
 
 /// Creates the encryption parameters from resources.
-pub fn new(
-    max_memory: &Option<Byte>,
-    max_memory_fraction: &Rate,
-    max_time: &Time,
-) -> scrypt::Params {
+pub fn new(max_memory: Option<Byte>, max_memory_fraction: Rate, max_time: Time) -> scrypt::Params {
     let mem_limit = get_memory_to_use(max_memory, max_memory_fraction);
     let ops_limit = match (U128Fraction::from(*OPERATIONS_PER_SECOND)
-        * U128Fraction::from_fraction(Fraction::from(max_time.as_duration().as_secs_f64())))
+        * U128Fraction::from_fraction(Fraction::from(max_time.as_secs_f64())))
     .floor()
     .to_u128()
     {
@@ -211,16 +206,16 @@ pub fn new(
 
 /// Checks the encryption parameters.
 pub fn check(
-    max_memory: &Option<Byte>,
-    max_memory_fraction: &Rate,
-    max_time: &Time,
+    max_memory: Option<Byte>,
+    max_memory_fraction: Rate,
+    max_time: Time,
     log_n: u8,
     r: u32,
     p: u32,
 ) -> Result<(), Error> {
     let mem_limit = get_memory_to_use(max_memory, max_memory_fraction);
     let ops_limit = (U128Fraction::from(*OPERATIONS_PER_SECOND)
-        * U128Fraction::from_fraction(Fraction::from(max_time.as_duration().as_secs_f64())))
+        * U128Fraction::from_fraction(Fraction::from(max_time.as_secs_f64())))
     .floor()
     .to_u128()
     .expect("operation limits should be an integer");
@@ -262,7 +257,7 @@ pub struct Params {
 ))]
 impl Params {
     /// Creates a new `Params`.
-    pub fn new(params: &scryptenc::Params) -> Self {
+    pub fn new(params: scryptenc::Params) -> Self {
         Self {
             n: params.n(),
             r: params.r(),
