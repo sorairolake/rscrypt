@@ -1,7 +1,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// Copyright (C) 2022 Shun Sakai
+// Copyright (C) 2022-2023 Shun Sakai
 //
 
 use std::{ffi::OsString, fmt, io, ops::Deref, path::PathBuf, str::FromStr, time::Duration};
