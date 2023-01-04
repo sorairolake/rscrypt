@@ -91,11 +91,7 @@ fn main() -> ExitCode {
             eprintln!("Error: {err:?}");
             #[allow(clippy::option_if_let_else)]
             if let Some(e) = err.downcast_ref::<io::Error>() {
-                match e.kind() {
-                    io::ErrorKind::NotFound => sysexits::ExitCode::NoInput.into(),
-                    io::ErrorKind::PermissionDenied => sysexits::ExitCode::NoPerm.into(),
-                    _ => ExitCode::Failure,
-                }
+                sysexits::ExitCode::try_from(e.kind()).map_or(ExitCode::Failure, ExitCode::from)
             } else if let Some(e) = err.downcast_ref::<ScryptencError>() {
                 match e {
                     ScryptencError::InvalidLength
