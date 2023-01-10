@@ -33,7 +33,7 @@ serde = { version = "1.0.152", features = ["derive"], optional = true }
 serde_json = { version = "1.0.91", optional = true }
 serde_yaml = { version = "0.9.16", optional = true }
 sysexits = "0.4.0"
-sysinfo = "0.27.2"
+sysinfo = "0.27.3"
 thiserror = "1.0.38"
 toml = { version = "0.5.10", optional = true }
 
