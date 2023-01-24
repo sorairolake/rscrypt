@@ -242,7 +242,7 @@ fn validate_parameters_group_for_encrypt_command() {
         .failure()
         .code(2)
         .stderr(predicate::str::contains(
-            "The following required arguments were not provided",
+            "the following required arguments were not provided",
         ))
         .stderr(predicate::str::contains("-r <VALUE>"))
         .stderr(predicate::str::contains("-p <VALUE>"));
@@ -257,7 +257,7 @@ fn validate_parameters_group_for_encrypt_command() {
         .failure()
         .code(2)
         .stderr(predicate::str::contains(
-            "The following required arguments were not provided",
+            "the following required arguments were not provided",
         ))
         .stderr(predicate::str::contains("--log-n <VALUE>"))
         .stderr(predicate::str::contains("-p <VALUE>"));
@@ -272,7 +272,7 @@ fn validate_parameters_group_for_encrypt_command() {
         .failure()
         .code(2)
         .stderr(predicate::str::contains(
-            "The following required arguments were not provided",
+            "the following required arguments were not provided",
         ))
         .stderr(predicate::str::contains("--log-n <VALUE>"))
         .stderr(predicate::str::contains("-r <VALUE>"));
@@ -294,7 +294,7 @@ fn validate_work_parameter_ranges_for_encrypt_command() {
         .assert()
         .failure()
         .stderr(predicate::str::contains(
-            "Invalid value '9' for '--log-n <VALUE>': 9 is not in 10..=40",
+            "invalid value '9' for '--log-n <VALUE>': 9 is not in 10..=40",
         ));
     command()
         .arg("enc")
@@ -310,7 +310,7 @@ fn validate_work_parameter_ranges_for_encrypt_command() {
         .assert()
         .failure()
         .stderr(predicate::str::contains(
-            "Invalid value '41' for '--log-n <VALUE>': 41 is not in 10..=40",
+            "invalid value '41' for '--log-n <VALUE>': 41 is not in 10..=40",
         ));
     command()
         .arg("enc")
@@ -326,7 +326,7 @@ fn validate_work_parameter_ranges_for_encrypt_command() {
         .assert()
         .failure()
         .stderr(predicate::str::contains(
-            "Invalid value '0' for '-r <VALUE>': 0 is not in 1..=32",
+            "invalid value '0' for '-r <VALUE>': 0 is not in 1..=32",
         ));
     command()
         .arg("enc")
@@ -342,7 +342,7 @@ fn validate_work_parameter_ranges_for_encrypt_command() {
         .assert()
         .failure()
         .stderr(predicate::str::contains(
-            "Invalid value '33' for '-r <VALUE>': 33 is not in 1..=32",
+            "invalid value '33' for '-r <VALUE>': 33 is not in 1..=32",
         ));
     command()
         .arg("enc")
@@ -358,7 +358,7 @@ fn validate_work_parameter_ranges_for_encrypt_command() {
         .assert()
         .failure()
         .stderr(predicate::str::contains(
-            "Invalid value '0' for '-p <VALUE>': 0 is not in 1..=32",
+            "invalid value '0' for '-p <VALUE>': 0 is not in 1..=32",
         ));
     command()
         .arg("enc")
@@ -374,7 +374,7 @@ fn validate_work_parameter_ranges_for_encrypt_command() {
         .assert()
         .failure()
         .stderr(predicate::str::contains(
-            "Invalid value '33' for '-p <VALUE>': 33 is not in 1..=32",
+            "invalid value '33' for '-p <VALUE>': 33 is not in 1..=32",
         ));
 }
 
