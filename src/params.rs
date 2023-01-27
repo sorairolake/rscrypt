@@ -92,10 +92,7 @@ fn display_with_resources(
     );
     display(n, r, p);
     eprintln!(" (available {mem_limit})");
-    eprint!(
-        "Takes about {:.2?} (limit: {:.2?})",
-        expected_secs, max_time
-    );
+    eprint!("Takes about {expected_secs:.2?} (limit: {max_time:.2?})");
 }
 
 /// Prints the encryption parameters with resources, with a newline.
