@@ -12,6 +12,13 @@ project adheres to https://semver.org/[Semantic Versioning].
 
 toc::[]
 
+== {compare-url}/v0.3.0\...v0.4.0[0.4.0] - 2023-01-28
+
+=== Changed
+
+* Bump sysexits to v0.4
+* Bump MSRV to 1.64.0
+
 == {compare-url}/v0.2.0\...v0.3.0[0.3.0] - 2022-12-18
 
 === Added

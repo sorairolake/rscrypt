@@ -64,10 +64,10 @@ rscrypt --generate-completion bash > rscrypt.bash
 
 Please see the following:
 
-- [`rscrypt(1)`](doc/man/man1/rscrypt.1.adoc)
-- [`rscrypt-enc(1)`](doc/man/man1/rscrypt-enc.1.adoc)
-- [`rscrypt-dec(1)`](doc/man/man1/rscrypt-dec.1.adoc)
-- [`rscrypt-info(1)`](doc/man/man1/rscrypt-info.1.adoc)
+- [`rscrypt(1)`][rscrypt-man-url]
+- [`rscrypt-enc(1)`][rscrypt-enc-man-url]
+- [`rscrypt-dec(1)`][rscrypt-dec-man-url]
+- [`rscrypt-info(1)`][rscrypt-info-man-url]
 
 ## Changelog
 
@@ -79,7 +79,7 @@ Please see [CONTRIBUTING.adoc](CONTRIBUTING.adoc).
 
 ## License
 
-Copyright (C) 2022 Shun Sakai (see [AUTHORS.adoc](AUTHORS.adoc))
+Copyright &copy; 2022&ndash;2023 Shun Sakai (see [AUTHORS.adoc](AUTHORS.adoc))
 
 This program is distributed under the terms of the _GNU General Public License
 v3.0 or later_.
@@ -92,3 +92,7 @@ See [COPYING](COPYING) for more details.
 [version-url]: https://crates.io/crates/scryptenc-cli
 [license-badge]: https://img.shields.io/crates/l/scryptenc-cli
 [release-page-url]: https://github.com/sorairolake/rscrypt/releases
+[rscrypt-man-url]: https://sorairolake.github.io/rscrypt/man/rscrypt.1.html
+[rscrypt-enc-man-url]: https://sorairolake.github.io/rscrypt/man/rscrypt-enc.1.html
+[rscrypt-dec-man-url]: https://sorairolake.github.io/rscrypt/man/rscrypt-dec.1.html
+[rscrypt-info-man-url]: https://sorairolake.github.io/rscrypt/man/rscrypt-info.1.html
