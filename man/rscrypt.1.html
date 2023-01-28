@@ -1,0 +1,594 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <title>rscrypt(1) · rscrypt Documentation</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="HonKit 4.0.4">
+        <meta name="author" content="Shun Sakai">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/@honkit/honkit-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="rscrypt-enc.1.html" />
+    
+    
+    <link rel="prev" href="../BUILD.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book honkit-cloak">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Installation</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../INSTALL.html">
+            
+                <a href="../INSTALL.html">
+            
+                    
+                    Installation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../BUILD.html">
+            
+                <a href="../BUILD.html">
+            
+                    
+                    How to Build
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Manual pages</li>
+        
+        
+    
+        <li class="chapter active" data-level="3.1" data-path="rscrypt.1.html">
+            
+                <a href="rscrypt.1.html">
+            
+                    
+                    rscrypt(1)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="rscrypt-enc.1.html">
+            
+                <a href="rscrypt-enc.1.html">
+            
+                    
+                    rscrypt-enc(1)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="rscrypt-dec.1.html">
+            
+                <a href="rscrypt-dec.1.html">
+            
+                    
+                    rscrypt-dec(1)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="rscrypt-info.1.html">
+            
+                <a href="rscrypt-info.1.html">
+            
+                    
+                    rscrypt-info(1)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../CHANGELOG.html">
+            
+                <a href="../CHANGELOG.html">
+            
+                    
+                    Changelog
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../CONTRIBUTING.html">
+            
+                <a href="../CONTRIBUTING.html">
+            
+                    
+                    Contributing
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="../AUTHORS.html">
+            
+                <a href="../AUTHORS.html">
+            
+                    
+                    List of Authors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="../LICENSE.html">
+            
+                <a href="../LICENSE.html">
+            
+                    
+                    License
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://github.com/honkit/honkit" target="blank" class="gitbook-link">
+            Published with HonKit
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >rscrypt(1)</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="rscrypt1-manual-page">rscrypt(1) Manual Page</h1>
+<h2 id="_name">NAME</h2>
+<div class="sectionbody">
+<p>rscrypt - an utility for encrypt and decrypt files</p>
+</div>
+<div class="sect1">
+<h2 id="_synopsis">SYNOPSIS</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>rscrypt</strong> [<em>OPTION</em>]…​ <em>COMMAND</em></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_description">DESCRIPTION</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>rscrypt</strong> is a command-line utility for encrypt and decrypt files.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_commands">COMMANDS</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>rscrypt-enc</strong>(1)</dt>
+<dd>
+<p>Encrypt files.</p>
+</dd>
+<dt class="hdlist1"><strong>rscrypt-dec</strong>(1)</dt>
+<dd>
+<p>Decrypt files.</p>
+</dd>
+<dt class="hdlist1"><strong>rscrypt-info</strong>(1)</dt>
+<dd>
+<p>Provides information about the encryption parameters.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_options">OPTIONS</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>-h</strong>, <strong>--help</strong></dt>
+<dd>
+<p>Print help information.</p>
+</dd>
+<dt class="hdlist1"><strong>-V</strong>, <strong>--version</strong></dt>
+<dd>
+<p>Print version information.</p>
+</dd>
+<dt class="hdlist1"><strong>--generate-completion</strong> <em>SHELL</em></dt>
+<dd>
+<p>Generate shell completion.
+The completion is output to stdout.</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">The possible values are:</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>bash</strong></p>
+</li>
+<li>
+<p><strong>elvish</strong></p>
+</li>
+<li>
+<p><strong>fish</strong></p>
+</li>
+<li>
+<p><strong>powershell</strong></p>
+</li>
+<li>
+<p><strong>zsh</strong></p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_exit_status">EXIT STATUS</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>0</strong></dt>
+<dd>
+<p>Successful program execution.</p>
+</dd>
+<dt class="hdlist1"><strong>1</strong></dt>
+<dd>
+<p>An error occurred.</p>
+</dd>
+<dt class="hdlist1"><strong>2</strong></dt>
+<dd>
+<p>An error occurred while parsing command-line arguments.</p>
+</dd>
+<dt class="hdlist1"><strong>7</strong></dt>
+<dd>
+<p>Data was not a valid scrypt-encrypted block.</p>
+</dd>
+<dt class="hdlist1"><strong>8</strong></dt>
+<dd>
+<p>The version was the unrecognized scrypt version number.</p>
+</dd>
+<dt class="hdlist1"><strong>9</strong></dt>
+<dd>
+<p>Decrypting files takes too much memory.</p>
+</dd>
+<dt class="hdlist1"><strong>10</strong></dt>
+<dd>
+<p>Decrypting files takes too much CPU time.</p>
+</dd>
+<dt class="hdlist1"><strong>11</strong></dt>
+<dd>
+<p>Password is incorrect.</p>
+</dd>
+<dt class="hdlist1"><strong>14</strong></dt>
+<dd>
+<p>The scrypt parameters were invalid.</p>
+</dd>
+<dt class="hdlist1"><strong>15</strong></dt>
+<dd>
+<p>Decrypting files takes too much resources.</p>
+</dd>
+<dt class="hdlist1"><strong>66</strong></dt>
+<dd>
+<p>An input file did not exist or was not readable.</p>
+</dd>
+<dt class="hdlist1"><strong>77</strong></dt>
+<dd>
+<p>You did not have sufficient permission to perform the operation.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reporting_bugs">REPORTING BUGS</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Bugs can be reported on GitHub at:</dt>
+<dd>
+<p><a href="https://github.com/sorairolake/rscrypt/issues" class="bare" target="_blank">https://github.com/sorairolake/rscrypt/issues</a></p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_copyright">COPYRIGHT</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Copyright © 2022-2023 Shun Sakai</p>
+</div>
+<div class="paragraph">
+<p>This program is distributed under the terms of the GNU General Public License
+v3.0 or later.</p>
+</div>
+<div class="paragraph">
+<p>This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.</p>
+</div>
+</div>
+</div>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../BUILD.html" class="navigation navigation-prev " aria-label="Previous page: How to Build">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="rscrypt-enc.1.html" class="navigation navigation-next " aria-label="Next page: rscrypt-enc(1)">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"rscrypt(1)","level":"3.1","depth":1,"next":{"title":"rscrypt-enc(1)","level":"3.2","depth":1,"path":"man/rscrypt-enc.1.adoc","ref":"man/rscrypt-enc.1.adoc","articles":[]},"previous":{"title":"How to Build","level":"2.2","depth":1,"path":"BUILD.adoc","ref":"BUILD.adoc","articles":[]},"dir":"ltr"},"config":{"plugins":[],"root":"doc/book","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Shun Sakai","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"rscrypt Documentation","gitbook":"*"},"file":{"path":"man/rscrypt.1.adoc","mtime":"2023-01-28T04:49:14.980Z","type":"asciidoc"},"gitbook":{"version":"4.0.4","time":"2023-01-28T04:49:16.240Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <noscript>
+        <style>
+            .honkit-cloak {
+                display: block !important;
+            }
+        </style>
+    </noscript>
+    <script>
+        // Restore sidebar state as critical path for prevent layout shift
+        function __init__getSidebarState(defaultValue){
+            var baseKey = "";
+            var key = baseKey + ":sidebar";
+            try {
+                var value = localStorage[key];
+                if (value === undefined) {
+                    return defaultValue;
+                }
+                var parsed = JSON.parse(value);
+                return parsed == null ? defaultValue : parsed;
+            } catch (e) {
+                return defaultValue;
+            }
+        }
+        function __init__restoreLastSidebarState() {
+            var isMobile = window.matchMedia("(max-width: 600px)").matches;
+            if (isMobile) {
+                // Init last state if not mobile
+                return;
+            }
+            var sidebarState = __init__getSidebarState(true);
+            var book = document.querySelector(".book");
+            // Show sidebar if it enabled
+            if (sidebarState && book) {
+                book.classList.add("without-animation", "with-summary");
+            }
+        }
+
+        try {
+            __init__restoreLastSidebarState();
+        } finally {
+            var book = document.querySelector(".book");
+            book.classList.remove("honkit-cloak");
+        }
+    </script>
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
