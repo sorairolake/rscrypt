@@ -1,5 +1,6 @@
 {
   "root": "doc/book",
   "title": "rscrypt Documentation",
-  "author": "Shun Sakai"
+  "author": "Shun Sakai",
+  "language": "en"
 }

@@ -12,6 +12,12 @@ project adheres to https://semver.org/[Semantic Versioning].
 
 toc::[]
 
+== {compare-url}/v0.4.0\...HEAD[Unreleased]
+
+=== Fixed
+
+* Fix missing the `lang` attribute in the book
+
 == {compare-url}/v0.3.0\...v0.4.0[0.4.0] - 2023-01-28
 
 === Changed
