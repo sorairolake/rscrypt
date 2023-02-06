@@ -28,7 +28,7 @@ name = "rscrypt"
 path = "src/main.rs"
 
 [dependencies]
-anyhow = "1.0.68"
+anyhow = "1.0.69"
 byte-unit = "4.0.18"
 ciborium = { version = "0.2.0", optional = true }
 clap = { version = "4.1.4", features = ["derive", "wrap_help"] }
