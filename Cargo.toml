@@ -45,7 +45,7 @@ serde_yaml = { version = "0.9.19", optional = true }
 sysexits = "0.4.1"
 sysinfo = "0.28.2"
 thiserror = "1.0.39"
-toml = { version = "0.7.2", optional = true }
+toml = { version = "0.7.3", optional = true }
 
 [dev-dependencies]
 assert_cmd = "2.0.8"
