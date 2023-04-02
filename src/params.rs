@@ -132,7 +132,8 @@ fn get_memory_to_use(max_memory: Option<Byte>, max_memory_fraction: Rate) -> u64
 
 /// Returns the number of times Salsa20/8 cores can be executed per second.
 fn get_scrypt_performance() -> u64 {
-    let params = scrypt::Params::new(7, 1, 1).expect("encryption parameters should be valid");
+    let params = scrypt::Params::new(7, 1, 1, scrypt::Params::RECOMMENDED_LEN)
+        .expect("encryption parameters should be valid");
     let mut dk = [u8::default(); 1];
 
     let mut i = u64::default();
@@ -198,7 +199,8 @@ pub fn new(max_memory: Option<Byte>, max_memory_fraction: Rate, max_time: Time) 
         };
         p = max_r_p / r;
     }
-    scrypt::Params::new(log_n, r, p).expect("encryption parameters should be valid")
+    scrypt::Params::new(log_n, r, p, scrypt::Params::RECOMMENDED_LEN)
+        .expect("encryption parameters should be valid")
 }
 
 /// Checks the encryption parameters.
