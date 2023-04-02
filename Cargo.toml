@@ -42,7 +42,7 @@ scryptenc = "0.5.0"
 serde = { version = "1.0.159", features = ["derive"], optional = true }
 serde_json = { version = "1.0.95", optional = true }
 serde_yaml = { version = "0.9.19", optional = true }
-sysexits = "0.4.1"
+sysexits = "0.5.0"
 sysinfo = "0.28.4"
 thiserror = "1.0.40"
 toml = { version = "0.7.3", optional = true }
