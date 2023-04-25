@@ -70,7 +70,7 @@ fn encrypt_with_max_memory() {
         .arg("-M")
         .arg("64MiB")
         .arg("-t")
-        .arg("1s")
+        .arg("10s")
         .arg("--passphrase-from-stdin")
         .arg("-v")
         .arg("data/data.txt")
@@ -163,14 +163,14 @@ fn encrypt_with_max_time() {
     command()
         .arg("enc")
         .arg("-t")
-        .arg("1s")
+        .arg("10s")
         .arg("--passphrase-from-stdin")
         .arg("-v")
         .arg("data/data.txt")
         .write_stdin("password")
         .assert()
         .success()
-        .stderr(predicate::str::contains("limit: 1.00s"));
+        .stderr(predicate::str::contains("limit: 10.00s"));
 }
 
 #[test]
