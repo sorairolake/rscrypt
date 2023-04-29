@@ -86,11 +86,11 @@ v3.0 or later_.
 
 See [COPYING](COPYING) for more details.
 
-[ci-badge]: https://github.com/sorairolake/rscrypt/workflows/CI/badge.svg
-[ci-url]: https://github.com/sorairolake/rscrypt/actions?query=workflow%3ACI
-[version-badge]: https://img.shields.io/crates/v/scryptenc-cli
+[ci-badge]: https://img.shields.io/github/actions/workflow/status/sorairolake/rscrypt/CI.yaml?branch=develop&style=for-the-badge
+[ci-url]: https://github.com/sorairolake/rscrypt/actions?query=branch%3Adevelop+workflow%3ACI++
+[version-badge]: https://img.shields.io/crates/v/scryptenc-cli?style=for-the-badge
 [version-url]: https://crates.io/crates/scryptenc-cli
-[license-badge]: https://img.shields.io/crates/l/scryptenc-cli
+[license-badge]: https://img.shields.io/crates/l/scryptenc-cli?style=for-the-badge
 [release-page-url]: https://github.com/sorairolake/rscrypt/releases
 [rscrypt-man-url]: https://sorairolake.github.io/rscrypt/man/rscrypt.1.html
 [rscrypt-enc-man-url]: https://sorairolake.github.io/rscrypt/man/rscrypt-enc.1.html
