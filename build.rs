@@ -57,7 +57,7 @@ fn main() {
             }
         }
         Err(err) => {
-            println!("cargo:warning=Failed to execute Asciidoctor ({err})");
+            println!("cargo:warning=failed to execute Asciidoctor ({err})");
         }
     }
 }
