@@ -32,23 +32,23 @@ anyhow = "1.0.71"
 byte-unit = "4.0.19"
 ciborium = { version = "0.2.1", optional = true }
 clap = { version = "4.2.7", features = ["derive", "wrap_help"] }
-clap_complete = "4.2.1"
+clap_complete = "4.2.3"
 dialoguer = { version = "0.10.4", default-features = false, features = ["password"] }
 fraction = { version = "0.13.1", default-features = false }
 humantime = "2.1.0"
 once_cell = "1.17.1"
 rmp-serde = { version = "1.1.1", optional = true }
 scryptenc = "0.5.0"
-serde = { version = "1.0.162", features = ["derive"], optional = true }
+serde = { version = "1.0.163", features = ["derive"], optional = true }
 serde_json = { version = "1.0.96", optional = true }
 serde_yaml = { version = "0.9.21", optional = true }
-sysexits = "0.5.0"
+sysexits = "0.6.0"
 sysinfo = "0.29.0"
 thiserror = "1.0.40"
 toml = { version = "0.7.3", optional = true }
 
 [dev-dependencies]
-assert_cmd = "2.0.10"
+assert_cmd = "2.0.11"
 predicates = "3.0.3"
 
 [features]

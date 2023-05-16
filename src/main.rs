@@ -72,14 +72,14 @@ impl Termination for ExitCode {
         match self {
             Self::Success => process::ExitCode::SUCCESS,
             Self::Failure => process::ExitCode::FAILURE,
-            Self::InvalidFormat => process::ExitCode::from(7),
-            Self::UnknownVersion => process::ExitCode::from(8),
-            Self::LackOfMemory => process::ExitCode::from(9),
-            Self::LackOfCpuTime => process::ExitCode::from(10),
-            Self::InvalidPassword => process::ExitCode::from(11),
-            Self::InvalidParams => process::ExitCode::from(14),
-            Self::LackOfResources => process::ExitCode::from(15),
-            Self::Other(code) => process::ExitCode::from(code),
+            Self::InvalidFormat => 7.into(),
+            Self::UnknownVersion => 8.into(),
+            Self::LackOfMemory => 9.into(),
+            Self::LackOfCpuTime => 10.into(),
+            Self::InvalidPassword => 11.into(),
+            Self::InvalidParams => 14.into(),
+            Self::LackOfResources => 15.into(),
+            Self::Other(code) => code.into(),
         }
     }
 }
@@ -91,7 +91,7 @@ fn main() -> ExitCode {
             eprintln!("Error: {err:?}");
             #[allow(clippy::option_if_let_else)]
             if let Some(e) = err.downcast_ref::<io::Error>() {
-                sysexits::ExitCode::try_from(e.kind()).map_or(ExitCode::Failure, ExitCode::from)
+                sysexits::ExitCode::from(e.kind()).into()
             } else if let Some(e) = err.downcast_ref::<ScryptencError>() {
                 match e {
                     ScryptencError::InvalidLength
