@@ -381,11 +381,11 @@ impl FromStr for Time {
 ))]
 #[derive(Clone, Copy, Debug, clap::ValueEnum)]
 pub enum Format {
-    /// CBOR.
+    /// Concise Binary Object Representation.
     #[cfg(feature = "cbor")]
     Cbor,
 
-    /// JSON.
+    /// JavaScript Object Notation.
     #[cfg(feature = "json")]
     Json,
 
@@ -394,7 +394,7 @@ pub enum Format {
     #[value(name("msgpack"))]
     MessagePack,
 
-    /// TOML.
+    /// Tom's Obvious Minimal Language.
     #[cfg(feature = "toml")]
     Toml,
 

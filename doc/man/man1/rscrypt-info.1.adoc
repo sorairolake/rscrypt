@@ -43,13 +43,13 @@ ifdef::cbor,json,msgpack,toml,yaml[]
 ifdef::cbor[]
     *cbor*::::
 
-      CBOR.
+      Concise Binary Object Representation.
 endif::cbor[]
 
 ifdef::json[]
     *json*::::
 
-      JSON.
+      JavaScript Object Notation.
 endif::json[]
 
 ifdef::msgpack[]
@@ -61,7 +61,7 @@ endif::msgpack[]
 ifdef::toml[]
     *toml*::::
 
-      TOML.
+      Tom's Obvious Minimal Language.
 endif::toml[]
 
 ifdef::yaml[]
