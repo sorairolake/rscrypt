@@ -66,3 +66,7 @@ include::{includedir}/section-exit-status.adoc[]
 include::{includedir}/section-reporting-bugs.adoc[]
 
 include::{includedir}/section-copyright.adoc[]
+
+== SEE ALSO
+
+*scrypt*(1)

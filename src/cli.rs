@@ -169,7 +169,7 @@ pub struct Encrypt {
 
     /// Output file.
     ///
-    /// If it is not specified, the result will be write to stdout.
+    /// If [OUTFILE] is not specified, the result will be write to stdout.
     #[arg(value_name("OUTFILE"), value_hint(ValueHint::FilePath))]
     pub output: Option<PathBuf>,
 }
@@ -252,7 +252,7 @@ pub struct Decrypt {
 
     /// Output file.
     ///
-    /// If it is not specified, the result will be write to stdout.
+    /// If [OUTFILE] is not specified, the result will be write to stdout.
     #[arg(value_name("OUTFILE"), value_hint(ValueHint::FilePath))]
     pub output: Option<PathBuf>,
 }

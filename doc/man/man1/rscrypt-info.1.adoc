@@ -87,4 +87,4 @@ include::{includedir}/section-copyright.adoc[]
 
 == SEE ALSO
 
-*rscrypt*(1), *rscrypt-enc*(1), *rscrypt-dec*(1)
+*rscrypt*(1), *rscrypt-enc*(1), *rscrypt-dec*(1), *scrypt*(1)
