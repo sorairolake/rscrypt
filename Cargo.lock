@@ -895,9 +895,9 @@ dependencies = [
 
 [[package]]
 name = "scryptenc"
-version = "0.5.0"
+version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c6c6eaac618c63ad88147da1c122ac92862f0c0da021bec9783b63ba709dd80c"
+checksum = "4cf3a64a13dd58e18ce4307c4c7db21186286636a8325946aa3af23030e99712"
 dependencies = [
  "aes",
  "ctr",
