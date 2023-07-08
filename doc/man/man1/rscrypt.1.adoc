@@ -6,7 +6,7 @@
 
 = rscrypt(1)
 // Specify in UTC.
-:docdate: 2022-11-18
+:docdate: 2023-07-08
 :doctype: manpage
 ifdef::revnumber[:mansource: rscrypt {revnumber}]
 :manmanual: General Commands Manual
@@ -62,6 +62,8 @@ rscrypt - an utility for encrypt and decrypt files
     * *zsh*
 
 include::{includedir}/section-exit-status.adoc[]
+
+include::{includedir}/section-notes.adoc[]
 
 include::{includedir}/section-reporting-bugs.adoc[]
 
