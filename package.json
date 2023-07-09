@@ -3,7 +3,7 @@
   "name": "rscrypt",
   "version": "1.0.0",
   "description": "An utility for encrypt and decrypt files",
-  "license": "GPL-3.0-or-later",
+  "license": "CC-BY-4.0",
   "author": "Shun Sakai <sorairolake@protonmail.ch>",
   "homepage": "https://github.com/sorairolake/rscrypt#readme",
   "repository": {
