@@ -77,6 +77,11 @@ Please see [CHANGELOG.adoc](CHANGELOG.adoc).
 
 Please see [CONTRIBUTING.adoc](CONTRIBUTING.adoc).
 
+## Acknowledgment
+
+This program is inspired by the
+[scrypt encryption utility](https://www.tarsnap.com/scrypt.html).
+
 ## License
 
 Copyright &copy; 2022&ndash;2023 Shun Sakai (see [AUTHORS.adoc](AUTHORS.adoc))
