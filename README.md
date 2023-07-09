@@ -86,10 +86,13 @@ This program is inspired by the
 
 Copyright &copy; 2022&ndash;2023 Shun Sakai (see [AUTHORS.adoc](AUTHORS.adoc))
 
-This program is distributed under the terms of the _GNU General Public License
-v3.0 or later_.
+1. This program is distributed under the terms of the _GNU General Public
+   License v3.0 or later_.
+2. Some documentations are distributed under the terms of the _Creative Commons
+   Attribution 4.0 International Public License_.
 
-See [COPYING](COPYING) for more details.
+See [COPYRIGHT](COPYRIGHT), [LICENSE-GPL](LICENSE-GPL) and
+[LICENSE-CC-BY](LICENSE-CC-BY) for more details.
 
 [ci-badge]: https://img.shields.io/github/actions/workflow/status/sorairolake/rscrypt/CI.yaml?branch=develop&label=CI&logo=github&style=for-the-badge
 [ci-url]: https://github.com/sorairolake/rscrypt/actions?query=branch%3Adevelop+workflow%3ACI++

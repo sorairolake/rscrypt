@@ -12,6 +12,12 @@ project adheres to https://semver.org/[Semantic Versioning].
 
 toc::[]
 
+== {compare-url}/v0.5.1\...HEAD[Unreleased]
+
+=== Changed
+
+* Change license of documents to CC BY 4.0 ({pull-request-url}/158[#158])
+
 == {compare-url}/v0.5.0\...v0.5.1[0.5.1] - 2023-06-12
 
 === Changed
