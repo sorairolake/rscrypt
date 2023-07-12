@@ -6,7 +6,7 @@
         <title>rscrypt-enc(1) · rscrypt Documentation</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
-        <meta name="generator" content="HonKit 4.0.7">
+        <meta name="generator" content="HonKit 4.0.8">
         <meta name="author" content="Shun Sakai">
         
         
@@ -331,7 +331,7 @@ If &quot;-&quot; is specified, data will be read from stdin.</p>
 <dt class="hdlist1"><em>OUTFILE</em></dt>
 <dd>
 <p>Output file.
-If it is not specified, the result will be write to stdout.</p>
+If <em>OUTFILE</em> is not specified, the result will be write to stdout.</p>
 </dd>
 </dl>
 </div>
@@ -350,15 +350,16 @@ resources.</p>
 <dt class="hdlist1"><strong>-M</strong>, <strong>--max-memory</strong> <em>BYTES</em></dt>
 <dd>
 <p>Use at most the specified bytes of RAM to compute the derived key.
-It can also be provided as bytes with the unit symbol (such as MiB and GB).
-It should be between 1 MiB and 16 EiB.</p>
+<em>BYTES</em> can also be provided as bytes with the unit symbol (such as MiB and
+GB).
+<em>BYTES</em> should be between 1 MiB and 16 EiB.</p>
 </dd>
 <dt class="hdlist1"><strong>-m</strong>, <strong>--max-memory-fraction</strong> <em>RATE</em></dt>
 <dd>
 <p>Use at most the specified fraction of the available RAM to compute the
 derived key.
-It can be provided as a decimal or a fraction.
-It should be greater than 0 and less than or equal to <strong>0.5</strong>.
+<em>RATE</em> can be provided as a decimal or a fraction.
+<em>RATE</em> should be greater than 0 and less than or equal to <strong>0.5</strong>.
 Default is 0.125.</p>
 </dd>
 <dt class="hdlist1"><strong>-t</strong>, <strong>--max-time</strong> <em>DURATION</em></dt>
@@ -369,19 +370,19 @@ Default is 5 seconds.</p>
 <dt class="hdlist1"><strong>--log-n</strong> <em>VALUE</em></dt>
 <dd>
 <p>Set the work parameter N.
-It should be between <strong>10</strong> and <strong>40</strong>.
+<em>VALUE</em> should be between <strong>10</strong> and <strong>40</strong>.
 Default is 15.</p>
 </dd>
 <dt class="hdlist1"><strong>-r</strong> <em>VALUE</em></dt>
 <dd>
 <p>Set the work parameter r.
-It should be between <strong>1</strong> and <strong>32</strong>.
+<em>VALUE</em> should be between <strong>1</strong> and <strong>32</strong>.
 Default is 8.</p>
 </dd>
 <dt class="hdlist1"><strong>-p</strong> <em>VALUE</em></dt>
 <dd>
 <p>Set the work parameter p.
-It should be between <strong>1</strong> and <strong>32</strong>.
+<em>VALUE</em> should be between <strong>1</strong> and <strong>32</strong>.
 Default is 4.</p>
 </dd>
 <dt class="hdlist1"><strong>--passphrase-from-tty</strong></dt>
@@ -482,6 +483,23 @@ Note that storing a password in a file can be a security risk.</p>
 </div>
 </div>
 <div class="sect1">
+<h2 id="_notes">NOTES</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Source repository:</dt>
+<dd>
+<p><a href="https://github.com/sorairolake/rscrypt" class="bare" target="_blank">https://github.com/sorairolake/rscrypt</a></p>
+</dd>
+<dt class="hdlist1">The scrypt key derivation function and encryption utility:</dt>
+<dd>
+<p><a href="https://www.tarsnap.com/scrypt.html" class="bare" target="_blank">https://www.tarsnap.com/scrypt.html</a></p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_examples">EXAMPLES</h2>
 <div class="sectionbody">
 <div class="dlist">
@@ -513,9 +531,17 @@ Note that storing a password in a file can be a security risk.</p>
 <div class="paragraph">
 <p>Copyright © 2022-2023 Shun Sakai</p>
 </div>
-<div class="paragraph">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
 <p>This program is distributed under the terms of the GNU General Public License
 v3.0 or later.</p>
+</li>
+<li>
+<p>This manual page is distributed under the terms of the Creative Commons
+Attribution 4.0 International Public License.</p>
+</li>
+</ol>
 </div>
 <div class="paragraph">
 <p>This is free software: you are free to change and redistribute it.
@@ -527,7 +553,7 @@ There is NO WARRANTY, to the extent permitted by law.</p>
 <h2 id="_see_also">SEE ALSO</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>rscrypt</strong>(1), <strong>rscrypt-dec</strong>(1), <strong>rscrypt-info</strong>(1)</p>
+<p><strong>rscrypt</strong>(1), <strong>rscrypt-dec</strong>(1), <strong>rscrypt-info</strong>(1), <strong>scrypt</strong>(1)</p>
 </div>
 </div>
 </div>
@@ -573,7 +599,7 @@ There is NO WARRANTY, to the extent permitted by law.</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"rscrypt-enc(1)","level":"3.2","depth":1,"next":{"title":"rscrypt-dec(1)","level":"3.3","depth":1,"path":"man/rscrypt-dec.1.adoc","ref":"man/rscrypt-dec.1.adoc","articles":[]},"previous":{"title":"rscrypt(1)","level":"3.1","depth":1,"path":"man/rscrypt.1.adoc","ref":"man/rscrypt.1.adoc","articles":[]},"dir":"ltr"},"config":{"plugins":[],"root":"doc/book","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Shun Sakai","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"rscrypt Documentation","language":"en","gitbook":"*"},"file":{"path":"man/rscrypt-enc.1.adoc","mtime":"2023-06-12T10:50:42.965Z","type":"asciidoc"},"gitbook":{"version":"4.0.7","time":"2023-06-12T10:50:43.746Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"rscrypt-enc(1)","level":"3.2","depth":1,"next":{"title":"rscrypt-dec(1)","level":"3.3","depth":1,"path":"man/rscrypt-dec.1.adoc","ref":"man/rscrypt-dec.1.adoc","articles":[]},"previous":{"title":"rscrypt(1)","level":"3.1","depth":1,"path":"man/rscrypt.1.adoc","ref":"man/rscrypt.1.adoc","articles":[]},"dir":"ltr"},"config":{"plugins":[],"root":"doc/book","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Shun Sakai","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"rscrypt Documentation","language":"en","gitbook":"*"},"file":{"path":"man/rscrypt-enc.1.adoc","mtime":"2023-07-12T15:43:20.048Z","type":"asciidoc"},"gitbook":{"version":"4.0.8","time":"2023-07-12T15:43:21.180Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
