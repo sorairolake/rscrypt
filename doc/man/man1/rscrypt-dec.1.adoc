@@ -1,12 +1,12 @@
 //
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: CC-BY-4.0
 //
 // Copyright (C) 2022-2023 Shun Sakai
 //
 
 = rscrypt-dec(1)
 // Specify in UTC.
-:docdate: 2022-12-15
+:docdate: 2023-07-08
 :doctype: manpage
 ifdef::revnumber[:mansource: rscrypt {revnumber}]
 :manmanual: General Commands Manual
@@ -34,7 +34,7 @@ _INFILE_::
 _OUTFILE_::
 
   Output file.
-  If it is not specified, the result will be write to stdout.
+  If _OUTFILE_ is not specified, the result will be write to stdout.
 
 == OPTIONS
 
@@ -46,15 +46,16 @@ _OUTFILE_::
 *-M*, *--max-memory* _BYTES_::
 
   Use at most the specified bytes of RAM to compute the derived key.
-  It can also be provided as bytes with the unit symbol (such as MiB and GB).
-  It should be between 1 MiB and 16 EiB.
+  _BYTES_ can also be provided as bytes with the unit symbol (such as MiB and
+  GB).
+  _BYTES_ should be between 1 MiB and 16 EiB.
 
 *-m*, *--max-memory-fraction* _RATE_::
 
   Use at most the specified fraction of the available RAM to compute the
   derived key.
-  It can be provided as a decimal or a fraction.
-  It should be greater than 0 and less than or equal to *0.5*.
+  _RATE_ can be provided as a decimal or a fraction.
+  _RATE_ should be greater than 0 and less than or equal to *0.5*.
   Default is 0.5.
 
 *-t*, *--max-time* _DURATION_::
@@ -96,6 +97,8 @@ _OUTFILE_::
 
 include::{includedir}/section-exit-status.adoc[]
 
+include::{includedir}/section-notes.adoc[]
+
 == EXAMPLES
 
 Decrypt a file:{blank}::
@@ -108,4 +111,4 @@ include::{includedir}/section-copyright.adoc[]
 
 == SEE ALSO
 
-*rscrypt*(1), *rscrypt-enc*(1), *rscrypt-info*(1)
+*rscrypt*(1), *rscrypt-enc*(1), *rscrypt-info*(1), *scrypt*(1)

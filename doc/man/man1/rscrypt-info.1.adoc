@@ -1,12 +1,12 @@
 //
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: CC-BY-4.0
 //
 // Copyright (C) 2022-2023 Shun Sakai
 //
 
 = rscrypt-info(1)
 // Specify in UTC.
-:docdate: 2022-12-15
+:docdate: 2023-07-08
 :doctype: manpage
 ifdef::revnumber[:mansource: rscrypt {revnumber}]
 :manmanual: General Commands Manual
@@ -43,13 +43,13 @@ ifdef::cbor,json,msgpack,toml,yaml[]
 ifdef::cbor[]
     *cbor*::::
 
-      CBOR.
+      Concise Binary Object Representation.
 endif::cbor[]
 
 ifdef::json[]
     *json*::::
 
-      JSON.
+      JavaScript Object Notation.
 endif::json[]
 
 ifdef::msgpack[]
@@ -61,7 +61,7 @@ endif::msgpack[]
 ifdef::toml[]
     *toml*::::
 
-      TOML.
+      Tom's Obvious Minimal Language.
 endif::toml[]
 
 ifdef::yaml[]
@@ -81,10 +81,12 @@ endif::[]
 
 include::{includedir}/section-exit-status.adoc[]
 
+include::{includedir}/section-notes.adoc[]
+
 include::{includedir}/section-reporting-bugs.adoc[]
 
 include::{includedir}/section-copyright.adoc[]
 
 == SEE ALSO
 
-*rscrypt*(1), *rscrypt-enc*(1), *rscrypt-dec*(1)
+*rscrypt*(1), *rscrypt-enc*(1), *rscrypt-dec*(1), *scrypt*(1)
