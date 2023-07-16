@@ -6,7 +6,7 @@
 
 = rscrypt(1)
 // Specify in UTC.
-:docdate: 2023-07-08
+:docdate: 2023-07-16
 :doctype: manpage
 ifdef::revnumber[:mansource: rscrypt {revnumber}]
 :manmanual: General Commands Manual
@@ -55,11 +55,29 @@ rscrypt - an utility for encrypt and decrypt files
 
   The possible values are:{blank}:::
 
-    * *bash*
-    * *elvish*
-    * *fish*
-    * *powershell*
-    * *zsh*
+    *bash*::::
+
+      Bash.
+
+    *elvish*::::
+
+      Elvish.
+
+    *fish*::::
+
+      fish.
+
+    *nushell*::::
+
+      Nushell.
+
+    *powershell*::::
+
+      PowerShell.
+
+    *zsh*::::
+
+      Zsh.
 
 include::{includedir}/section-exit-status.adoc[]
 

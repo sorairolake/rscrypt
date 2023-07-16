@@ -4,12 +4,22 @@
 // Copyright (C) 2022-2023 Shun Sakai
 //
 
-use std::{ffi::OsString, fmt, io, ops::Deref, path::PathBuf, str::FromStr, time::Duration};
+use std::{
+    ffi::OsString,
+    fmt,
+    io::{self, Write},
+    ops::Deref,
+    path::PathBuf,
+    str::FromStr,
+    time::Duration,
+};
 
 use anyhow::anyhow;
 use byte_unit::{n_eib_bytes, n_mib_bytes};
-use clap::{value_parser, ArgGroup, Args, CommandFactory, Parser, Subcommand, ValueHint};
-use clap_complete::{Generator, Shell};
+use clap::{
+    value_parser, ArgGroup, Args, CommandFactory, Parser, Subcommand, ValueEnum, ValueHint,
+};
+use clap_complete::Generator;
 use fraction::{Fraction, Zero};
 
 #[derive(Debug, Parser)]
@@ -289,6 +299,52 @@ impl Opt {
     }
 }
 
+#[derive(Clone, Debug, ValueEnum)]
+#[value(rename_all = "lower")]
+pub enum Shell {
+    /// Bash.
+    Bash,
+
+    /// Elvish.
+    Elvish,
+
+    /// fish.
+    Fish,
+
+    /// Nushell.
+    Nushell,
+
+    /// PowerShell.
+    PowerShell,
+
+    /// Zsh.
+    Zsh,
+}
+
+impl Generator for Shell {
+    fn file_name(&self, name: &str) -> String {
+        match self {
+            Self::Bash => clap_complete::Shell::Bash.file_name(name),
+            Self::Elvish => clap_complete::Shell::Elvish.file_name(name),
+            Self::Fish => clap_complete::Shell::Fish.file_name(name),
+            Self::Nushell => clap_complete_nushell::Nushell.file_name(name),
+            Self::PowerShell => clap_complete::Shell::PowerShell.file_name(name),
+            Self::Zsh => clap_complete::Shell::Zsh.file_name(name),
+        }
+    }
+
+    fn generate(&self, cmd: &clap::Command, buf: &mut dyn Write) {
+        match self {
+            Self::Bash => clap_complete::Shell::Bash.generate(cmd, buf),
+            Self::Elvish => clap_complete::Shell::Elvish.generate(cmd, buf),
+            Self::Fish => clap_complete::Shell::Fish.generate(cmd, buf),
+            Self::Nushell => clap_complete_nushell::Nushell.generate(cmd, buf),
+            Self::PowerShell => clap_complete::Shell::PowerShell.generate(cmd, buf),
+            Self::Zsh => clap_complete::Shell::Zsh.generate(cmd, buf),
+        }
+    }
+}
+
 /// Amount of RAM.
 #[derive(Clone, Copy, Debug)]
 pub struct Byte(byte_unit::Byte);
@@ -379,7 +435,7 @@ impl FromStr for Time {
     feature = "toml",
     feature = "yaml"
 ))]
-#[derive(Clone, Copy, Debug, clap::ValueEnum)]
+#[derive(Clone, Copy, Debug, ValueEnum)]
 pub enum Format {
     /// Concise Binary Object Representation.
     #[cfg(feature = "cbor")]
