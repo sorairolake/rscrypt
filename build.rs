@@ -40,6 +40,7 @@ fn generate_man_page(out_dir: impl AsRef<Path>) -> io::Result<ExitStatus> {
             man_dir.join("rscrypt-enc.1.adoc"),
             man_dir.join("rscrypt-dec.1.adoc"),
             man_dir.join("rscrypt-info.1.adoc"),
+            man_dir.join("rscrypt-help.1.adoc"),
         ])
         .status()
 }

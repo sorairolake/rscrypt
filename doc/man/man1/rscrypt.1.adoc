@@ -6,7 +6,7 @@
 
 = rscrypt(1)
 // Specify in UTC.
-:docdate: 2023-07-16
+:docdate: 2023-07-17
 :doctype: manpage
 ifdef::revnumber[:mansource: rscrypt {revnumber}]
 :manmanual: General Commands Manual
@@ -37,6 +37,10 @@ rscrypt - an utility for encrypt and decrypt files
 *rscrypt-info*(1)::
 
   Provides information about the encryption parameters.
+
+*rscrypt-help*(1)::
+
+  Print the help for a command.
 
 == OPTIONS
 

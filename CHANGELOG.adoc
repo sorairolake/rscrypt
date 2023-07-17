@@ -17,6 +17,7 @@ toc::[]
 === Added
 
 * Add feature to generate Nushell completions ({pull-request-url}/161[#161])
+* Add man page for `help` subcommand
 
 == {compare-url}/v0.5.1\...v0.5.2[0.5.2] - 2023-07-12
 
