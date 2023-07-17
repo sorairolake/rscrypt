@@ -13,6 +13,7 @@
 * link:man/rscrypt-enc.1.adoc[`rscrypt-enc(1)`]
 * link:man/rscrypt-dec.1.adoc[`rscrypt-dec(1)`]
 * link:man/rscrypt-info.1.adoc[`rscrypt-info(1)`]
+* link:man/rscrypt-help.1.adoc[`rscrypt-help(1)`]
 
 '''
 

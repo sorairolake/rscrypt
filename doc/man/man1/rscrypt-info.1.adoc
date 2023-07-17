@@ -6,7 +6,7 @@
 
 = rscrypt-info(1)
 // Specify in UTC.
-:docdate: 2023-07-08
+:docdate: 2023-07-17
 :doctype: manpage
 ifdef::revnumber[:mansource: rscrypt {revnumber}]
 :manmanual: General Commands Manual
@@ -89,4 +89,4 @@ include::{includedir}/section-copyright.adoc[]
 
 == SEE ALSO
 
-*rscrypt*(1), *rscrypt-enc*(1), *rscrypt-dec*(1), *scrypt*(1)
+*rscrypt*(1), *rscrypt-dec*(1), *rscrypt-enc*(1), *rscrypt-help*(1), *scrypt*(1)

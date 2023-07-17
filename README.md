@@ -9,6 +9,8 @@ encrypt and decrypt files.
 
 This is a Rust implementation of `scrypt(1)`.
 
+![Demonstration video](asset/demo.gif)
+
 ## Installation
 
 ### From source
@@ -68,6 +70,7 @@ Please see the following:
 - [`rscrypt-enc(1)`][rscrypt-enc-man-url]
 - [`rscrypt-dec(1)`][rscrypt-dec-man-url]
 - [`rscrypt-info(1)`][rscrypt-info-man-url]
+- [`rscrypt-help(1)`][rscrypt-help-man-url]
 
 ## Changelog
 
@@ -104,3 +107,4 @@ See [COPYRIGHT](COPYRIGHT), [LICENSE-GPL](LICENSE-GPL) and
 [rscrypt-enc-man-url]: https://sorairolake.github.io/rscrypt/man/rscrypt-enc.1.html
 [rscrypt-dec-man-url]: https://sorairolake.github.io/rscrypt/man/rscrypt-dec.1.html
 [rscrypt-info-man-url]: https://sorairolake.github.io/rscrypt/man/rscrypt-info.1.html
+[rscrypt-help-man-url]: https://sorairolake.github.io/rscrypt/man/rscrypt-help.1.html
