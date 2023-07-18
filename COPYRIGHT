@@ -5,6 +5,7 @@ Files: *
 Copyright: 2022-2023 Shun Sakai
 License: GPL-3.0-or-later
 
-Files: doc/*
+Files: asset/*
+       doc/*
 Copyright: 2022-2023 Shun Sakai
 License: CC-BY-4.0
