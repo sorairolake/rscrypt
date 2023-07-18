@@ -12,6 +12,16 @@ project adheres to https://semver.org/[Semantic Versioning].
 
 toc::[]
 
+== {compare-url}/v0.5.3\...v0.5.4[0.5.4] - 2023-07-18
+
+=== Changed
+
+* Change license for `demo.gif`
+
+=== Fixed
+
+* Fix broken include directives ({pull-request-url}/174[#174])
+
 == {compare-url}/v0.5.2\...v0.5.3[0.5.3] - 2023-07-17
 
 === Added
