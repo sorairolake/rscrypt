@@ -350,17 +350,116 @@
 </dd>
 </dl>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_exit_status">EXIT STATUS</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>0</strong></dt>
+<dd>
+<p>Successful program execution.</p>
+</dd>
+<dt class="hdlist1"><strong>1</strong></dt>
+<dd>
+<p>An error occurred.</p>
+</dd>
+<dt class="hdlist1"><strong>2</strong></dt>
+<dd>
+<p>An error occurred while parsing command-line arguments.</p>
+</dd>
+<dt class="hdlist1"><strong>7</strong></dt>
+<dd>
+<p>Data was not a valid scrypt-encrypted block.</p>
+</dd>
+<dt class="hdlist1"><strong>8</strong></dt>
+<dd>
+<p>The version was the unrecognized scrypt version number.</p>
+</dd>
+<dt class="hdlist1"><strong>9</strong></dt>
+<dd>
+<p>Decrypting files takes too much memory.</p>
+</dd>
+<dt class="hdlist1"><strong>10</strong></dt>
+<dd>
+<p>Decrypting files takes too much CPU time.</p>
+</dd>
+<dt class="hdlist1"><strong>11</strong></dt>
+<dd>
+<p>Password is incorrect.</p>
+</dd>
+<dt class="hdlist1"><strong>14</strong></dt>
+<dd>
+<p>The scrypt parameters were invalid.</p>
+</dd>
+<dt class="hdlist1"><strong>15</strong></dt>
+<dd>
+<p>Decrypting files takes too much resources.</p>
+</dd>
+<dt class="hdlist1"><strong>66</strong></dt>
+<dd>
+<p>An input file did not exist or was not readable.</p>
+</dd>
+<dt class="hdlist1"><strong>77</strong></dt>
+<dd>
+<p>You did not have sufficient permission to perform the operation.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_notes">NOTES</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Source repository:</dt>
+<dd>
+<p><a href="https://github.com/sorairolake/rscrypt" class="bare" target="_blank">https://github.com/sorairolake/rscrypt</a></p>
+</dd>
+<dt class="hdlist1">The scrypt key derivation function and encryption utility:</dt>
+<dd>
+<p><a href="https://www.tarsnap.com/scrypt.html" class="bare" target="_blank">https://www.tarsnap.com/scrypt.html</a></p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reporting_bugs">REPORTING BUGS</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Bugs can be reported on GitHub at:</dt>
+<dd>
+<p><a href="https://github.com/sorairolake/rscrypt/issues" class="bare" target="_blank">https://github.com/sorairolake/rscrypt/issues</a></p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_copyright">COPYRIGHT</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>Unresolved directive in &lt;stdin&gt; - include::doc/man/include/section-exit-status.adoc[]</p>
+<p>Copyright © 2022-2023 Shun Sakai</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>This program is distributed under the terms of the GNU General Public License
+v3.0 or later.</p>
+</li>
+<li>
+<p>This manual page is distributed under the terms of the Creative Commons
+Attribution 4.0 International Public License.</p>
+</li>
+</ol>
 </div>
 <div class="paragraph">
-<p>Unresolved directive in &lt;stdin&gt; - include::doc/man/include/section-notes.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in &lt;stdin&gt; - include::doc/man/include/section-reporting-bugs.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in &lt;stdin&gt; - include::doc/man/include/section-copyright.adoc[]</p>
+<p>This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.</p>
 </div>
 </div>
 </div>
@@ -414,7 +513,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"rscrypt-help(1)","level":"3.5","depth":1,"next":{"title":"Changelog","level":"4.1","depth":1,"path":"CHANGELOG.adoc","ref":"CHANGELOG.adoc","articles":[]},"previous":{"title":"rscrypt-info(1)","level":"3.4","depth":1,"path":"man/rscrypt-info.1.adoc","ref":"man/rscrypt-info.1.adoc","articles":[]},"dir":"ltr"},"config":{"plugins":[],"root":"doc/book","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Shun Sakai","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"rscrypt Documentation","language":"en","gitbook":"*"},"file":{"path":"man/rscrypt-help.1.adoc","mtime":"2023-07-17T05:40:35.532Z","type":"asciidoc"},"gitbook":{"version":"5.0.0","time":"2023-07-17T05:40:36.405Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"rscrypt-help(1)","level":"3.5","depth":1,"next":{"title":"Changelog","level":"4.1","depth":1,"path":"CHANGELOG.adoc","ref":"CHANGELOG.adoc","articles":[]},"previous":{"title":"rscrypt-info(1)","level":"3.4","depth":1,"path":"man/rscrypt-info.1.adoc","ref":"man/rscrypt-info.1.adoc","articles":[]},"dir":"ltr"},"config":{"plugins":[],"root":"doc/book","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Shun Sakai","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"rscrypt Documentation","language":"en","gitbook":"*"},"file":{"path":"man/rscrypt-help.1.adoc","mtime":"2023-07-18T08:22:56.897Z","type":"asciidoc"},"gitbook":{"version":"5.0.0","time":"2023-07-18T08:22:57.762Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
