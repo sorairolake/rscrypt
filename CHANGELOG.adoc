@@ -12,6 +12,12 @@ project adheres to https://semver.org/[Semantic Versioning].
 
 toc::[]
 
+== {compare-url}/v0.5.4\...v0.5.5[0.5.5] - 2023-07-21
+
+=== Added
+
+* Add `homepage` field to `Cargo.toml`
+
 == {compare-url}/v0.5.3\...v0.5.4[0.5.4] - 2023-07-18
 
 === Changed
