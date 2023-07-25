@@ -12,6 +12,13 @@ project adheres to https://semver.org/[Semantic Versioning].
 
 toc::[]
 
+== {compare-url}/v0.5.5\...HEAD[Unreleased]
+
+=== Changed
+
+* Change the comment header to the format recommended by the REUSE
+  Specification ({pull-request-url}/180[#180])
+
 == {compare-url}/v0.5.4\...v0.5.5[0.5.5] - 2023-07-21
 
 === Added
