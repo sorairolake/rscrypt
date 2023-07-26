@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2022-2023 Shun Sakai
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 # rscrypt
 
 [![CI][ci-badge]][ci-url]
@@ -95,8 +101,7 @@ Copyright &copy; 2022&ndash;2023 Shun Sakai (see [AUTHORS.adoc](AUTHORS.adoc))
 2. Some files are distributed under the terms of the _Creative Commons
    Attribution 4.0 International Public License_.
 
-See [COPYRIGHT](COPYRIGHT), [LICENSE-GPL](LICENSE-GPL) and
-[LICENSE-CC-BY](LICENSE-CC-BY) for more details.
+See [COPYING](COPYING) for more details.
 
 [ci-badge]: https://img.shields.io/github/actions/workflow/status/sorairolake/rscrypt/CI.yaml?branch=develop&label=CI&logo=github&style=for-the-badge
 [ci-url]: https://github.com/sorairolake/rscrypt/actions?query=branch%3Adevelop+workflow%3ACI++

@@ -13,11 +13,11 @@ There is NO WARRANTY, to the extent permitted by law.
 == GNU General Public License v3.0
 
 ....
-include::LICENSE-GPL[]
+include::LICENSES/GPL-3.0-or-later.txt[]
 ....
 
 == Creative Commons Attribution 4.0 International Public License
 
 ....
-include::LICENSE-CC-BY[]
+include::LICENSES/CC-BY-4.0.txt[]
 ....

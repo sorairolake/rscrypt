@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022-2023 Shun Sakai
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 = Changelog
 :toc: macro
 :project-url: https://github.com/sorairolake/rscrypt
@@ -18,6 +22,7 @@ toc::[]
 
 * Change the comment header to the format recommended by the REUSE
   Specification ({pull-request-url}/180[#180])
+* Make this project REUSE compliant ({pull-request-url}/181[#181])
 
 == {compare-url}/v0.5.4\...v0.5.5[0.5.5] - 2023-07-21
 
