@@ -50,7 +50,7 @@ serde = { version = "1.0.174", features = ["derive"], optional = true }
 serde_json = { version = "1.0.103", optional = true }
 serde_yaml = { version = "0.9.25", optional = true }
 sysexits = "0.6.1"
-sysinfo = "0.29.5"
+sysinfo = "0.29.6"
 thiserror = "1.0.44"
 toml = { version = "0.7.6", optional = true }
 
