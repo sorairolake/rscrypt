@@ -1,8 +1,6 @@
+// SPDX-FileCopyrightText: 2022-2023 Shun Sakai
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
-//
-// Copyright (C) 2022-2023 Shun Sakai
-//
 
 // Lint levels of rustc.
 #![forbid(unsafe_code)]
@@ -12,8 +10,8 @@
 #![warn(clippy::cargo, clippy::nursery, clippy::pedantic)]
 #![allow(clippy::multiple_crate_versions)]
 
+mod app;
 mod cli;
-mod core;
 mod input;
 mod output;
 mod params;
@@ -85,7 +83,7 @@ impl Termination for ExitCode {
 }
 
 fn main() -> ExitCode {
-    match core::run() {
+    match app::run() {
         Ok(()) => ExitCode::Success,
         Err(err) => {
             eprintln!("Error: {err:?}");
