@@ -75,7 +75,7 @@ pub struct Encrypt {
     pub force: bool,
 
     /// Use at most the specified bytes of RAM to compute the derived key.
-    #[arg(short('M'), long, value_name("BYTES"), group("resources"))]
+    #[arg(short('M'), long, value_name("BYTE"), group("resources"))]
     pub max_memory: Option<Byte>,
 
     /// Use at most the specified fraction of the available RAM to compute the
@@ -195,7 +195,7 @@ pub struct Decrypt {
     pub force: bool,
 
     /// Use at most the specified bytes of RAM to compute the derived key.
-    #[arg(short('M'), long, value_name("BYTES"), group("resources"))]
+    #[arg(short('M'), long, value_name("BYTE"), group("resources"))]
     pub max_memory: Option<Byte>,
 
     /// Use at most the specified fraction of the available RAM to compute the

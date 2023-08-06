@@ -41,12 +41,12 @@ _OUTFILE_::
   Force the decryption to proceed even if it requires an excessive amount of
   resources.
 
-*-M*, *--max-memory* _BYTES_::
+*-M*, *--max-memory* _BYTE_::
 
   Use at most the specified bytes of RAM to compute the derived key.
-  _BYTES_ can also be provided as bytes with the unit symbol (such as MiB and
+  _BYTE_ can also be provided as bytes with the unit symbol (such as MiB and
   GB).
-  _BYTES_ should be between 1 MiB and 16 EiB.
+  _BYTE_ should be between 1 MiB and 16 EiB.
 
 *-m*, *--max-memory-fraction* _RATE_::
 
