@@ -90,7 +90,8 @@ Please see [CONTRIBUTING.adoc](CONTRIBUTING.adoc).
 ## Acknowledgment
 
 This program is inspired by the
-[scrypt encryption utility](https://www.tarsnap.com/scrypt.html).
+[scrypt encryption utility](https://www.tarsnap.com/scrypt.html), and built on
+top of the [`scryptenc`](https://crates.io/crates/scryptenc) crate.
 
 ## License
 
