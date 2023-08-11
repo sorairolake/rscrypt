@@ -75,7 +75,7 @@ fn encrypt_with_max_memory() {
         .write_stdin("password")
         .assert()
         .success()
-        .stderr(predicate::str::contains("available 64.00 MiB"));
+        .stderr(predicate::str::contains("64.00 MiB available"));
 }
 
 #[test]
@@ -441,7 +441,7 @@ fn decrypt_with_max_memory() {
         .write_stdin("password")
         .assert()
         .success()
-        .stderr(predicate::str::contains("available 64.00 MiB"));
+        .stderr(predicate::str::contains("64.00 MiB available"));
 }
 
 #[test]
