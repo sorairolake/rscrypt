@@ -141,7 +141,7 @@ pub fn run() -> anyhow::Result<()> {
                 }
 
                 let cipher = match Decryptor::new(input, password) {
-                    c @ Err(ScryptencError::InvalidHeaderSignature(_)) => {
+                    c @ Err(ScryptencError::InvalidHeaderMac(_)) => {
                         c.context("password is incorrect")
                     }
                     c => c.with_context(|| {

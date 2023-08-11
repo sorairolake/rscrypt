@@ -95,10 +95,10 @@ fn main() -> ExitCode {
                     ScryptencError::InvalidLength
                     | ScryptencError::InvalidMagicNumber
                     | ScryptencError::InvalidChecksum
-                    | ScryptencError::InvalidSignature(_) => ExitCode::InvalidFormat,
+                    | ScryptencError::InvalidMac(_) => ExitCode::InvalidFormat,
                     ScryptencError::UnknownVersion(_) => ExitCode::UnknownVersion,
                     ScryptencError::InvalidParams(_) => ExitCode::InvalidParams,
-                    ScryptencError::InvalidHeaderSignature(_) => ExitCode::InvalidPassword,
+                    ScryptencError::InvalidHeaderMac(_) => ExitCode::InvalidPassword,
                 }
             } else if let Some(e) = err.downcast_ref::<params::Error>() {
                 match e {
