@@ -52,13 +52,14 @@ fn display(n: u64, r: u32, p: u32) {
     let mem_usage =
         byte_unit::Byte::from_bytes(128 * u128::from(n) * u128::from(r)).get_appropriate_unit(true);
     eprintln!("Parameters used: N = {n}; r = {r}; p = {p};");
-    eprint!("Decrypting this file requires at least {mem_usage} of memory");
+    eprint!("    Decrypting this file requires at least {mem_usage} of memory");
 }
 
 /// Prints the encryption parameters without resources.
 fn display_without_resources(log_n: u8, r: u32, p: u32) {
     let n = 1 << log_n;
     display(n, r, p);
+    eprint!(".");
 }
 
 /// Prints the encryption parameters without resources, with a newline.
@@ -89,8 +90,8 @@ fn display_with_resources(
         .unwrap_or_else(|| Duration::MAX.as_secs_f64()),
     );
     display(n, r, p);
-    eprintln!(" (available {mem_limit})");
-    eprint!("Takes about {expected_secs:.2?} (limit: {max_time:.2?})");
+    eprintln!(" ({mem_limit} available),");
+    eprint!("    and will take approximately {expected_secs:.2?} (limit: {max_time:.2?}).");
 }
 
 /// Prints the encryption parameters with resources, with a newline.
