@@ -22,6 +22,7 @@ toc::[]
 
 * Change `SPDX-FileCopyrightText` of each file to include only the year of
   initial publication ({pull-request-url}/218[#218])
+* Remove unnecessary newline after period ({pull-request-url}/219[#219])
 
 == {compare-url}/v0.5.7\...v0.5.8[0.5.8] - 2023-08-11
 

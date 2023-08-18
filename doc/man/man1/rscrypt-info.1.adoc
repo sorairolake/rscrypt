@@ -26,8 +26,7 @@ This command provides information about the encryption parameters.
 
 _FILE_::
 
-  Input file.
-  If "-" is specified, data will be read from stdin.
+  Input file. If "-" is specified, data will be read from stdin.
 
 == OPTIONS
 
