@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2022-2023 Shun Sakai
+# SPDX-FileCopyrightText: 2022 Shun Sakai
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -59,11 +59,11 @@ jobs:
         targets: ${{ matrix.target }}
     - name: Install cross
       if: ${{ matrix.use-cross }}
-      uses: taiki-e/install-action@v2.14.3
+      uses: taiki-e/install-action@v2.15.5
       with:
         tool: cross
     - name: Cache build artifacts
-      uses: Swatinem/rust-cache@v2.6.0
+      uses: Swatinem/rust-cache@v2.6.1
       with:
         key: ${{ matrix.target }}
     - name: Setup Ruby

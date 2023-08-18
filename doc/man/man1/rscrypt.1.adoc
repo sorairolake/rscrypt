@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2023 Shun Sakai
+// SPDX-FileCopyrightText: 2022 Shun Sakai
 //
 // SPDX-License-Identifier: CC-BY-4.0
 
@@ -52,8 +52,7 @@ rscrypt - an utility for encrypt and decrypt files
 
 *--generate-completion* _SHELL_::
 
-  Generate shell completion.
-  The completion is output to stdout.
+  Generate shell completion. The completion is output to stdout.
 
   The possible values are:{blank}:::
 
