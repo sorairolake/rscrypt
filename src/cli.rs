@@ -59,7 +59,7 @@ pub enum Command {
 #[allow(clippy::struct_excessive_bools)]
 #[derive(Args, Debug)]
 #[command(
-    group(ArgGroup::new("password")),
+    group(ArgGroup::new("passphrase")),
     group(
         ArgGroup::new("resources")
             .multiple(true)
@@ -133,35 +133,35 @@ pub struct Encrypt {
     )]
     pub p: Option<u32>,
 
-    /// Read the password from /dev/tty.
+    /// Read the passphrase from /dev/tty.
     ///
     /// This is the default behavior.
-    #[arg(long, group("password"))]
+    #[arg(long, group("passphrase"))]
     pub passphrase_from_tty: bool,
 
-    /// Read the password from stdin.
-    #[arg(long, group("password"))]
+    /// Read the passphrase from stdin.
+    #[arg(long, group("passphrase"))]
     pub passphrase_from_stdin: bool,
 
-    /// Read the password from /dev/tty only once.
-    #[arg(long, group("password"))]
+    /// Read the passphrase from /dev/tty only once.
+    #[arg(long, group("passphrase"))]
     pub passphrase_from_tty_once: bool,
 
-    /// Read the password from the environment variable.
+    /// Read the passphrase from the environment variable.
     ///
-    /// Note that storing a password in an environment variable can be a
+    /// Note that storing a passphrase in an environment variable can be a
     /// security risk.
-    #[arg(long, value_name("VAR"), group("password"))]
+    #[arg(long, value_name("VAR"), group("passphrase"))]
     pub passphrase_from_env: Option<OsString>,
 
-    /// Read the password from the file.
+    /// Read the passphrase from the file.
     ///
-    /// Note that storing a password in a file can be a security risk.
+    /// Note that storing a passphrase in a file can be a security risk.
     #[arg(
         long,
         value_name("FILE"),
         value_hint(ValueHint::FilePath),
-        group("password")
+        group("passphrase")
     )]
     pub passphrase_from_file: Option<PathBuf>,
 
@@ -185,7 +185,7 @@ pub struct Encrypt {
 #[allow(clippy::struct_excessive_bools)]
 #[derive(Args, Debug)]
 #[command(
-    group(ArgGroup::new("password")),
+    group(ArgGroup::new("passphrase")),
     group(ArgGroup::new("resources").multiple(true).conflicts_with("force"))
 )]
 pub struct Decrypt {
@@ -220,31 +220,31 @@ pub struct Decrypt {
     )]
     pub max_time: Time,
 
-    /// Read the password from /dev/tty.
+    /// Read the passphrase from /dev/tty.
     ///
     /// This is the default behavior.
-    #[arg(long, group("password"))]
+    #[arg(long, group("passphrase"))]
     pub passphrase_from_tty: bool,
 
-    /// Read the password from stdin.
-    #[arg(long, group("password"))]
+    /// Read the passphrase from stdin.
+    #[arg(long, group("passphrase"))]
     pub passphrase_from_stdin: bool,
 
-    /// Read the password from the environment variable.
+    /// Read the passphrase from the environment variable.
     ///
-    /// Note that storing a password in an environment variable can be a
+    /// Note that storing a passphrase in an environment variable can be a
     /// security risk.
-    #[arg(long, value_name("VAR"), group("password"))]
+    #[arg(long, value_name("VAR"), group("passphrase"))]
     pub passphrase_from_env: Option<OsString>,
 
-    /// Read the password from the file.
+    /// Read the passphrase from the file.
     ///
-    /// Note that storing a password in a file can be a security risk.
+    /// Note that storing a passphrase in a file can be a security risk.
     #[arg(
         long,
         value_name("FILE"),
         value_hint(ValueHint::FilePath),
-        group("password")
+        group("passphrase")
     )]
     pub passphrase_from_file: Option<PathBuf>,
 

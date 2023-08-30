@@ -392,7 +392,7 @@ fn validate_conflicts_if_reading_from_stdin_for_encrypt_command() {
         .assert()
         .failure()
         .stderr(predicate::str::ends_with(
-            "cannot read both password and input data from stdin\n",
+            "cannot read both passphrase and input data from stdin\n",
         ));
 }
 
@@ -603,7 +603,7 @@ fn validate_conflicts_if_reading_from_stdin_for_decrypt_command() {
         .assert()
         .failure()
         .stderr(predicate::str::ends_with(
-            "cannot read both password and input data from stdin\n",
+            "cannot read both passphrase and input data from stdin\n",
         ));
 }
 
