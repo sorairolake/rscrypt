@@ -6,17 +6,17 @@ use std::path::Path;
 
 use anyhow::{bail, Context};
 use clap::Parser;
-use scryptenc::{scrypt, Decryptor, Encryptor, Error as ScryptencError};
+use scryptenc::{scrypt, Decryptor, Error as ScryptencError};
 
 use crate::{
     cli::{Command, Opt},
-    input, output, params, password,
+    input, output, params, passphrase,
 };
 
-/// Ensures that there are no conflicts if reading the password from stdin.
+/// Ensures that there are no conflicts if reading the passphrase from stdin.
 fn ensure_stdin_does_not_conflict(path: &Path) -> anyhow::Result<()> {
     if path == Path::new("-") {
-        bail!("cannot read both password and input data from stdin");
+        bail!("cannot read both passphrase and input data from stdin");
     }
     Ok(())
 }
@@ -36,7 +36,7 @@ pub fn run() -> anyhow::Result<()> {
             Command::Encrypt(arg) => {
                 let input = input::read(&arg.input)?;
 
-                let password = match (
+                let passphrase = match (
                     arg.passphrase_from_tty,
                     arg.passphrase_from_stdin,
                     arg.passphrase_from_tty_once,
@@ -45,12 +45,12 @@ pub fn run() -> anyhow::Result<()> {
                 ) {
                     (_, true, ..) => {
                         ensure_stdin_does_not_conflict(&arg.input)?;
-                        password::read_password_from_stdin()
+                        passphrase::read_passphrase_from_stdin()
                     }
-                    (_, _, true, ..) => password::read_password_from_tty_once(),
-                    (.., Some(env), _) => password::read_password_from_env(&env),
-                    (.., Some(file)) => password::read_password_from_file(&file),
-                    _ => password::read_password_from_tty(),
+                    (_, _, true, ..) => passphrase::read_passphrase_from_tty_once(),
+                    (.., Some(env), _) => passphrase::read_passphrase_from_env(&env),
+                    (.., Some(file)) => passphrase::read_passphrase_from_file(&file),
+                    _ => passphrase::read_passphrase_from_tty(),
                 }?;
 
                 let params = if let (Some(log_n), Some(r), Some(p)) = (arg.log_n, arg.r, arg.p) {
@@ -86,19 +86,18 @@ pub fn run() -> anyhow::Result<()> {
                     )?;
                 }
 
-                let cipher = Encryptor::with_params(input, password, params);
-                let encrypted = cipher.encrypt_to_vec();
+                let ciphertext = scryptenc::encrypt_with_params(input, passphrase, params);
 
                 if let Some(file) = arg.output {
-                    output::write_to_file(&file, &encrypted)?;
+                    output::write_to_file(&file, &ciphertext)?;
                 } else {
-                    output::write_to_stdout(&encrypted)?;
+                    output::write_to_stdout(&ciphertext)?;
                 }
             }
             Command::Decrypt(arg) => {
                 let input = input::read(&arg.input)?;
 
-                let password = match (
+                let passphrase = match (
                     arg.passphrase_from_tty,
                     arg.passphrase_from_stdin,
                     arg.passphrase_from_env,
@@ -106,11 +105,11 @@ pub fn run() -> anyhow::Result<()> {
                 ) {
                     (_, true, ..) => {
                         ensure_stdin_does_not_conflict(&arg.input)?;
-                        password::read_password_from_stdin()
+                        passphrase::read_passphrase_from_stdin()
                     }
-                    (.., Some(env), _) => password::read_password_from_env(&env),
-                    (.., Some(file)) => password::read_password_from_file(&file),
-                    _ => password::read_password_from_tty_once(),
+                    (.., Some(env), _) => passphrase::read_passphrase_from_env(&env),
+                    (.., Some(file)) => passphrase::read_passphrase_from_file(&file),
+                    _ => passphrase::read_passphrase_from_tty_once(),
                 }?;
 
                 let params = params::get(&input, &arg.input)?;
@@ -140,22 +139,22 @@ pub fn run() -> anyhow::Result<()> {
                     )?;
                 }
 
-                let cipher = match Decryptor::new(input, password) {
+                let cipher = match Decryptor::new(&input, passphrase) {
                     c @ Err(ScryptencError::InvalidHeaderMac(_)) => {
-                        c.context("password is incorrect")
+                        c.context("passphrase is incorrect")
                     }
                     c => c.with_context(|| {
                         format!("the header in {} is invalid", arg.input.display())
                     }),
                 }?;
-                let decrypted = cipher
+                let plaintext = cipher
                     .decrypt_to_vec()
                     .with_context(|| format!("{} is corrupted", arg.input.display()))?;
 
                 if let Some(file) = arg.output {
-                    output::write_to_file(&file, &decrypted)?;
+                    output::write_to_file(&file, &plaintext)?;
                 } else {
-                    output::write_to_stdout(&decrypted)?;
+                    output::write_to_stdout(&plaintext)?;
                 }
             }
             Command::Information(arg) => {

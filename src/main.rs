@@ -15,7 +15,7 @@ mod cli;
 mod input;
 mod output;
 mod params;
-mod password;
+mod passphrase;
 mod utils;
 
 use std::{
@@ -46,8 +46,8 @@ enum ExitCode {
     /// Decrypting files takes too much CPU time.
     LackOfCpuTime,
 
-    /// Password is incorrect.
-    InvalidPassword,
+    /// Passphrase is incorrect.
+    InvalidPassphrase,
 
     /// The scrypt parameters were invalid.
     InvalidParams,
@@ -74,7 +74,7 @@ impl Termination for ExitCode {
             Self::UnknownVersion => 8.into(),
             Self::LackOfMemory => 9.into(),
             Self::LackOfCpuTime => 10.into(),
-            Self::InvalidPassword => 11.into(),
+            Self::InvalidPassphrase => 11.into(),
             Self::InvalidParams => 14.into(),
             Self::LackOfResources => 15.into(),
             Self::Other(code) => code.into(),
@@ -98,7 +98,7 @@ fn main() -> ExitCode {
                     | ScryptencError::InvalidMac(_) => ExitCode::InvalidFormat,
                     ScryptencError::UnknownVersion(_) => ExitCode::UnknownVersion,
                     ScryptencError::InvalidParams(_) => ExitCode::InvalidParams,
-                    ScryptencError::InvalidHeaderMac(_) => ExitCode::InvalidPassword,
+                    ScryptencError::InvalidHeaderMac(_) => ExitCode::InvalidPassphrase,
                 }
             } else if let Some(e) = err.downcast_ref::<params::Error>() {
                 match e {
