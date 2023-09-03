@@ -34,7 +34,7 @@
 
 *11*::
 
-  Password is incorrect.
+  Passphrase is incorrect.
 
 *14*::
 
