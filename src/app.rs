@@ -6,7 +6,7 @@ use std::path::Path;
 
 use anyhow::{bail, Context};
 use clap::Parser;
-use scryptenc::{scrypt, Decryptor, Encryptor, Error as ScryptencError};
+use scryptenc::{scrypt, Decryptor, Error as ScryptencError};
 
 use crate::{
     cli::{Command, Opt},
@@ -86,8 +86,7 @@ pub fn run() -> anyhow::Result<()> {
                     )?;
                 }
 
-                let cipher = Encryptor::with_params(input, passphrase, params);
-                let ciphertext = cipher.encrypt_to_vec();
+                let ciphertext = scryptenc::encrypt_with_params(input, passphrase, params);
 
                 if let Some(file) = arg.output {
                     output::write_to_file(&file, &ciphertext)?;
@@ -140,7 +139,7 @@ pub fn run() -> anyhow::Result<()> {
                     )?;
                 }
 
-                let cipher = match Decryptor::new(input, passphrase) {
+                let cipher = match Decryptor::new(&input, passphrase) {
                     c @ Err(ScryptencError::InvalidHeaderMac(_)) => {
                         c.context("passphrase is incorrect")
                     }
