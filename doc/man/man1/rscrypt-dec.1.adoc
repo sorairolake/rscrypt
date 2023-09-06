@@ -4,7 +4,7 @@
 
 = rscrypt-dec(1)
 // Specify in UTC.
-:docdate: 2023-08-30
+:docdate: 2023-09-06
 :doctype: manpage
 ifdef::revnumber[:mansource: rscrypt {revnumber}]
 :manmanual: General Commands Manual
@@ -95,7 +95,7 @@ include::{includedir}/section-notes.adoc[]
 
 Decrypt a file:{blank}::
 
-  $ *rscrypt dec file.enc file*
+  $ *rscrypt dec file.scrypt file*
 
 include::{includedir}/section-reporting-bugs.adoc[]
 

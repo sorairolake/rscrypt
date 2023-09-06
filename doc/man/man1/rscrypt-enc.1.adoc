@@ -4,7 +4,7 @@
 
 = rscrypt-enc(1)
 // Specify in UTC.
-:docdate: 2023-08-30
+:docdate: 2023-09-06
 :doctype: manpage
 ifdef::revnumber[:mansource: rscrypt {revnumber}]
 :manmanual: General Commands Manual
@@ -114,7 +114,7 @@ include::{includedir}/section-notes.adoc[]
 
 Encrypt a file:{blank}::
 
-  $ *rscrypt enc file file.enc*
+  $ *rscrypt enc file file.scrypt*
 
 include::{includedir}/section-reporting-bugs.adoc[]
 
