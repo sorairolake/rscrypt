@@ -41,13 +41,13 @@ Please see [BUILD.adoc](BUILD.adoc).
 Encrypt a file:
 
 ```sh
-rscrypt enc file file.enc
+rscrypt enc data.txt data.txt.scrypt
 ```
 
 Decrypt a file:
 
 ```sh
-rscrypt dec file.enc file
+rscrypt dec data.txt.scrypt data.txt
 ```
 
 ### Generate shell completion

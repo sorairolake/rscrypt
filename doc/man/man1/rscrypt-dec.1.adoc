@@ -4,7 +4,7 @@
 
 = rscrypt-dec(1)
 // Specify in UTC.
-:docdate: 2023-08-30
+:docdate: 2023-09-07
 :doctype: manpage
 ifdef::revnumber[:mansource: rscrypt {revnumber}]
 :manmanual: General Commands Manual
@@ -63,7 +63,8 @@ _OUTFILE_::
 
 *--passphrase-from-stdin*::
 
-  Read the passphrase from stdin.
+  Read the passphrase from stdin. This option cannot be used if _INFILE_ is
+  also stdin.
 
 *--passphrase-from-env* _VAR_::
 
@@ -95,7 +96,7 @@ include::{includedir}/section-notes.adoc[]
 
 Decrypt a file:{blank}::
 
-  $ *rscrypt dec file.enc file*
+  $ *rscrypt dec data.txt.scrypt data.txt*
 
 include::{includedir}/section-reporting-bugs.adoc[]
 

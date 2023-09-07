@@ -30,38 +30,38 @@ _FILE_::
 
 == OPTIONS
 
-ifdef::cbor,json,msgpack,toml,yaml[]
+ifdef::cbor,json,msgpack,toml,yaml,env-github[]
 *-f*, *--format* _FORMAT_::
 
   Output format.
 
   The possible values are:{blank}:::
 
-ifdef::cbor[]
+ifdef::cbor,env-github[]
     *cbor*::::
 
       Concise Binary Object Representation.
 endif::cbor[]
 
-ifdef::json[]
+ifdef::json,env-github[]
     *json*::::
 
       JavaScript Object Notation.
 endif::json[]
 
-ifdef::msgpack[]
+ifdef::msgpack,env-github[]
     *msgpack*::::
 
       MessagePack.
 endif::msgpack[]
 
-ifdef::toml[]
+ifdef::toml,env-github[]
     *toml*::::
 
       Tom's Obvious Minimal Language.
 endif::toml[]
 
-ifdef::yaml[]
+ifdef::yaml,env-github[]
     *yaml*::::
 
       YAML.
