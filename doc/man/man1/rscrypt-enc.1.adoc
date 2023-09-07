@@ -4,7 +4,7 @@
 
 = rscrypt-enc(1)
 // Specify in UTC.
-:docdate: 2023-09-06
+:docdate: 2023-09-07
 :doctype: manpage
 ifdef::revnumber[:mansource: rscrypt {revnumber}]
 :manmanual: General Commands Manual
@@ -59,18 +59,18 @@ _OUTFILE_::
 
 *--log-n* _VALUE_::
 
-  Set the work parameter N. _VALUE_ should be between *10* and *40*. Default is
-  15.
+  Set the work parameter N to 2^_VALUE_. _VALUE_ should be between *10* and
+  *40*. If this option is specified, *-r* and *-p* must also be specified.
 
 *-r* _VALUE_::
 
-  Set the work parameter r. _VALUE_ should be between *1* and *32*. Default is
-  8.
+  Set the work parameter r. _VALUE_ should be between *1* and *32*. If this
+  option is specified, *--log-n* and *-p* must also be specified.
 
 *-p* _VALUE_::
 
-  Set the work parameter p. _VALUE_ should be between *1* and *32*. Default is
-  4.
+  Set the work parameter p. _VALUE_ should be between *1* and *32*. If this
+  option is specified, *--log-n* and *-r* must also be specified.
 
 *--passphrase-from-tty*::
 
@@ -78,7 +78,8 @@ _OUTFILE_::
 
 *--passphrase-from-stdin*::
 
-  Read the passphrase from stdin.
+  Read the passphrase from stdin. This option cannot be used if _INFILE_ is
+  also stdin.
 
 *--passphrase-from-tty-once*::
 
@@ -114,7 +115,7 @@ include::{includedir}/section-notes.adoc[]
 
 Encrypt a file:{blank}::
 
-  $ *rscrypt enc file file.scrypt*
+  $ *rscrypt enc data.txt data.txt.scrypt*
 
 include::{includedir}/section-reporting-bugs.adoc[]
 

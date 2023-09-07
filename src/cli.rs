@@ -100,7 +100,7 @@ pub struct Encrypt {
     )]
     pub max_time: Time,
 
-    /// Set the work parameter N.
+    /// Set the work parameter N to 2^<VALUE>.
     #[arg(
         value_parser(value_parser!(u8).range(10..=40)),
         long,
