@@ -378,18 +378,18 @@ Default is 5 seconds.</p>
 </dd>
 <dt class="hdlist1"><strong>--log-n</strong> <em>VALUE</em></dt>
 <dd>
-<p>Set the work parameter N. <em>VALUE</em> should be between <strong>10</strong> and <strong>40</strong>. Default is
-15.</p>
+<p>Set the work parameter N to 2^<em>VALUE</em>. <em>VALUE</em> should be between <strong>10</strong> and
+<strong>40</strong>. If this option is specified, <strong>-r</strong> and <strong>-p</strong> must also be specified.</p>
 </dd>
 <dt class="hdlist1"><strong>-r</strong> <em>VALUE</em></dt>
 <dd>
-<p>Set the work parameter r. <em>VALUE</em> should be between <strong>1</strong> and <strong>32</strong>. Default is
-8.</p>
+<p>Set the work parameter r. <em>VALUE</em> should be between <strong>1</strong> and <strong>32</strong>. If this
+option is specified, <strong>--log-n</strong> and <strong>-p</strong> must also be specified.</p>
 </dd>
 <dt class="hdlist1"><strong>-p</strong> <em>VALUE</em></dt>
 <dd>
-<p>Set the work parameter p. <em>VALUE</em> should be between <strong>1</strong> and <strong>32</strong>. Default is
-4.</p>
+<p>Set the work parameter p. <em>VALUE</em> should be between <strong>1</strong> and <strong>32</strong>. If this
+option is specified, <strong>--log-n</strong> and <strong>-r</strong> must also be specified.</p>
 </dd>
 <dt class="hdlist1"><strong>--passphrase-from-tty</strong></dt>
 <dd>
@@ -397,7 +397,8 @@ Default is 5 seconds.</p>
 </dd>
 <dt class="hdlist1"><strong>--passphrase-from-stdin</strong></dt>
 <dd>
-<p>Read the passphrase from stdin.</p>
+<p>Read the passphrase from stdin. This option cannot be used if <em>INFILE</em> is
+also stdin.</p>
 </dd>
 <dt class="hdlist1"><strong>--passphrase-from-tty-once</strong></dt>
 <dd>
@@ -510,7 +511,7 @@ can be a security risk.</p>
 <dl>
 <dt class="hdlist1">Encrypt a file:</dt>
 <dd>
-<p>$ <strong>rscrypt enc file file.enc</strong></p>
+<p>$ <strong>rscrypt enc data.txt data.txt.scrypt</strong></p>
 </dd>
 </dl>
 </div>
@@ -604,7 +605,7 @@ WARRANTY, to the extent permitted by law.</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"rscrypt-enc(1)","level":"3.2","depth":1,"next":{"title":"rscrypt-dec(1)","level":"3.3","depth":1,"path":"man/rscrypt-dec.1.adoc","ref":"man/rscrypt-dec.1.adoc","articles":[]},"previous":{"title":"rscrypt(1)","level":"3.1","depth":1,"path":"man/rscrypt.1.adoc","ref":"man/rscrypt.1.adoc","articles":[]},"dir":"ltr"},"config":{"plugins":[],"root":"doc/book","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Shun Sakai","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"rscrypt Documentation","language":"en","gitbook":"*"},"file":{"path":"man/rscrypt-enc.1.adoc","mtime":"2023-09-03T14:38:02.866Z","type":"asciidoc"},"gitbook":{"version":"5.1.0","time":"2023-09-03T14:38:03.932Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"rscrypt-enc(1)","level":"3.2","depth":1,"next":{"title":"rscrypt-dec(1)","level":"3.3","depth":1,"path":"man/rscrypt-dec.1.adoc","ref":"man/rscrypt-dec.1.adoc","articles":[]},"previous":{"title":"rscrypt(1)","level":"3.1","depth":1,"path":"man/rscrypt.1.adoc","ref":"man/rscrypt.1.adoc","articles":[]},"dir":"ltr"},"config":{"plugins":[],"root":"doc/book","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Shun Sakai","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"rscrypt Documentation","language":"en","gitbook":"*"},"file":{"path":"man/rscrypt-enc.1.adoc","mtime":"2023-09-07T10:40:46.448Z","type":"asciidoc"},"gitbook":{"version":"5.1.0","time":"2023-09-07T10:40:47.306Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
