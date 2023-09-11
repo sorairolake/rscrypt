@@ -38,7 +38,7 @@ anyhow = "1.0.75"
 byte-unit = "4.0.19"
 ciborium = { version = "0.2.1", optional = true }
 clap = { version = "4.4.2", features = ["derive", "wrap_help"] }
-clap_complete = "4.4.0"
+clap_complete = "4.4.1"
 clap_complete_nushell = "4.4.0"
 dialoguer = { version = "0.10.4", default-features = false, features = ["password"] }
 fraction = { version = "0.13.1", default-features = false }
