@@ -16,13 +16,14 @@ license = "GPL-3.0-or-later"
 keywords = ["scrypt"]
 categories = ["command-line-utilities"]
 exclude = [
+  "/.bumpversion.cfg*",
   "/.github",
-  "/*.json",
-  "/*.json.license",
+  "/antora-playbook.yml",
   "/clippy.toml",
   "/Cross.toml",
   "/doc",
   "/justfile",
+  "/package*.json*",
   "/rustfmt.toml",
   "/tests",
 ]
