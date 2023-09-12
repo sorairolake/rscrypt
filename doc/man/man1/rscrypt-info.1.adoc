@@ -30,42 +30,42 @@ _FILE_::
 
 == OPTIONS
 
-ifdef::cbor,json,msgpack,toml,yaml,env-github[]
+ifdef::cbor,json,msgpack,toml,yaml,env-github,site-gen-antora[]
 *-f*, *--format* _FORMAT_::
 
   Output format.
 
   The possible values are:{blank}:::
 
-ifdef::cbor,env-github[]
+ifdef::cbor,env-github,site-gen-antora[]
     *cbor*::::
 
       Concise Binary Object Representation.
-endif::cbor[]
+endif::cbor,env-github,site-gen-antora[]
 
-ifdef::json,env-github[]
+ifdef::json,env-github,site-gen-antora[]
     *json*::::
 
       JavaScript Object Notation.
-endif::json[]
+endif::json,env-github,site-gen-antora[]
 
-ifdef::msgpack,env-github[]
+ifdef::msgpack,env-github,site-gen-antora[]
     *msgpack*::::
 
       MessagePack.
-endif::msgpack[]
+endif::msgpack,env-github,site-gen-antora[]
 
-ifdef::toml,env-github[]
+ifdef::toml,env-github,site-gen-antora[]
     *toml*::::
 
       Tom's Obvious Minimal Language.
-endif::toml[]
+endif::toml,env-github,site-gen-antora[]
 
-ifdef::yaml,env-github[]
+ifdef::yaml,env-github,site-gen-antora[]
     *yaml*::::
 
       YAML.
-endif::yaml[]
+endif::yaml,env-github,site-gen-antora[]
 endif::[]
 
 *-h*, *--help*::

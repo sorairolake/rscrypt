@@ -17,11 +17,11 @@ WARRANTY, to the extent permitted by law.
 == GNU General Public License v3.0
 
 ....
-include::LICENSES/GPL-3.0-or-later.txt[]
+include::example$LICENSES/GPL-3.0-or-later.txt[]
 ....
 
 == Creative Commons Attribution 4.0 International Public License
 
 ....
-include::LICENSES/CC-BY-4.0.txt[]
+include::example$LICENSES/CC-BY-4.0.txt[]
 ....
