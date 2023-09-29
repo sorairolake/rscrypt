@@ -892,9 +892,9 @@ dependencies = [
 
 [[package]]
 name = "scryptenc"
-version = "0.8.1"
+version = "0.8.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "308ad4b0ed342324ef93cf8731c5204f2036956b56c96638681a08d3a4005b0e"
+checksum = "075663f5f5d74be8bca5cb19cf5cd9dd18b14367bd9b392d52d639b62ffc8a46"
 dependencies = [
  "aes",
  "ctr",
@@ -986,9 +986,9 @@ dependencies = [
 
 [[package]]
 name = "sha2"
-version = "0.10.7"
+version = "0.10.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "479fb9d862239e610720565ca91403019f2f00410f1864c5aa7479b950a76ed8"
+checksum = "793db75ad2bcafc3ffa7c68b215fee268f537982cd901d132f89c6343f3a3dc8"
 dependencies = [
  "cfg-if",
  "cpufeatures",
