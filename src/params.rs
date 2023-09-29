@@ -255,7 +255,7 @@ pub struct Params {
 ))]
 impl Params {
     /// Creates a new `Params`.
-    pub fn new(params: scryptenc::Params) -> Self {
+    pub const fn new(params: scryptenc::Params) -> Self {
         Self {
             n: params.n(),
             r: params.r(),
