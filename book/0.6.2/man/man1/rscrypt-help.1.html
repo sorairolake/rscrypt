@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>rscrypt-info(1) :: rscrypt Documentation</title>
-    <link rel="canonical" href="https://sorairolake.github.io/rscrypt/book/0.6.1/man/man1/rscrypt-info.1.html">
+    <title>rscrypt-help(1) :: rscrypt Documentation</title>
+    <link rel="canonical" href="https://sorairolake.github.io/rscrypt/book/0.6.2/man/man1/rscrypt-help.1.html">
     <meta name="generator" content="Antora 3.1.4">
     <link rel="stylesheet" href="../../../../_/css/site.css">
   </head>
@@ -48,7 +48,7 @@
   </nav>
 </header>
 <div class="body">
-<div class="nav-container" data-component="book" data-version="0.6.1">
+<div class="nav-container" data-component="book" data-version="0.6.2">
   <aside class="nav">
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
@@ -56,14 +56,15 @@
     <h3 class="title"><a href="../../index.html">rscrypt</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
-    <button class="nav-item-toggle"></button>
-    <span class="nav-text">Installation</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="../../install.html">Installation</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="../../build.html">How to Build</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../usage.html">Usage</a>
   </li>
 </ul>
   </li>
@@ -80,10 +81,10 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="rscrypt-dec.1.html"><code>rscrypt-dec(1)</code></a>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="rscrypt-info.1.html"><code>rscrypt-info(1)</code></a>
   </li>
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <a class="nav-link" href="rscrypt-help.1.html"><code>rscrypt-help(1)</code></a>
   </li>
 </ul>
@@ -112,14 +113,14 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">rscrypt</span>
-    <span class="version">0.6.1</span>
+    <span class="version">0.6.2</span>
   </div>
   <ul class="components">
     <li class="component is-current">
       <a class="title" href="../../index.html">rscrypt</a>
       <ul class="versions">
         <li class="version is-current is-latest">
-          <a href="../../index.html">0.6.1</a>
+          <a href="../../index.html">0.6.2</a>
         </li>
       </ul>
     </li>
@@ -136,26 +137,26 @@
   <ul>
     <li><a href="../../index.html">rscrypt</a></li>
     <li>Manual pages</li>
-    <li><a href="rscrypt-info.1.html"><code>rscrypt-info(1)</code></a></li>
+    <li><a href="rscrypt-help.1.html"><code>rscrypt-help(1)</code></a></li>
   </ul>
 </nav>
-<div class="edit-this-page"><a href="https://github.com/sorairolake/rscrypt/edit/HEAD/doc/book/modules/ROOT/pages/man/man1/rscrypt-info.1.adoc">Edit this Page</a></div>
+<div class="edit-this-page"><a href="https://github.com/sorairolake/rscrypt/edit/HEAD/doc/book/modules/ROOT/pages/man/man1/rscrypt-help.1.adoc">Edit this Page</a></div>
 </div>
   <div class="content">
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">rscrypt-info(1)</h1>
+<h1 class="page">rscrypt-help(1)</h1>
 <h2 id="_name">NAME</h2>
 <div class="sectionbody">
-<p>rscrypt-info - provides information about the encryption parameters</p>
+<p>rscrypt-help - print the help for a command</p>
 </div>
 <div class="sect1">
 <h2 id="_synopsis"><a class="anchor" href="#_synopsis"></a>SYNOPSIS</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>rscrypt info</strong> [<em>OPTION</em>]&#8230;&#8203; <em>FILE</em></p>
+<p><strong>rscrypt help</strong> [<em>COMMAND</em>]</p>
 </div>
 </div>
 </div>
@@ -163,7 +164,15 @@
 <h2 id="_description"><a class="anchor" href="#_description"></a>DESCRIPTION</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This command provides information about the encryption parameters.</p>
+<p>This command prints the help for a command.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">This command is identical to any of the following:</dt>
+<dd>
+<p>$ <strong>rscrypt</strong> [<em>COMMAND</em>] <strong>-h</strong>|<strong>--help</strong></p>
+</dd>
+</dl>
 </div>
 </div>
 </div>
@@ -172,61 +181,9 @@
 <div class="sectionbody">
 <div class="dlist">
 <dl>
-<dt class="hdlist1"><em>FILE</em></dt>
+<dt class="hdlist1"><em>COMMAND</em></dt>
 <dd>
-<p>Input file. If "-" is specified, data will be read from stdin.</p>
-</dd>
-</dl>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_options"><a class="anchor" href="#_options"></a>OPTIONS</h2>
-<div class="sectionbody">
-<div class="dlist">
-<dl>
-<dt class="hdlist1"><strong>-f</strong>, <strong>--format</strong> <em>FORMAT</em></dt>
-<dd>
-<p>Output format.</p>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">The possible values are:</dt>
-<dd>
-<div class="dlist">
-<dl>
-<dt class="hdlist1"><strong>cbor</strong></dt>
-<dd>
-<p>Concise Binary Object Representation.</p>
-</dd>
-<dt class="hdlist1"><strong>json</strong></dt>
-<dd>
-<p>JavaScript Object Notation.</p>
-</dd>
-<dt class="hdlist1"><strong>msgpack</strong></dt>
-<dd>
-<p>MessagePack.</p>
-</dd>
-<dt class="hdlist1"><strong>toml</strong></dt>
-<dd>
-<p>Tom&#8217;s Obvious Minimal Language.</p>
-</dd>
-<dt class="hdlist1"><strong>yaml</strong></dt>
-<dd>
-<p>YAML.</p>
-</dd>
-</dl>
-</div>
-</dd>
-</dl>
-</div>
-</dd>
-<dt class="hdlist1"><strong>-h</strong>, <strong>--help</strong></dt>
-<dd>
-<p>Print help information.</p>
-</dd>
-<dt class="hdlist1"><strong>-V</strong>, <strong>--version</strong></dt>
-<dd>
-<p>Print version information.</p>
+<p>Subcommand to print the help.</p>
 </dd>
 </dl>
 </div>
@@ -347,7 +304,7 @@ WARRANTY, to the extent permitted by law.</p>
 <h2 id="_see_also"><a class="anchor" href="#_see_also"></a>SEE ALSO</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>rscrypt</strong>(1), <strong>rscrypt-dec</strong>(1), <strong>rscrypt-enc</strong>(1), <strong>rscrypt-help</strong>(1), <strong>scrypt</strong>(1)</p>
+<p><strong>rscrypt</strong>(1), <strong>rscrypt-dec</strong>(1), <strong>rscrypt-enc</strong>(1), <strong>rscrypt-info</strong>(1), <strong>scrypt</strong>(1)</p>
 </div>
 </div>
 </div>

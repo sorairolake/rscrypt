@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Contribution Guide :: rscrypt Documentation</title>
-    <link rel="canonical" href="https://sorairolake.github.io/rscrypt/book/0.6.1/contributing.html">
+    <title>Installation :: rscrypt Documentation</title>
+    <link rel="canonical" href="https://sorairolake.github.io/rscrypt/book/0.6.2/install.html">
     <meta name="generator" content="Antora 3.1.4">
     <link rel="stylesheet" href="../../_/css/site.css">
   </head>
@@ -48,7 +48,7 @@
   </nav>
 </header>
 <div class="body">
-<div class="nav-container" data-component="book" data-version="0.6.1">
+<div class="nav-container" data-component="book" data-version="0.6.2">
   <aside class="nav">
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
@@ -56,14 +56,15 @@
     <h3 class="title"><a href="index.html">rscrypt</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
-    <button class="nav-item-toggle"></button>
-    <span class="nav-text">Installation</span>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <a class="nav-link" href="install.html">Installation</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="build.html">How to Build</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="usage.html">Usage</a>
   </li>
 </ul>
   </li>
@@ -95,7 +96,7 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="changelog.html">Changelog</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="contributing.html">Contribution Guide</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -112,14 +113,14 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">rscrypt</span>
-    <span class="version">0.6.1</span>
+    <span class="version">0.6.2</span>
   </div>
   <ul class="components">
     <li class="component is-current">
       <a class="title" href="index.html">rscrypt</a>
       <ul class="versions">
         <li class="version is-current is-latest">
-          <a href="index.html">0.6.1</a>
+          <a href="index.html">0.6.2</a>
         </li>
       </ul>
     </li>
@@ -135,64 +136,33 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">rscrypt</a></li>
-    <li>Resources</li>
-    <li><a href="contributing.html">Contribution Guide</a></li>
+    <li><a href="install.html">Installation</a></li>
   </ul>
 </nav>
-<div class="edit-this-page"><a href="https://github.com/sorairolake/rscrypt/edit/HEAD/doc/book/modules/ROOT/pages/contributing.adoc">Edit this Page</a></div>
+<div class="edit-this-page"><a href="https://github.com/sorairolake/rscrypt/edit/HEAD/doc/book/modules/ROOT/pages/install.adoc">Edit this Page</a></div>
 </div>
   <div class="content">
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">Contribution Guide</h1>
+<h1 class="page">Installation</h1>
 <div class="sect1">
-<h2 id="_branching_model"><a class="anchor" href="#_branching_model"></a>Branching model</h2>
+<h2 id="_from_source"><a class="anchor" href="#_from_source"></a>From source</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>The branching model of this project is based on the <a href="https://nvie.com/posts/a-successful-git-branching-model/">git-flow</a>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_style_guides"><a class="anchor" href="#_style_guides"></a>Style guides</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_commit_message"><a class="anchor" href="#_commit_message"></a>Commit message</h3>
-<div class="paragraph">
-<p>Please see the <a href="https://github.com/RomuloOliveira/commit-messages-guide">Commit messages guide</a>.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">cargo install scryptenc-cli</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_development"><a class="anchor" href="#_development"></a>Development</h2>
+<h2 id="_from_binaries"><a class="anchor" href="#_from_binaries"></a>From binaries</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_useful_development_tools"><a class="anchor" href="#_useful_development_tools"></a>Useful development tools</h3>
 <div class="paragraph">
-<p>The <a href="https://github.com/casey/just">just</a> command runner can be used. Run
-<code>just --list</code> for more details.</p>
-</div>
-<div class="listingblock">
-<div class="title">Run tests</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">just test</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Run the formatter</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">just fmt</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Run the linter</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">just lint</code></pre>
-</div>
-</div>
+<p>The <a href="https://github.com/sorairolake/rscrypt/releases">release page</a> contains pre-built binaries for Linux,
+macOS and Windows.</p>
 </div>
 </div>
 </div>
