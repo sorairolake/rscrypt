@@ -1,0 +1,37 @@
+// SPDX-FileCopyrightText: 2023 Shun Sakai
+//
+// SPDX-License-Identifier: CC-BY-4.0
+
+= Usage
+
+== Basic usage
+
+.Encrypt a file
+[source,shell]
+----
+rscrypt enc data.txt data.txt.scrypt
+----
+
+.Decrypt a file
+[source,shell]
+----
+rscrypt dec data.txt.scrypt data.txt
+----
+
+== Generate shell completion
+
+`--generate-completion` option generates shell completions to stdout.
+
+.The following shells are supported
+* `bash`
+* `elvish`
+* `fish`
+* `nushell`
+* `powershell`
+* `zsh`
+
+.Example
+[source,shell]
+----
+rscrypt --generate-completion bash > rscrypt.bash
+----

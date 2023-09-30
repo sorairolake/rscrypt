@@ -4,6 +4,6 @@
 
 name: book
 title: rscrypt
-version: "0.6.1"
+version: "0.6.2"
 nav:
   - modules/ROOT/nav.adoc

@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: CC-BY-4.0
 
-.Installation
 * xref:install.adoc[]
 * xref:build.adoc[]
+* xref:usage.adoc[]
 
 .Manual pages
 * xref:man/man1/rscrypt.1.adoc[`rscrypt(1)`]
