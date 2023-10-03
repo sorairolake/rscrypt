@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Usage :: rscrypt Documentation</title>
-    <link rel="canonical" href="https://sorairolake.github.io/rscrypt/book/0.6.2/usage.html">
+    <title>Installation :: rscrypt Documentation</title>
+    <link rel="canonical" href="https://sorairolake.github.io/rscrypt/book/install.html">
     <meta name="generator" content="Antora 3.1.4">
-    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../_/css/site.css">
   </head>
   <body class="article">
 <header class="header">
@@ -48,7 +48,7 @@
   </nav>
 </header>
 <div class="body">
-<div class="nav-container" data-component="book" data-version="0.6.2">
+<div class="nav-container" data-component="book" data-version="">
   <aside class="nav">
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
@@ -57,13 +57,13 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <a class="nav-link" href="install.html">Installation</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="build.html">How to Build</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="usage.html">Usage</a>
   </li>
 </ul>
@@ -113,14 +113,14 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">rscrypt</span>
-    <span class="version">0.6.2</span>
+    <span class="version">default</span>
   </div>
   <ul class="components">
     <li class="component is-current">
       <a class="title" href="index.html">rscrypt</a>
       <ul class="versions">
         <li class="version is-current is-latest">
-          <a href="index.html">0.6.2</a>
+          <a href="index.html">default</a>
         </li>
       </ul>
     </li>
@@ -136,68 +136,33 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">rscrypt</a></li>
-    <li><a href="usage.html">Usage</a></li>
+    <li><a href="install.html">Installation</a></li>
   </ul>
 </nav>
-<div class="edit-this-page"><a href="https://github.com/sorairolake/rscrypt/edit/HEAD/doc/book/modules/ROOT/pages/usage.adoc">Edit this Page</a></div>
+<div class="edit-this-page"><a href="https://github.com/sorairolake/rscrypt/edit/HEAD/doc/book/modules/ROOT/pages/install.adoc">Edit this Page</a></div>
 </div>
   <div class="content">
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">Usage</h1>
+<h1 class="page">Installation</h1>
 <div class="sect1">
-<h2 id="_basic_usage"><a class="anchor" href="#_basic_usage"></a>Basic usage</h2>
+<h2 id="_from_source"><a class="anchor" href="#_from_source"></a>From source</h2>
 <div class="sectionbody">
 <div class="listingblock">
-<div class="title">Encrypt a file</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">rscrypt enc data.txt data.txt.scrypt</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Decrypt a file</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">rscrypt dec data.txt.scrypt data.txt</code></pre>
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">cargo install scryptenc-cli</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_generate_shell_completion"><a class="anchor" href="#_generate_shell_completion"></a>Generate shell completion</h2>
+<h2 id="_from_binaries"><a class="anchor" href="#_from_binaries"></a>From binaries</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>--generate-completion</code> option generates shell completions to stdout.</p>
-</div>
-<div class="ulist">
-<div class="title">The following shells are supported</div>
-<ul>
-<li>
-<p><code>bash</code></p>
-</li>
-<li>
-<p><code>elvish</code></p>
-</li>
-<li>
-<p><code>fish</code></p>
-</li>
-<li>
-<p><code>nushell</code></p>
-</li>
-<li>
-<p><code>powershell</code></p>
-</li>
-<li>
-<p><code>zsh</code></p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="title">Example</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">rscrypt --generate-completion bash &gt; rscrypt.bash</code></pre>
-</div>
+<p>The <a href="https://github.com/sorairolake/rscrypt/releases">release page</a> contains pre-built binaries for Linux,
+macOS and Windows.</p>
 </div>
 </div>
 </div>
@@ -209,7 +174,7 @@
   <p>This page was built using the Antora default UI.</p>
   <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
 </footer>
-<script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
-<script async src="../../_/js/vendor/highlight.js"></script>
+<script id="site-script" src="../_/js/site.js" data-ui-root-path="../_"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
   </body>
 </html>

@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>rscrypt-dec(1) :: rscrypt Documentation</title>
-    <link rel="canonical" href="https://sorairolake.github.io/rscrypt/book/0.6.2/man/man1/rscrypt-dec.1.html">
+    <title>rscrypt-info(1) :: rscrypt Documentation</title>
+    <link rel="canonical" href="https://sorairolake.github.io/rscrypt/book/man/man1/rscrypt-info.1.html">
     <meta name="generator" content="Antora 3.1.4">
-    <link rel="stylesheet" href="../../../../_/css/site.css">
+    <link rel="stylesheet" href="../../../_/css/site.css">
   </head>
   <body class="article">
 <header class="header">
@@ -48,7 +48,7 @@
   </nav>
 </header>
 <div class="body">
-<div class="nav-container" data-component="book" data-version="0.6.2">
+<div class="nav-container" data-component="book" data-version="">
   <aside class="nav">
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
@@ -78,10 +78,10 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="rscrypt-enc.1.html"><code>rscrypt-enc(1)</code></a>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="rscrypt-dec.1.html"><code>rscrypt-dec(1)</code></a>
   </li>
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <a class="nav-link" href="rscrypt-info.1.html"><code>rscrypt-info(1)</code></a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -113,14 +113,14 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">rscrypt</span>
-    <span class="version">0.6.2</span>
+    <span class="version">default</span>
   </div>
   <ul class="components">
     <li class="component is-current">
       <a class="title" href="../../index.html">rscrypt</a>
       <ul class="versions">
         <li class="version is-current is-latest">
-          <a href="../../index.html">0.6.2</a>
+          <a href="../../index.html">default</a>
         </li>
       </ul>
     </li>
@@ -137,26 +137,26 @@
   <ul>
     <li><a href="../../index.html">rscrypt</a></li>
     <li>Manual pages</li>
-    <li><a href="rscrypt-dec.1.html"><code>rscrypt-dec(1)</code></a></li>
+    <li><a href="rscrypt-info.1.html"><code>rscrypt-info(1)</code></a></li>
   </ul>
 </nav>
-<div class="edit-this-page"><a href="https://github.com/sorairolake/rscrypt/edit/HEAD/doc/book/modules/ROOT/pages/man/man1/rscrypt-dec.1.adoc">Edit this Page</a></div>
+<div class="edit-this-page"><a href="https://github.com/sorairolake/rscrypt/edit/HEAD/doc/book/modules/ROOT/pages/man/man1/rscrypt-info.1.adoc">Edit this Page</a></div>
 </div>
   <div class="content">
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">rscrypt-dec(1)</h1>
+<h1 class="page">rscrypt-info(1)</h1>
 <h2 id="_name">NAME</h2>
 <div class="sectionbody">
-<p>rscrypt-dec - decrypt files</p>
+<p>rscrypt-info - provides information about the encryption parameters</p>
 </div>
 <div class="sect1">
 <h2 id="_synopsis"><a class="anchor" href="#_synopsis"></a>SYNOPSIS</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>rscrypt dec</strong> [<em>OPTION</em>]&#8230;&#8203; <em>INFILE</em> [<em>OUTFILE</em>]</p>
+<p><strong>rscrypt info</strong> [<em>OPTION</em>]&#8230;&#8203; <em>FILE</em></p>
 </div>
 </div>
 </div>
@@ -164,7 +164,7 @@
 <h2 id="_description"><a class="anchor" href="#_description"></a>DESCRIPTION</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This command decrypt files.</p>
+<p>This command provides information about the encryption parameters.</p>
 </div>
 </div>
 </div>
@@ -173,14 +173,9 @@
 <div class="sectionbody">
 <div class="dlist">
 <dl>
-<dt class="hdlist1"><em>INFILE</em></dt>
+<dt class="hdlist1"><em>FILE</em></dt>
 <dd>
 <p>Input file. If "-" is specified, data will be read from stdin.</p>
-</dd>
-<dt class="hdlist1"><em>OUTFILE</em></dt>
-<dd>
-<p>Output file. If <em>OUTFILE</em> is not specified, the result will be write to
-stdout.</p>
 </dd>
 </dl>
 </div>
@@ -191,50 +186,40 @@ stdout.</p>
 <div class="sectionbody">
 <div class="dlist">
 <dl>
-<dt class="hdlist1"><strong>-f</strong>, <strong>--force</strong></dt>
+<dt class="hdlist1"><strong>-f</strong>, <strong>--format</strong> <em>FORMAT</em></dt>
 <dd>
-<p>Force the decryption to proceed even if it requires an excessive amount of
-resources.</p>
+<p>Output format.</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">The possible values are:</dt>
+<dd>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>cbor</strong></dt>
+<dd>
+<p>Concise Binary Object Representation.</p>
 </dd>
-<dt class="hdlist1"><strong>-M</strong>, <strong>--max-memory</strong> <em>BYTE</em></dt>
+<dt class="hdlist1"><strong>json</strong></dt>
 <dd>
-<p>Use at most the specified bytes of RAM to compute the derived key. <em>BYTE</em> can
-also be provided as bytes with the unit symbol (such as MiB and GB). <em>BYTE</em>
-should be between 1 MiB and 16 EiB.</p>
+<p>JavaScript Object Notation.</p>
 </dd>
-<dt class="hdlist1"><strong>-m</strong>, <strong>--max-memory-fraction</strong> <em>RATE</em></dt>
+<dt class="hdlist1"><strong>msgpack</strong></dt>
 <dd>
-<p>Use at most the specified fraction of the available RAM to compute the
-derived key. <em>RATE</em> can be provided as a decimal or a fraction. <em>RATE</em> should
-be greater than 0 and less than or equal to <strong>0.5</strong>. Default is 0.5.</p>
+<p>MessagePack.</p>
 </dd>
-<dt class="hdlist1"><strong>-t</strong>, <strong>--max-time</strong> <em>DURATION</em></dt>
+<dt class="hdlist1"><strong>toml</strong></dt>
 <dd>
-<p>Use at most the specified duration of CPU time to compute the derived key.
-Default is 300 seconds.</p>
+<p>Tom&#8217;s Obvious Minimal Language.</p>
 </dd>
-<dt class="hdlist1"><strong>--passphrase-from-tty</strong></dt>
+<dt class="hdlist1"><strong>yaml</strong></dt>
 <dd>
-<p>Read the passphrase from /dev/tty. This is the default behavior.</p>
+<p>YAML.</p>
 </dd>
-<dt class="hdlist1"><strong>--passphrase-from-stdin</strong></dt>
-<dd>
-<p>Read the passphrase from stdin. This option cannot be used if <em>INFILE</em> is
-also stdin.</p>
+</dl>
+</div>
 </dd>
-<dt class="hdlist1"><strong>--passphrase-from-env</strong> <em>VAR</em></dt>
-<dd>
-<p>Read the passphrase from the environment variable. Note that storing a
-passphrase in an environment variable can be a security risk.</p>
-</dd>
-<dt class="hdlist1"><strong>--passphrase-from-file</strong> <em>FILE</em></dt>
-<dd>
-<p>Read the passphrase from the file. Note that storing a passphrase in a file
-can be a security risk.</p>
-</dd>
-<dt class="hdlist1"><strong>-v</strong>, <strong>--verbose</strong></dt>
-<dd>
-<p>Print encryption parameters and resource limits.</p>
+</dl>
+</div>
 </dd>
 <dt class="hdlist1"><strong>-h</strong>, <strong>--help</strong></dt>
 <dd>
@@ -323,19 +308,6 @@ can be a security risk.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_examples"><a class="anchor" href="#_examples"></a>EXAMPLES</h2>
-<div class="sectionbody">
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Decrypt a file:</dt>
-<dd>
-<p>$ <strong>rscrypt dec data.txt.scrypt data.txt</strong></p>
-</dd>
-</dl>
-</div>
-</div>
-</div>
-<div class="sect1">
 <h2 id="_reporting_bugs"><a class="anchor" href="#_reporting_bugs"></a>REPORTING BUGS</h2>
 <div class="sectionbody">
 <div class="dlist">
@@ -376,8 +348,7 @@ WARRANTY, to the extent permitted by law.</p>
 <h2 id="_see_also"><a class="anchor" href="#_see_also"></a>SEE ALSO</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>rscrypt</strong>(1), <strong>rscrypt-enc</strong>(1), <strong>rscrypt-help</strong>(1), <strong>rscrypt-info</strong>(1),
-<strong>scrypt</strong>(1)</p>
+<p><strong>rscrypt</strong>(1), <strong>rscrypt-dec</strong>(1), <strong>rscrypt-enc</strong>(1), <strong>rscrypt-help</strong>(1), <strong>scrypt</strong>(1)</p>
 </div>
 </div>
 </div>
@@ -389,7 +360,7 @@ WARRANTY, to the extent permitted by law.</p>
   <p>This page was built using the Antora default UI.</p>
   <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
 </footer>
-<script id="site-script" src="../../../../_/js/site.js" data-ui-root-path="../../../../_"></script>
-<script async src="../../../../_/js/vendor/highlight.js"></script>
+<script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
   </body>
 </html>
