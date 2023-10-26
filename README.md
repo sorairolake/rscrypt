@@ -109,11 +109,11 @@ See [COPYING] for more details.
 [license-badge]: https://img.shields.io/crates/l/scryptenc-cli?style=for-the-badge
 [release page]: https://github.com/sorairolake/rscrypt/releases
 [BUILD.adoc]: BUILD.adoc
-[`rscrypt(1)`]: https://sorairolake.github.io/rscrypt/man/rscrypt.1.html
-[`rscrypt-enc(1)`]: https://sorairolake.github.io/rscrypt/man/rscrypt-enc.1.html
-[`rscrypt-dec(1)`]: https://sorairolake.github.io/rscrypt/man/rscrypt-dec.1.html
-[`rscrypt-info(1)`]: https://sorairolake.github.io/rscrypt/man/rscrypt-info.1.html
-[`rscrypt-help(1)`]: https://sorairolake.github.io/rscrypt/man/rscrypt-help.1.html
+[`rscrypt(1)`]: https://sorairolake.github.io/rscrypt/book/man/man1/rscrypt.1.html
+[`rscrypt-enc(1)`]: https://sorairolake.github.io/rscrypt/book/man/man1/rscrypt-enc.1.html
+[`rscrypt-dec(1)`]: https://sorairolake.github.io/rscrypt/book/man/man1/rscrypt-dec.1.html
+[`rscrypt-info(1)`]: https://sorairolake.github.io/rscrypt/book/man/man1/rscrypt-info.1.html
+[`rscrypt-help(1)`]: https://sorairolake.github.io/rscrypt/book/man/man1/rscrypt-help.1.html
 [CHANGELOG.adoc]: CHANGELOG.adoc
 [CONTRIBUTING.adoc]: CONTRIBUTING.adoc
 [scrypt encryption utility]: https://www.tarsnap.com/scrypt.html
