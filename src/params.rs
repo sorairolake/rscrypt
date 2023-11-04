@@ -250,9 +250,4 @@ impl Params {
             p: params.p(),
         }
     }
-
-    /// Serializes the given data structure.
-    pub fn to_vec(self) -> anyhow::Result<Vec<u8>> {
-        serde_json::to_vec(&self).context("could not serialize as JSON")
-    }
 }
