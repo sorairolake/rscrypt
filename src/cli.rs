@@ -267,16 +267,10 @@ pub struct Decrypt {
 
 #[derive(Args, Debug)]
 pub struct Information {
-    /// Output format.
-    #[cfg(any(
-        feature = "cbor",
-        feature = "json",
-        feature = "msgpack",
-        feature = "toml",
-        feature = "yaml"
-    ))]
-    #[arg(short, long, value_enum, value_name("FORMAT"), ignore_case(true))]
-    pub format: Option<Format>,
+    /// Output the encryption parameters as JSON.
+    #[cfg(feature = "json")]
+    #[arg(short, long)]
+    pub json: bool,
 
     /// Input file.
     ///
@@ -424,37 +418,6 @@ impl FromStr for Time {
             Err(err) => Err(anyhow!("time is not a valid value: {err}")),
         }
     }
-}
-
-#[cfg(any(
-    feature = "cbor",
-    feature = "json",
-    feature = "msgpack",
-    feature = "toml",
-    feature = "yaml"
-))]
-#[derive(Clone, Copy, Debug, ValueEnum)]
-pub enum Format {
-    /// Concise Binary Object Representation.
-    #[cfg(feature = "cbor")]
-    Cbor,
-
-    /// JavaScript Object Notation.
-    #[cfg(feature = "json")]
-    Json,
-
-    /// MessagePack.
-    #[cfg(feature = "msgpack")]
-    #[value(name("msgpack"))]
-    MessagePack,
-
-    /// Tom's Obvious Minimal Language.
-    #[cfg(feature = "toml")]
-    Toml,
-
-    /// YAML.
-    #[cfg(feature = "yaml")]
-    Yaml,
 }
 
 #[cfg(test)]

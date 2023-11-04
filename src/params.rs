@@ -231,13 +231,7 @@ pub fn check(
 }
 
 /// The scrypt parameters used for the encrypted data.
-#[cfg(any(
-    feature = "cbor",
-    feature = "json",
-    feature = "msgpack",
-    feature = "toml",
-    feature = "yaml"
-))]
+#[cfg(feature = "json")]
 #[derive(Clone, Copy, Debug, serde::Serialize)]
 pub struct Params {
     #[serde(rename = "N")]
@@ -246,13 +240,7 @@ pub struct Params {
     p: u32,
 }
 
-#[cfg(any(
-    feature = "cbor",
-    feature = "json",
-    feature = "msgpack",
-    feature = "toml",
-    feature = "yaml"
-))]
+#[cfg(feature = "json")]
 impl Params {
     /// Creates a new `Params`.
     pub const fn new(params: scryptenc::Params) -> Self {
@@ -264,41 +252,7 @@ impl Params {
     }
 
     /// Serializes the given data structure.
-    pub fn to_vec(self, format: crate::cli::Format) -> anyhow::Result<Vec<u8>> {
-        #[cfg(any(feature = "toml", feature = "yaml"))]
-        use crate::utils::StringExt;
-
-        match format {
-            #[cfg(feature = "cbor")]
-            crate::cli::Format::Cbor => {
-                let mut buf = Vec::new();
-                ciborium::ser::into_writer(&self, &mut buf)
-                    .context("could not serialize as CBOR")?;
-                Ok(buf)
-            }
-            #[cfg(feature = "json")]
-            crate::cli::Format::Json => {
-                serde_json::to_vec(&self).context("could not serialize as JSON")
-            }
-            #[cfg(feature = "msgpack")]
-            crate::cli::Format::MessagePack => {
-                rmp_serde::to_vec_named(&self).context("could not serialize as MessagePack")
-            }
-            #[cfg(feature = "toml")]
-            crate::cli::Format::Toml => {
-                let mut toml = toml::to_string(&self).context("could not serialize as TOML")?;
-                toml.remove_newline();
-                let toml = toml.into_bytes();
-                Ok(toml)
-            }
-            #[cfg(feature = "yaml")]
-            crate::cli::Format::Yaml => {
-                let mut yaml =
-                    serde_yaml::to_string(&self).context("could not serialize as YAML")?;
-                yaml.remove_newline();
-                let yaml = yaml.into_bytes();
-                Ok(yaml)
-            }
-        }
+    pub fn to_vec(self) -> anyhow::Result<Vec<u8>> {
+        serde_json::to_vec(&self).context("could not serialize as JSON")
     }
 }
