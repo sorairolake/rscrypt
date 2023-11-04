@@ -161,33 +161,18 @@ pub fn run() -> anyhow::Result<()> {
                 let input = input::read(&arg.input)?;
 
                 let params = params::get(&input, &arg.input)?;
-                #[cfg(any(
-                    feature = "cbor",
-                    feature = "json",
-                    feature = "msgpack",
-                    feature = "toml",
-                    feature = "yaml"
-                ))]
-                if let Some(format) = arg.format {
+                #[cfg(feature = "json")]
+                if arg.json {
                     let params = params::Params::new(params);
-                    let output = params
-                        .to_vec(format)
-                        .context("could not output the encryption parameters")?;
+                    let output =
+                        serde_json::to_vec(&params).context("could not serialize as JSON")?;
                     if let Ok(string) = std::str::from_utf8(&output) {
                         println!("{string}");
                     } else {
                         output::write_to_stdout(&output)?;
                     }
-                } else {
-                    params::displayln_without_resources(params.log_n(), params.r(), params.p());
+                    return Ok(());
                 }
-                #[cfg(not(any(
-                    feature = "cbor",
-                    feature = "json",
-                    feature = "msgpack",
-                    feature = "toml",
-                    feature = "yaml"
-                )))]
                 params::displayln_without_resources(params.log_n(), params.r(), params.p());
             }
         }

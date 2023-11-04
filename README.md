@@ -27,12 +27,11 @@ cargo install scryptenc-cli
 
 ### From binaries
 
-The [release page][release-page-url] contains pre-built binaries for Linux,
-macOS and Windows.
+The [release page] contains pre-built binaries for Linux, macOS and Windows.
 
 ### How to build
 
-Please see [BUILD.adoc](BUILD.adoc).
+Please see [BUILD.adoc].
 
 ## Usage
 
@@ -73,45 +72,54 @@ rscrypt --generate-completion bash > rscrypt.bash
 
 Please see the following:
 
-- [`rscrypt(1)`][rscrypt-man-url]
-- [`rscrypt-enc(1)`][rscrypt-enc-man-url]
-- [`rscrypt-dec(1)`][rscrypt-dec-man-url]
-- [`rscrypt-info(1)`][rscrypt-info-man-url]
-- [`rscrypt-help(1)`][rscrypt-help-man-url]
+- [`rscrypt(1)`]
+- [`rscrypt-enc(1)`]
+- [`rscrypt-dec(1)`]
+- [`rscrypt-info(1)`]
+- [`rscrypt-help(1)`]
 
 ## Changelog
 
-Please see [CHANGELOG.adoc](CHANGELOG.adoc).
+Please see [CHANGELOG.adoc].
 
 ## Contributing
 
-Please see [CONTRIBUTING.adoc](CONTRIBUTING.adoc).
+Please see [CONTRIBUTING.adoc].
 
 ## Acknowledgment
 
-This program is inspired by the
-[scrypt encryption utility](https://www.tarsnap.com/scrypt.html), and built on
-top of the [`scryptenc`](https://crates.io/crates/scryptenc) crate.
+This program is inspired by the [scrypt encryption utility], and built on top
+of the [`scryptenc`] crate.
 
 ## License
 
-Copyright &copy; 2022&ndash;2023 Shun Sakai (see [AUTHORS.adoc](AUTHORS.adoc))
+Copyright &copy; 2022&ndash;2023 Shun Sakai (see [AUTHORS.adoc])
 
 1. This program is distributed under the terms of the _GNU General Public
    License v3.0 or later_.
 2. Some files are distributed under the terms of the _Creative Commons
    Attribution 4.0 International Public License_.
 
-See [COPYING](COPYING) for more details.
+This project is compliant with version 3.0 of the [_REUSE Specification_]. See
+[COPYING] and copyright notices of individual files for more details on
+copyright and licensing information.
 
 [ci-badge]: https://img.shields.io/github/actions/workflow/status/sorairolake/rscrypt/CI.yaml?branch=develop&label=CI&logo=github&style=for-the-badge
 [ci-url]: https://github.com/sorairolake/rscrypt/actions?query=branch%3Adevelop+workflow%3ACI++
 [version-badge]: https://img.shields.io/crates/v/scryptenc-cli?style=for-the-badge
 [version-url]: https://crates.io/crates/scryptenc-cli
 [license-badge]: https://img.shields.io/crates/l/scryptenc-cli?style=for-the-badge
-[release-page-url]: https://github.com/sorairolake/rscrypt/releases
-[rscrypt-man-url]: https://sorairolake.github.io/rscrypt/man/rscrypt.1.html
-[rscrypt-enc-man-url]: https://sorairolake.github.io/rscrypt/man/rscrypt-enc.1.html
-[rscrypt-dec-man-url]: https://sorairolake.github.io/rscrypt/man/rscrypt-dec.1.html
-[rscrypt-info-man-url]: https://sorairolake.github.io/rscrypt/man/rscrypt-info.1.html
-[rscrypt-help-man-url]: https://sorairolake.github.io/rscrypt/man/rscrypt-help.1.html
+[release page]: https://github.com/sorairolake/rscrypt/releases
+[BUILD.adoc]: BUILD.adoc
+[`rscrypt(1)`]: https://sorairolake.github.io/rscrypt/book/man/man1/rscrypt.1.html
+[`rscrypt-enc(1)`]: https://sorairolake.github.io/rscrypt/book/man/man1/rscrypt-enc.1.html
+[`rscrypt-dec(1)`]: https://sorairolake.github.io/rscrypt/book/man/man1/rscrypt-dec.1.html
+[`rscrypt-info(1)`]: https://sorairolake.github.io/rscrypt/book/man/man1/rscrypt-info.1.html
+[`rscrypt-help(1)`]: https://sorairolake.github.io/rscrypt/book/man/man1/rscrypt-help.1.html
+[CHANGELOG.adoc]: CHANGELOG.adoc
+[CONTRIBUTING.adoc]: CONTRIBUTING.adoc
+[scrypt encryption utility]: https://www.tarsnap.com/scrypt.html
+[`scryptenc`]: https://crates.io/crates/scryptenc
+[AUTHORS.adoc]: AUTHORS.adoc
+[_REUSE Specification_]: https://reuse.software/spec/
+[COPYING]: COPYING

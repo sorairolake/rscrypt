@@ -21,16 +21,8 @@ fn generate_man_page(out_dir: impl AsRef<Path>) -> io::Result<ExitStatus> {
     command
         .args(["-b", "manpage"])
         .args(["-a", concat!("revnumber=", env!("CARGO_PKG_VERSION"))]);
-    #[cfg(feature = "cbor")]
-    command.args(["-a", "cbor"]);
     #[cfg(feature = "json")]
     command.args(["-a", "json"]);
-    #[cfg(feature = "msgpack")]
-    command.args(["-a", "msgpack"]);
-    #[cfg(feature = "toml")]
-    command.args(["-a", "toml"]);
-    #[cfg(feature = "yaml")]
-    command.args(["-a", "yaml"]);
     command
         .args(["-D".as_ref(), out_dir.as_ref()])
         .args([
