@@ -78,11 +78,8 @@ fn display_with_resources(
     max_time: Time,
 ) {
     let n = 1 << log_n;
-    let mem_limit = byte_unit::Byte::from(get_memory_to_use(
-        max_memory,
-        max_memory_fraction,
-    ))
-    .get_appropriate_unit(UnitType::Binary);
+    let mem_limit = byte_unit::Byte::from(get_memory_to_use(max_memory, max_memory_fraction))
+        .get_appropriate_unit(UnitType::Binary);
     let expected_secs = Duration::from_secs_f64(
         (U128Fraction::from(4 * u128::from(n) * u128::from(r) * u128::from(p))
             / U128Fraction::from(*OPERATIONS_PER_SECOND))
