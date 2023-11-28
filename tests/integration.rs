@@ -75,7 +75,7 @@ fn encrypt_with_max_memory() {
         .write_stdin("passphrase")
         .assert()
         .success()
-        .stderr(predicate::str::contains("64.00 MiB available"));
+        .stderr(predicate::str::contains("64 MiB available"));
 }
 
 #[test]
@@ -102,7 +102,7 @@ fn invalid_amount_of_ram_for_encrypt_command() {
         .failure()
         .code(2)
         .stderr(predicate::str::contains(
-            "amount of RAM is more than 16 EiB",
+            "amount of RAM is not a valid value: the value 16.01 exceeds the valid range",
         ));
     command()
         .arg("enc")
@@ -115,7 +115,7 @@ fn invalid_amount_of_ram_for_encrypt_command() {
         .failure()
         .code(2)
         .stderr(predicate::str::contains(
-            "amount of RAM is not a valid value",
+            "amount of RAM is not a valid value: the character 'B' is not a number",
         ));
 }
 
@@ -441,7 +441,7 @@ fn decrypt_with_max_memory() {
         .write_stdin("passphrase")
         .assert()
         .success()
-        .stderr(predicate::str::contains("64.00 MiB available"));
+        .stderr(predicate::str::contains("64 MiB available"));
 }
 
 #[test]
@@ -468,7 +468,7 @@ fn invalid_amount_of_ram_for_decrypt_command() {
         .failure()
         .code(2)
         .stderr(predicate::str::contains(
-            "amount of RAM is more than 16 EiB",
+            "amount of RAM is not a valid value: the value 16.01 exceeds the valid range",
         ));
     command()
         .arg("dec")
@@ -481,7 +481,7 @@ fn invalid_amount_of_ram_for_decrypt_command() {
         .failure()
         .code(2)
         .stderr(predicate::str::contains(
-            "amount of RAM is not a valid value",
+            "amount of RAM is not a valid value: the character 'B' is not a number",
         ));
 }
 
