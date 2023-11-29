@@ -4,7 +4,7 @@
 
 [package]
 name = "scryptenc-cli"
-version = "0.7.0"
+version = "0.7.1"
 authors = ["Shun Sakai <sorairolake@protonmail.ch>"]
 edition = "2021"
 rust-version = "1.70.0"
@@ -21,7 +21,7 @@ exclude = [
   "/antora-playbook.yml",
   "/clippy.toml",
   "/Cross.toml",
-  "/doc",
+  "/docs",
   "/justfile",
   "/package*.json*",
   "/rustfmt.toml",
@@ -36,19 +36,19 @@ path = "src/main.rs"
 
 [dependencies]
 anyhow = "1.0.75"
-byte-unit = "4.0.19"
-clap = { version = "4.4.7", features = ["derive", "wrap_help"] }
+byte-unit = "5.0.3"
+clap = { version = "4.4.10", features = ["derive", "wrap_help"] }
 clap_complete = "4.4.4"
 clap_complete_nushell = "4.4.2"
 dialoguer = { version = "0.11.0", default-features = false, features = ["password"] }
 fraction = { version = "0.14.0", default-features = false }
 humantime = "2.1.0"
 once_cell = "1.18.0"
-scryptenc = "0.8.4"
-serde = { version = "1.0.190", features = ["derive"], optional = true }
+scryptenc = "0.8.5"
+serde = { version = "1.0.193", features = ["derive"], optional = true }
 serde_json = { version = "1.0.108", optional = true }
 sysexits = "0.7.5"
-sysinfo = "0.29.10"
+sysinfo = "0.29.11"
 thiserror = "1.0.50"
 
 [dev-dependencies]

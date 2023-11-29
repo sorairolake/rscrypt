@@ -8,7 +8,7 @@ use std::{
 };
 
 use anyhow::Context;
-use byte_unit::n_mib_bytes;
+use byte_unit::UnitType;
 use fraction::{Fraction, GenericFraction, ToPrimitive};
 use once_cell::sync::Lazy;
 use scryptenc::scrypt;
@@ -50,7 +50,7 @@ pub fn get(data: &[u8], path: &Path) -> anyhow::Result<scryptenc::Params> {
 /// Prints the encryption parameters.
 fn display(n: u64, r: u32, p: u32) {
     let mem_usage =
-        byte_unit::Byte::from_bytes(128 * u128::from(n) * u128::from(r)).get_appropriate_unit(true);
+        byte_unit::Byte::from(128 * n * u64::from(r)).get_appropriate_unit(UnitType::Binary);
     eprintln!("Parameters used: N = {n}; r = {r}; p = {p};");
     eprint!("    Decrypting this file requires at least {mem_usage} of memory");
 }
@@ -78,11 +78,8 @@ fn display_with_resources(
     max_time: Time,
 ) {
     let n = 1 << log_n;
-    let mem_limit = byte_unit::Byte::from_bytes(u128::from(get_memory_to_use(
-        max_memory,
-        max_memory_fraction,
-    )))
-    .get_appropriate_unit(true);
+    let mem_limit = byte_unit::Byte::from(get_memory_to_use(max_memory, max_memory_fraction))
+        .get_appropriate_unit(UnitType::Binary);
     let expected_secs = Duration::from_secs_f64(
         (U128Fraction::from(4 * u128::from(n) * u128::from(r) * u128::from(p))
             / U128Fraction::from(*OPERATIONS_PER_SECOND))
@@ -113,20 +110,20 @@ fn get_memory_to_use(max_memory: Option<Byte>, max_memory_fraction: Rate) -> u64
     let mut mem_limit = (U128Fraction::from(available_mem)
         * U128Fraction::from_fraction(*max_memory_fraction))
     .floor()
-    .to_u128()
+    .to_u64()
     .expect("available memory should be an integer");
 
-    if let Some(max_mem) = max_memory.map(|mem| mem.get_bytes()) {
+    if let Some(max_mem) = max_memory.map(|mem| mem.as_u64()) {
         if max_mem < mem_limit {
             mem_limit = max_mem;
         }
     }
 
-    let min_mem = n_mib_bytes!(1);
+    let min_mem = byte_unit::Byte::MEBIBYTE.into();
     if mem_limit < min_mem {
         mem_limit = min_mem;
     }
-    u64::try_from(mem_limit).expect("available memory should be 16 EiB or less")
+    mem_limit
 }
 
 /// Returns the number of times Salsa20/8 cores can be executed per second.

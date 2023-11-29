@@ -15,7 +15,7 @@ encrypt and decrypt files.
 
 This is a Rust implementation of `scrypt(1)`.
 
-![Demonstration video](asset/demo.gif)
+![Demonstration video](assets/demo.gif)
 
 ## Installation
 
@@ -101,8 +101,8 @@ Copyright &copy; 2022&ndash;2023 Shun Sakai (see [AUTHORS.adoc])
    Attribution 4.0 International Public License_.
 
 This project is compliant with version 3.0 of the [_REUSE Specification_]. See
-[COPYING] and copyright notices of individual files for more details on
-copyright and licensing information.
+copyright notices of individual files for more details on copyright and
+licensing information.
 
 [ci-badge]: https://img.shields.io/github/actions/workflow/status/sorairolake/rscrypt/CI.yaml?branch=develop&label=CI&logo=github&style=for-the-badge
 [ci-url]: https://github.com/sorairolake/rscrypt/actions?query=branch%3Adevelop+workflow%3ACI++
@@ -122,4 +122,3 @@ copyright and licensing information.
 [`scryptenc`]: https://crates.io/crates/scryptenc
 [AUTHORS.adoc]: AUTHORS.adoc
 [_REUSE Specification_]: https://reuse.software/spec/
-[COPYING]: COPYING
