@@ -60,5 +60,7 @@ default = ["json"]
 json = ["dep:serde", "dep:serde_json"]
 
 [profile.release]
+codegen-units = 1
 lto = true
+panic = "abort"
 strip = true
