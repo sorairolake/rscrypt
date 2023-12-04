@@ -87,11 +87,11 @@ fn main() -> ExitCode {
         Ok(()) => ExitCode::Success,
         Err(err) => {
             eprintln!("Error: {err:?}");
-            #[allow(clippy::option_if_let_else)]
             if let Some(e) = err.downcast_ref::<io::Error>() {
-                sysexits::ExitCode::from(e.kind()).into()
-            } else if let Some(e) = err.downcast_ref::<ScryptencError>() {
-                match e {
+                return sysexits::ExitCode::from(e.kind()).into();
+            }
+            if let Some(e) = err.downcast_ref::<ScryptencError>() {
+                return match e {
                     ScryptencError::InvalidLength
                     | ScryptencError::InvalidMagicNumber
                     | ScryptencError::InvalidChecksum
@@ -99,16 +99,16 @@ fn main() -> ExitCode {
                     ScryptencError::UnknownVersion(_) => ExitCode::UnknownVersion,
                     ScryptencError::InvalidParams(_) => ExitCode::InvalidParams,
                     ScryptencError::InvalidHeaderMac(_) => ExitCode::InvalidPassphrase,
-                }
-            } else if let Some(e) = err.downcast_ref::<params::Error>() {
-                match e {
+                };
+            }
+            if let Some(e) = err.downcast_ref::<params::Error>() {
+                return match e {
                     params::Error::Memory => ExitCode::LackOfMemory,
                     params::Error::CpuTime => ExitCode::LackOfCpuTime,
                     params::Error::Resources => ExitCode::LackOfResources,
-                }
-            } else {
-                ExitCode::Failure
+                };
             }
+            ExitCode::Failure
         }
     }
 }
