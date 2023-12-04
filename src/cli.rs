@@ -19,13 +19,29 @@ use clap::{
 use clap_complete::Generator;
 use fraction::{Fraction, Zero};
 
+const LONG_VERSION: &str = concat!(
+    env!("CARGO_PKG_VERSION"),
+    "\n",
+    include_str!("assets/long-version.md")
+);
+
+const AFTER_LONG_HELP: &str = include_str!("assets/after-long-help.md");
+
+const ENC_AFTER_LONG_HELP: &str = include_str!("assets/enc-after-long-help.md");
+
+const DEC_AFTER_LONG_HELP: &str = include_str!("assets/dec-after-long-help.md");
+
+const INFO_AFTER_LONG_HELP: &str = include_str!("assets/info-after-long-help.md");
+
 #[derive(Debug, Parser)]
 #[command(
     name("rscrypt"),
     version,
+    long_version(LONG_VERSION),
     about,
     max_term_width(100),
     propagate_version(true),
+    after_long_help(AFTER_LONG_HELP),
     arg_required_else_help(true),
     args_conflicts_with_subcommands(true)
 )]
@@ -43,15 +59,15 @@ pub struct Opt {
 #[derive(Debug, Subcommand)]
 pub enum Command {
     /// Encrypt files.
-    #[command(name("enc"))]
+    #[command(name("enc"), after_long_help(ENC_AFTER_LONG_HELP))]
     Encrypt(Encrypt),
 
     /// Decrypt files.
-    #[command(name("dec"))]
+    #[command(name("dec"), after_long_help(DEC_AFTER_LONG_HELP))]
     Decrypt(Decrypt),
 
     /// Provides information about the encryption parameters.
-    #[command(name("info"))]
+    #[command(name("info"), after_long_help(INFO_AFTER_LONG_HELP))]
     Information(Information),
 }
 
