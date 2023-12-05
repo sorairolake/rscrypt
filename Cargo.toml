@@ -4,7 +4,7 @@
 
 [package]
 name = "scryptenc-cli"
-version = "0.7.2"
+version = "0.7.3"
 authors = ["Shun Sakai <sorairolake@protonmail.ch>"]
 edition = "2021"
 rust-version = "1.70.0"
@@ -37,7 +37,7 @@ path = "src/main.rs"
 [dependencies]
 anyhow = "1.0.75"
 byte-unit = "5.0.3"
-clap = { version = "4.4.10", features = ["derive", "wrap_help"] }
+clap = { version = "4.4.11", features = ["derive", "wrap_help"] }
 clap_complete = "4.4.4"
 clap_complete_nushell = "4.4.2"
 dialoguer = { version = "0.11.0", default-features = false, features = ["password"] }
