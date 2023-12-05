@@ -20,6 +20,8 @@ project adheres to https://semver.org/[Semantic Versioning].
 
 * Change `--help` and `--version` to print additional information
   ({pull-request-url}/346[#346])
+* Change precision of resource limits when printing
+  ({pull-request-url}/348[#348])
 
 == {compare-url}/v0.7.1\...v0.7.2[0.7.2] - 2023-12-03
 

@@ -98,6 +98,45 @@ fn encrypt_with_max_memory() {
         .assert()
         .success()
         .stderr(predicate::str::contains("64 MiB available"));
+    command()
+        .arg("enc")
+        .arg("-M")
+        .arg("64.0MiB")
+        .arg("-t")
+        .arg("10s")
+        .arg("--passphrase-from-stdin")
+        .arg("-v")
+        .arg("data/data.txt")
+        .write_stdin("passphrase")
+        .assert()
+        .success()
+        .stderr(predicate::str::contains("64 MiB available"));
+    command()
+        .arg("enc")
+        .arg("-M")
+        .arg("64.5MiB")
+        .arg("-t")
+        .arg("10s")
+        .arg("--passphrase-from-stdin")
+        .arg("-v")
+        .arg("data/data.txt")
+        .write_stdin("passphrase")
+        .assert()
+        .success()
+        .stderr(predicate::str::contains("64.5 MiB available"));
+    command()
+        .arg("enc")
+        .arg("-M")
+        .arg("64.56MiB")
+        .arg("-t")
+        .arg("10s")
+        .arg("--passphrase-from-stdin")
+        .arg("-v")
+        .arg("data/data.txt")
+        .write_stdin("passphrase")
+        .assert()
+        .success()
+        .stderr(predicate::str::contains("64.6 MiB available"));
 }
 
 #[test]
@@ -190,7 +229,7 @@ fn encrypt_with_max_time() {
         .write_stdin("passphrase")
         .assert()
         .success()
-        .stderr(predicate::str::contains("limit: 10.00s"));
+        .stderr(predicate::str::contains("limit: 10.0s"));
 }
 
 #[test]
@@ -488,6 +527,39 @@ fn decrypt_with_max_memory() {
         .assert()
         .success()
         .stderr(predicate::str::contains("64 MiB available"));
+    command()
+        .arg("dec")
+        .arg("-M")
+        .arg("64.0MiB")
+        .arg("--passphrase-from-stdin")
+        .arg("-v")
+        .arg("data/data.txt.scrypt")
+        .write_stdin("passphrase")
+        .assert()
+        .success()
+        .stderr(predicate::str::contains("64 MiB available"));
+    command()
+        .arg("dec")
+        .arg("-M")
+        .arg("64.5MiB")
+        .arg("--passphrase-from-stdin")
+        .arg("-v")
+        .arg("data/data.txt.scrypt")
+        .write_stdin("passphrase")
+        .assert()
+        .success()
+        .stderr(predicate::str::contains("64.5 MiB available"));
+    command()
+        .arg("dec")
+        .arg("-M")
+        .arg("64.56MiB")
+        .arg("--passphrase-from-stdin")
+        .arg("-v")
+        .arg("data/data.txt.scrypt")
+        .write_stdin("passphrase")
+        .assert()
+        .success()
+        .stderr(predicate::str::contains("64.6 MiB available"));
 }
 
 #[test]
@@ -580,7 +652,7 @@ fn decrypt_with_max_time() {
         .write_stdin("passphrase")
         .assert()
         .success()
-        .stderr(predicate::str::contains("limit: 3600.00s"));
+        .stderr(predicate::str::contains("limit: 3600.0s"));
 }
 
 #[test]
