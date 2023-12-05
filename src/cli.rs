@@ -353,7 +353,7 @@ impl Generator for Shell {
 }
 
 /// Amount of RAM.
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Byte(byte_unit::Byte);
 
 impl Deref for Byte {
@@ -379,7 +379,7 @@ impl FromStr for Byte {
 }
 
 /// Fraction of the available RAM.
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Rate(Fraction);
 
 impl Deref for Rate {
@@ -404,7 +404,7 @@ impl FromStr for Rate {
 }
 
 /// CPU time.
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Eq, PartialEq)]
 pub struct Time(Duration);
 
 impl fmt::Debug for Time {
@@ -439,5 +439,148 @@ mod tests {
     #[test]
     fn verify_app() {
         Opt::command().debug_assert();
+    }
+
+    #[test]
+    fn file_name_shell() {
+        assert_eq!(Shell::Bash.file_name("rscrypt"), "rscrypt.bash");
+        assert_eq!(Shell::Elvish.file_name("rscrypt"), "rscrypt.elv");
+        assert_eq!(Shell::Fish.file_name("rscrypt"), "rscrypt.fish");
+        assert_eq!(Shell::Nushell.file_name("rscrypt"), "rscrypt.nu");
+        assert_eq!(Shell::PowerShell.file_name("rscrypt"), "_rscrypt.ps1");
+        assert_eq!(Shell::Zsh.file_name("rscrypt"), "_rscrypt");
+    }
+
+    #[test]
+    fn deref_byte() {
+        assert_eq!(*Byte(byte_unit::Byte::MEBIBYTE), byte_unit::Byte::MEBIBYTE);
+    }
+
+    #[test]
+    fn from_str_byte() {
+        assert_eq!(
+            Byte::from_str("1048576 B").unwrap(),
+            Byte(byte_unit::Byte::MEBIBYTE)
+        );
+        assert_eq!(
+            Byte::from_str("1048576").unwrap(),
+            Byte(byte_unit::Byte::MEBIBYTE)
+        );
+        assert_eq!(
+            Byte::from_str("1024 KiB").unwrap(),
+            Byte(byte_unit::Byte::MEBIBYTE)
+        );
+        assert_eq!(
+            Byte::from_str("1.0 MiB").unwrap(),
+            Byte(byte_unit::Byte::MEBIBYTE)
+        );
+        assert_eq!(
+            Byte::from_str("1MiB").unwrap(),
+            Byte(byte_unit::Byte::MEBIBYTE)
+        );
+    }
+
+    #[test]
+    fn from_str_byte_with_invalid_unit() {
+        assert!(Byte::from_str("1048576 A")
+            .unwrap_err()
+            .to_string()
+            .contains("the character 'A' is incorrect"));
+        assert!(Byte::from_str("1.0LiB")
+            .unwrap_err()
+            .to_string()
+            .contains("the character 'L' is incorrect"));
+    }
+
+    #[test]
+    fn from_str_byte_with_nan() {
+        assert!(Byte::from_str("n B")
+            .unwrap_err()
+            .to_string()
+            .contains("the character 'n' is not a number"));
+        assert!(Byte::from_str("n")
+            .unwrap_err()
+            .to_string()
+            .contains("the character 'n' is not a number"));
+        assert!(Byte::from_str("nMiB")
+            .unwrap_err()
+            .to_string()
+            .contains("the character 'n' is not a number"));
+    }
+
+    #[test]
+    fn from_str_byte_if_out_of_range() {
+        assert!(Byte::from_str("1023.99 KiB").is_err());
+        assert!(Byte::from_str("16.01 EiB").is_err());
+    }
+
+    #[test]
+    fn deref_rate() {
+        assert_eq!(*Rate(Fraction::from(0.5)), Fraction::from(0.5));
+    }
+
+    #[test]
+    fn from_str_rate() {
+        assert_eq!(Rate::from_str("0.5").unwrap(), Rate(Fraction::from(0.5)));
+        assert_eq!(Rate::from_str("+0.5").unwrap(), Rate(Fraction::from(0.5)));
+        assert_eq!(Rate::from_str("1/2").unwrap(), Rate(Fraction::from(0.5)));
+    }
+
+    #[test]
+    fn from_str_rate_with_invalid_fraction() {
+        assert!(Rate::from_str("RATE")
+            .unwrap_err()
+            .to_string()
+            .contains("Could not parse integer"));
+    }
+
+    #[test]
+    fn from_str_rate_if_out_of_range() {
+        assert!(Rate::from_str("0")
+            .unwrap_err()
+            .to_string()
+            .contains("fraction is 0"));
+        assert!(Rate::from_str("0.51")
+            .unwrap_err()
+            .to_string()
+            .contains("fraction is more than 0.5"));
+    }
+
+    #[test]
+    fn debug_time() {
+        assert_eq!(format!("{:?}", Time(Duration::from_secs(5))), "5s");
+    }
+
+    #[test]
+    fn deref_time() {
+        assert_eq!(*Time(Duration::from_secs(5)), Duration::from_secs(5));
+    }
+
+    #[test]
+    fn from_str_time() {
+        assert_eq!(
+            Time::from_str("10s").unwrap(),
+            Time(Duration::from_secs(10))
+        );
+    }
+
+    #[test]
+    fn from_str_time_with_invalid_time() {
+        assert!(Time::from_str("NaN")
+            .unwrap_err()
+            .to_string()
+            .contains("expected number at 0"));
+        assert!(Time::from_str("1")
+            .unwrap_err()
+            .to_string()
+            .contains("time unit needed"));
+        assert!(Time::from_str("1a")
+            .unwrap_err()
+            .to_string()
+            .contains(r#"unknown time unit "a""#));
+        assert!(Time::from_str("10000000000000y")
+            .unwrap_err()
+            .to_string()
+            .contains("number is too large"));
     }
 }
