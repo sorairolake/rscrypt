@@ -45,6 +45,28 @@ fn generate_completion_conflicts_with_subcommands() {
 }
 
 #[test]
+fn long_version() {
+    command()
+        .arg("--version")
+        .assert()
+        .success()
+        .stdout(predicate::str::contains(include_str!(
+            "../src/assets/long-version.md"
+        )));
+}
+
+#[test]
+fn after_long_help() {
+    command()
+        .arg("--help")
+        .assert()
+        .success()
+        .stdout(predicate::str::contains(include_str!(
+            "../src/assets/after-long-help.md"
+        )));
+}
+
+#[test]
 fn basic_encrypt() {
     command()
         .arg("enc")
@@ -76,6 +98,45 @@ fn encrypt_with_max_memory() {
         .assert()
         .success()
         .stderr(predicate::str::contains("64 MiB available"));
+    command()
+        .arg("enc")
+        .arg("-M")
+        .arg("64.0MiB")
+        .arg("-t")
+        .arg("10s")
+        .arg("--passphrase-from-stdin")
+        .arg("-v")
+        .arg("data/data.txt")
+        .write_stdin("passphrase")
+        .assert()
+        .success()
+        .stderr(predicate::str::contains("64 MiB available"));
+    command()
+        .arg("enc")
+        .arg("-M")
+        .arg("64.5MiB")
+        .arg("-t")
+        .arg("10s")
+        .arg("--passphrase-from-stdin")
+        .arg("-v")
+        .arg("data/data.txt")
+        .write_stdin("passphrase")
+        .assert()
+        .success()
+        .stderr(predicate::str::contains("64.5 MiB available"));
+    command()
+        .arg("enc")
+        .arg("-M")
+        .arg("64.56MiB")
+        .arg("-t")
+        .arg("10s")
+        .arg("--passphrase-from-stdin")
+        .arg("-v")
+        .arg("data/data.txt")
+        .write_stdin("passphrase")
+        .assert()
+        .success()
+        .stderr(predicate::str::contains("64.6 MiB available"));
 }
 
 #[test]
@@ -168,7 +229,7 @@ fn encrypt_with_max_time() {
         .write_stdin("passphrase")
         .assert()
         .success()
-        .stderr(predicate::str::contains("limit: 10.00s"));
+        .stderr(predicate::str::contains("limit: 10.0s"));
 }
 
 #[test]
@@ -418,6 +479,30 @@ fn encrypt_verbose() {
 }
 
 #[test]
+fn long_version_for_encrypt_command() {
+    command()
+        .arg("enc")
+        .arg("--version")
+        .assert()
+        .success()
+        .stdout(predicate::str::contains(include_str!(
+            "../src/assets/long-version.md"
+        )));
+}
+
+#[test]
+fn after_long_help_for_encrypt_command() {
+    command()
+        .arg("enc")
+        .arg("--help")
+        .assert()
+        .success()
+        .stdout(predicate::str::contains(include_str!(
+            "../src/assets/enc-after-long-help.md"
+        )));
+}
+
+#[test]
 fn basic_decrypt() {
     command()
         .arg("dec")
@@ -442,6 +527,39 @@ fn decrypt_with_max_memory() {
         .assert()
         .success()
         .stderr(predicate::str::contains("64 MiB available"));
+    command()
+        .arg("dec")
+        .arg("-M")
+        .arg("64.0MiB")
+        .arg("--passphrase-from-stdin")
+        .arg("-v")
+        .arg("data/data.txt.scrypt")
+        .write_stdin("passphrase")
+        .assert()
+        .success()
+        .stderr(predicate::str::contains("64 MiB available"));
+    command()
+        .arg("dec")
+        .arg("-M")
+        .arg("64.5MiB")
+        .arg("--passphrase-from-stdin")
+        .arg("-v")
+        .arg("data/data.txt.scrypt")
+        .write_stdin("passphrase")
+        .assert()
+        .success()
+        .stderr(predicate::str::contains("64.5 MiB available"));
+    command()
+        .arg("dec")
+        .arg("-M")
+        .arg("64.56MiB")
+        .arg("--passphrase-from-stdin")
+        .arg("-v")
+        .arg("data/data.txt.scrypt")
+        .write_stdin("passphrase")
+        .assert()
+        .success()
+        .stderr(predicate::str::contains("64.6 MiB available"));
 }
 
 #[test]
@@ -534,7 +652,7 @@ fn decrypt_with_max_time() {
         .write_stdin("passphrase")
         .assert()
         .success()
-        .stderr(predicate::str::contains("limit: 3600.00s"));
+        .stderr(predicate::str::contains("limit: 3600.0s"));
 }
 
 #[test]
@@ -624,6 +742,30 @@ fn decrypt_verbose() {
 }
 
 #[test]
+fn long_version_for_decrypt_command() {
+    command()
+        .arg("dec")
+        .arg("--version")
+        .assert()
+        .success()
+        .stdout(predicate::str::contains(include_str!(
+            "../src/assets/long-version.md"
+        )));
+}
+
+#[test]
+fn after_long_help_for_decrypt_command() {
+    command()
+        .arg("dec")
+        .arg("--help")
+        .assert()
+        .success()
+        .stdout(predicate::str::contains(include_str!(
+            "../src/assets/dec-after-long-help.md"
+        )));
+}
+
+#[test]
 fn basic_information() {
     command()
         .arg("info")
@@ -645,4 +787,28 @@ fn information_as_json() {
         .assert()
         .success()
         .stdout(predicate::eq(concat!(r#"{"N":1024,"r":8,"p":1}"#, '\n')));
+}
+
+#[test]
+fn long_version_for_information_command() {
+    command()
+        .arg("info")
+        .arg("--version")
+        .assert()
+        .success()
+        .stdout(predicate::str::contains(include_str!(
+            "../src/assets/long-version.md"
+        )));
+}
+
+#[test]
+fn after_long_help_for_information_command() {
+    command()
+        .arg("info")
+        .arg("--help")
+        .assert()
+        .success()
+        .stdout(predicate::str::contains(include_str!(
+            "../src/assets/info-after-long-help.md"
+        )));
 }

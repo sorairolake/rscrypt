@@ -4,7 +4,7 @@
 
 = rscrypt-info(1)
 // Specify in UTC.
-:docdate: 2023-11-04
+:docdate: 2023-12-04
 :doctype: manpage
 ifdef::revnumber[:mansource: rscrypt {revnumber}]
 :manmanual: General Commands Manual
@@ -20,7 +20,8 @@ rscrypt-info - provides information about the encryption parameters
 
 == DESCRIPTION
 
-This command provides information about the encryption parameters.
+This command provides information about the encryption parameters. The result
+will be write to stdout.
 
 == POSITIONAL ARGUMENTS
 
