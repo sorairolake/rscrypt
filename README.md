@@ -49,6 +49,33 @@ Decrypt a file:
 rscrypt dec data.txt.scrypt data.txt
 ```
 
+### Provides information about the encryption parameters
+
+Output as a human-readable string:
+
+```sh
+rscrypt info data.txt.scrypt
+```
+
+Output:
+
+```text
+Parameters used: N = 1024; r = 8; p = 1;
+    Decrypting this file requires at least 1 MiB of memory.
+```
+
+Output as JSON:
+
+```sh
+rscrypt info -j data.txt.scrypt
+```
+
+Output:
+
+```json
+{"N":1024,"r":8,"p":1}
+```
+
 ### Generate shell completion
 
 `--generate-completion` option generates shell completions to stdout.

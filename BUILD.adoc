@@ -27,6 +27,12 @@ cd rscrypt
 just build
 ----
 
+.To find the directory where manual pages are generated
+[source,shell]
+----
+fd -t directory out ./target/*/build/scryptenc-cli-*
+----
+
 == Crate features
 
 `json`::
