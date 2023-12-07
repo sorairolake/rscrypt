@@ -161,6 +161,36 @@
 </div>
 </div>
 <div class="sect1">
+<h2 id="_provides_information_about_the_encryption_parameters"><a class="anchor" href="#_provides_information_about_the_encryption_parameters"></a>Provides information about the encryption parameters</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">Output as a human-readable string</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">rscrypt info data.txt.scrypt</code></pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="title">Output</div>
+<div class="content">
+<pre>Parameters used: N = 1024; r = 8; p = 1;
+    Decrypting this file requires at least 1 MiB of memory.</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Output as JSON</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">rscrypt info -j data.txt.scrypt</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{"N":1024,"r":8,"p":1}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_generate_shell_completion"><a class="anchor" href="#_generate_shell_completion"></a>Generate shell completion</h2>
 <div class="sectionbody">
 <div class="paragraph">
