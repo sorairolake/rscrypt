@@ -15,7 +15,7 @@ encrypt and decrypt files.
 
 This is a Rust implementation of `scrypt(1)`.
 
-![Demonstration video](assets/demo.gif)
+![Screenshot of rscrypt](assets/screenshot.webp)
 
 ## Installation
 

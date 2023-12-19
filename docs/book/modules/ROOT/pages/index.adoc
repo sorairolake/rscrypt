@@ -20,4 +20,4 @@ encrypt and decrypt files.
 
 This is a Rust implementation of `scrypt(1)`.
 
-image::demo.gif[Demonstration of rscrypt]
+image::screenshot.webp[Screenshot of rscrypt]
