@@ -15,7 +15,7 @@ encrypt and decrypt files.
 
 This is a Rust implementation of `scrypt(1)`.
 
-![Demonstration video](assets/demo.gif)
+![Screenshot of rscrypt](assets/screenshot.webp)
 
 ## Installation
 
@@ -67,13 +67,17 @@ Parameters used: N = 1024; r = 8; p = 1;
 Output as JSON:
 
 ```sh
-rscrypt info -j data.txt.scrypt
+rscrypt info -j data.txt.scrypt | jq
 ```
 
 Output:
 
 ```json
-{"N":1024,"r":8,"p":1}
+{
+  "N": 1024,
+  "r": 8,
+  "p": 1
+}
 ```
 
 ### Generate shell completion
