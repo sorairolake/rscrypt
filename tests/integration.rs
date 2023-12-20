@@ -777,6 +777,19 @@ fn basic_information() {
         ));
 }
 
+#[cfg(not(feature = "json"))]
+#[test]
+fn information_command_without_default_feature() {
+    command()
+        .arg("info")
+        .arg("-j")
+        .arg("data/data.txt.scrypt")
+        .assert()
+        .failure()
+        .code(2)
+        .stderr(predicate::str::contains("unexpected argument '-j' found"));
+}
+
 #[cfg(feature = "json")]
 #[test]
 fn information_as_json() {
