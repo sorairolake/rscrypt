@@ -12,7 +12,7 @@ use byte_unit::UnitType;
 use fraction::{Fraction, GenericFraction, ToPrimitive};
 use once_cell::sync::Lazy;
 use scryptenc::scrypt;
-use sysinfo::{RefreshKind, System, SystemExt};
+use sysinfo::System;
 use thiserror::Error;
 
 use crate::cli::{Byte, Rate, Time};
@@ -21,8 +21,7 @@ type U128Fraction = GenericFraction<u128>;
 
 const SECOND: Duration = Duration::from_secs(1);
 
-static SYSTEM: Lazy<System> =
-    Lazy::new(|| System::new_with_specifics(RefreshKind::new().with_memory()));
+static SYSTEM: Lazy<System> = Lazy::new(System::new_all);
 static OPERATIONS_PER_SECOND: Lazy<u64> = Lazy::new(get_scrypt_performance);
 
 /// The error type for this module.
