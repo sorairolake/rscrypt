@@ -5,7 +5,7 @@
 = License
 :reuse-spec-url: https://reuse.software/spec/
 
-Copyright (C) 2022&ndash;2023 Shun Sakai
+Copyright (C) 2022&ndash;2024 Shun Sakai
 
 . This program is distributed under the terms of the _GNU General Public
   License v3.0 or later_.
