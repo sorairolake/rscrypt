@@ -14,6 +14,12 @@ All notable changes to this project will be documented in this file.
 The format is based on https://keepachangelog.com/[Keep a Changelog], and this
 project adheres to https://semver.org/[Semantic Versioning].
 
+== {compare-url}/v0.7.7\...HEAD[Unreleased]
+
+=== Changed
+
+* Change the error message when decryption fails ({pull-request-url}/408[#408])
+
 == {compare-url}/v0.7.6\...v0.7.7[0.7.7] - 2024-01-07
 
 === Changed

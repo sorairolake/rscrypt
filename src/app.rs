@@ -143,13 +143,11 @@ pub fn run() -> anyhow::Result<()> {
                     c @ Err(ScryptencError::InvalidHeaderMac(_)) => {
                         c.context("passphrase is incorrect")
                     }
-                    c => c.with_context(|| {
-                        format!("the header in {} is invalid", arg.input.display())
-                    }),
+                    c => c.context("the header in the encrypted data is invalid"),
                 }?;
                 let plaintext = cipher
                     .decrypt_to_vec()
-                    .with_context(|| format!("{} is corrupted", arg.input.display()))?;
+                    .context("the encrypted data is corrupted")?;
 
                 if let Some(file) = arg.output {
                     output::write_to_file(&file, &plaintext)?;
