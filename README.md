@@ -10,6 +10,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
 [![Version][version-badge]][version-url]
 ![License][license-badge]
 
+> [!IMPORTANT]
+> This repository has been merged into
+> <https://github.com/sorairolake/scryptenc-rs>, so it is archived.
+
 **rscrypt** ([`scryptenc-cli`][version-url]) is a command-line utility for
 encrypt and decrypt files.
 
